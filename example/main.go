@@ -1,11 +1,13 @@
 package main
-
 import (
 	"github.com/hslam/code"
 	"fmt"
 )
-
 func main()  {
+	Uint8()
+	Uint16()
+	Uint32()
+	Uint64()
 	Int()
 	Varint()
 	Float32()
@@ -15,7 +17,42 @@ func main()  {
 	Bytes()
 	SliceBytes()
 }
-
+func Uint8()  {
+	var buf =make([]byte,4)
+	var i uint8=128
+	fmt.Printf("SizeofUint8:%d sizeof:%d\n",i,1)
+	data:=code.EncodeUint8(buf,i)
+	fmt.Printf("EncodeUint8:%d to []byte:%v\n",i,data)
+	v,n:=code.DecodeUint8(data)
+	fmt.Printf("DecodeUint8:%d,length:%d\n",v,n)
+}
+func Uint16()  {
+	var buf =make([]byte,4)
+	var i uint16=128
+	fmt.Printf("SizeofUint16:%d sizeof:%d\n",i,2)
+	data:=code.EncodeUint16(buf,i)
+	fmt.Printf("EncodeUint16:%d to []byte:%v\n",i,data)
+	v,n:=code.DecodeUint16(data)
+	fmt.Printf("DecodeUint16:%d,length:%d\n",v,n)
+}
+func Uint32()  {
+	var buf =make([]byte,4)
+	var i uint32=128
+	fmt.Printf("SizeofUint32:%d sizeof:%d\n",i,4)
+	data:=code.EncodeUint32(buf,i)
+	fmt.Printf("EncodeUint32:%d to []byte:%v\n",i,data)
+	v,n:=code.DecodeUint32(data)
+	fmt.Printf("DecodeUint32:%d,length:%d\n",v,n)
+}
+func Uint64()  {
+	var buf =make([]byte,8)
+	var i uint64=128
+	fmt.Printf("SizeofUint64:%d sizeof:%d\n",i,8)
+	data:=code.EncodeUint64(buf,i)
+	fmt.Printf("EncodeUint64:%d to []byte:%v\n",i,data)
+	v,n:=code.DecodeUint64(data)
+	fmt.Printf("DecodeUint64:%d,length:%d\n",v,n)
+}
 func Int()  {
 	var buf =make([]byte,9)
 	var i uint64=128
@@ -26,7 +63,6 @@ func Int()  {
 	v,n:=code.DecodeInt(data)
 	fmt.Printf("DecodeInt:%d,length:%d\n",v,n)
 }
-
 func Varint()  {
 	var buf =make([]byte,10)
 	var i uint64=128
@@ -37,7 +73,6 @@ func Varint()  {
 	v,n:=code.DecodeVarint(data)
 	fmt.Printf("DecodeVarint:%d,length:%d\n",v,n)
 }
-
 func Float32()  {
 	var buf =make([]byte,9)
 	var i float32=3.14
@@ -48,7 +83,6 @@ func Float32()  {
 	v,n:=code.DecodeFloat32(data)
 	fmt.Printf("EncodeFloat32:%.2f,length:%d\n",v,n)
 }
-
 func Float64()  {
 	var buf =make([]byte,9)
 	var i float64=3.14
@@ -59,7 +93,6 @@ func Float64()  {
 	v,n:=code.DecodeFloat64(data)
 	fmt.Printf("DecodeFloat64:%.2f,length:%d\n",v,n)
 }
-
 func Bool()  {
 	var buf =make([]byte,16)
 	var i bool=true
@@ -70,7 +103,6 @@ func Bool()  {
 	v,n:=code.DecodeBool(data)
 	fmt.Printf("DecodeBool:%t,length:%d\n",v,n)
 }
-
 func String()  {
 	var buf =make([]byte,16)
 	var i string="Hello"
@@ -81,7 +113,6 @@ func String()  {
 	v,n:=code.DecodeString(data)
 	fmt.Printf("DecodeString:%s,length:%d\n",v,n)
 }
-
 func Bytes()  {
 	var buf =make([]byte,16)
 	var i []byte=[]byte{1,2}
@@ -92,7 +123,6 @@ func Bytes()  {
 	v,n:=code.DecodeBytes(data)
 	fmt.Printf("DecodeBytes:%v,length:%d\n",v,n)
 }
-
 func SliceBytes()  {
 	var buf =make([]byte,16)
 	var i [][]byte=[][]byte{{1,2},{3}}
