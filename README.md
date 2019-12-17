@@ -1,6 +1,139 @@
 # code
-A code library written in golang.
+A code library written in golang for encoding and decoding.
 
+## Feature
+* Int
+* Varint
+* Float32
+* Float64
+* Bool
+* String
+* Bytes
+* SliceBytes
+
+## Get started
+
+### Install
+```
+go get github.com/hslam/code
+```
+### Import
+```
+import "github.com/hslam/code"
+```
+### Usage
+#### Example
+```
+package main
+
+import (
+	"github.com/hslam/code"
+	"fmt"
+)
+
+func main()  {
+	Int()
+	Varint()
+	Float32()
+	Float64()
+	Bool()
+	String()
+	Bytes()
+	SliceBytes()
+}
+
+func Int()  {
+	var buf =make([]byte,9)
+	var i uint64=128
+	data:=code.EncodeInt(buf,i)
+	fmt.Printf("EncodeInt:%d to []byte:%v\n",i,data)
+	v,n:=code.DecodeInt(data)
+	fmt.Printf("DecodeInt:%d,length:%d\n",v,n)
+}
+
+func Varint()  {
+	var buf =make([]byte,10)
+	var i uint64=128
+	data:=code.EncodeVarint(buf,i)
+	fmt.Printf("EncodeVarint:%d to []byte:%v\n",i,data)
+	v,n:=code.DecodeVarint(data)
+	fmt.Printf("DecodeVarint:%d,length:%d\n",v,n)
+}
+
+func Float32()  {
+	var buf =make([]byte,9)
+	var i float32=3.14
+	data:=code.EncodeFloat32(buf,i)
+	fmt.Printf("EncodeFloat32:%.2f to []byte:%v\n",i,data)
+	v,n:=code.DecodeFloat32(data)
+	fmt.Printf("EncodeFloat32:%.2f,length:%d\n",v,n)
+}
+
+func Float64()  {
+	var buf =make([]byte,9)
+	var i float64=3.14
+	data:=code.EncodeFloat64(buf,i)
+	fmt.Printf("EncodeFloat64:%.2f to []byte:%v\n",i,data)
+	v,n:=code.DecodeFloat64(data)
+	fmt.Printf("DecodeFloat64:%.2f,length:%d\n",v,n)
+}
+
+func Bool()  {
+	var buf =make([]byte,16)
+	var i bool=true
+	data:=code.EncodeBool(buf,i)
+	fmt.Printf("EncodeBool:%t to []byte:%v\n",i,data)
+	v,n:=code.DecodeBool(data)
+	fmt.Printf("DecodeBool:%t,length:%d\n",v,n)
+}
+
+func String()  {
+	var buf =make([]byte,16)
+	var i string="Hello"
+	data:=code.EncodeString(buf,i)
+	fmt.Printf("EncodeString:%s to []byte:%v\n",i,data)
+	v,n:=code.DecodeString(data)
+	fmt.Printf("DecodeString:%s,length:%d\n",v,n)
+}
+
+func Bytes()  {
+	var buf =make([]byte,16)
+	var i []byte=[]byte{1,2}
+	data:=code.EncodeBytes(buf,i)
+	fmt.Printf("EncodeBytes:%v to []byte:%v\n",i,data)
+	v,n:=code.DecodeBytes(data)
+	fmt.Printf("DecodeBytes:%v,length:%d\n",v,n)
+}
+
+func SliceBytes()  {
+	var buf =make([]byte,16)
+	var i [][]byte=[][]byte{{1,2},{3}}
+	data:=code.EncodeSliceBytes(buf,i)
+	fmt.Printf("EncodeSliceBytes:%v to []byte:%v\n",i,data)
+	v,n:=code.DecodeSliceBytes(data)
+	fmt.Printf("DecodeSliceBytes:%v,length:%d\n",v,n)
+}
+```
+
+### Output
+```
+EncodeInt:128 to []byte:[1 128]
+DecodeInt:128,length:2
+EncodeVarint:128 to []byte:[128 1]
+DecodeVarint:128,length:2
+EncodeFloat32:3.14 to []byte:[195 245 72 64]
+EncodeFloat32:3.14,length:4
+EncodeFloat64:3.14 to []byte:[31 133 235 81 184 30 9 64]
+DecodeFloat64:3.14,length:8
+EncodeBool:true to []byte:[1]
+DecodeBool:true,length:1
+EncodeString:Hello to []byte:[5 72 101 108 108 111]
+DecodeString:Hello,length:6
+EncodeBytes:[1 2] to []byte:[2 1 2]
+DecodeBytes:[1 2],length:3
+EncodeSliceBytes:[[1 2] [3]] to []byte:[2 1 2 1 3]
+DecodeSliceBytes:[[1 2] [3]],length:5
+```
 
 ### Benchmark
 go test -v -run="none" -bench=. -benchtime=1s
@@ -8,32 +141,28 @@ go test -v -run="none" -bench=. -benchtime=1s
 goos: darwin
 goarch: amd64
 pkg: github.com/hslam/code
-BenchmarkInterfaceTypeString0-4    	334841894	         3.51 ns/op
-BenchmarkInterfaceTypeString-4     	294729032	         4.53 ns/op
-BenchmarkStringType-4              	1000000000	         0.311 ns/op
-BenchmarkInterfaceTypeInt0-4       	350415357	         3.42 ns/op
-BenchmarkInterfaceTypeInt-4        	272255924	         4.70 ns/op
-BenchmarkIntType-4                 	1000000000	         0.630 ns/op
-BenchmarkInterfaceTypeTrue-4       	388718568	         3.13 ns/op
-BenchmarkTrueType-4                	1000000000	         0.651 ns/op
-BenchmarkInterfaceTypeFalse-4      	384036106	         3.09 ns/op
-BenchmarkFalseType-4               	1000000000	         0.618 ns/op
-BenchmarkSizeInt-4                 	1000000000	         0.311 ns/op
-BenchmarkCodeInt-4                 	40835382	        27.0 ns/op
-BenchmarkCodeIntWithBuffer-4       	100000000	        13.5 ns/op
-BenchmarkSizeVarint-4              	1000000000	         0.313 ns/op
-BenchmarkCodeVarint-4              	47646476	        25.5 ns/op
-BenchmarkCodeVarintWithBuffer-4    	100000000	        13.2 ns/op
-BenchmarkCodeFloat32-4             	43381042	        27.0 ns/op
-BenchmarkCodeFloat32WithBuffer-4   	80151388	        14.7 ns/op
-BenchmarkCodeFloat64-4             	30978212	        45.2 ns/op
-BenchmarkCodeFloat64WithBuffer-4   	51835364	        23.7 ns/op
+BenchmarkCodeInt-4                    	57345968	        20.4 ns/op	  98.23 MB/s
+BenchmarkCodeIntWithBuffer-4          	151837402	         7.85 ns/op	 254.90 MB/s
+BenchmarkCodeVarint-4                 	56025999	        20.9 ns/op	  95.81 MB/s
+BenchmarkCodeVarintWithBuffer-4       	137225653	         8.53 ns/op	 234.48 MB/s
+BenchmarkCodeFloat32-4                	44772171	        26.3 ns/op	 152.14 MB/s
+BenchmarkCodeFloat32WithBuffer-4      	87854490	        13.7 ns/op	 291.17 MB/s
+BenchmarkCodeFloat64-4                	29906814	        38.3 ns/op	 208.67 MB/s
+BenchmarkCodeFloat64WithBuffer-4      	51124149	        23.8 ns/op	 336.18 MB/s
+BenchmarkCodeBool-4                   	98387308	        12.0 ns/op	  83.58 MB/s
+BenchmarkCodeBoolWithBuffer-4         	1000000000	         0.328 ns/op	3049.39 MB/s
+BenchmarkCodeString-4                 	22178115	        53.2 ns/op	 206.68 MB/s
+BenchmarkCodeStringWithBuffer-4       	36173110	        33.1 ns/op	 331.89 MB/s
+BenchmarkCodeBytes-4                  	24055592	        50.3 ns/op	 218.52 MB/s
+BenchmarkCodeBytesWithBuffer-4        	44093928	        27.2 ns/op	 403.97 MB/s
+BenchmarkCodeSliceBytes-4             	 8689598	       132 ns/op	  45.49 MB/s
+BenchmarkCodeSliceBytesWithBuffer-4   	 9467461	       114 ns/op	  52.58 MB/s
 PASS
-ok  	github.com/hslam/code	23.934s
+ok  	github.com/hslam/code	21.209s
 ```
 
 ### Licence
-This package is licenced under a MIT licence (Copyright (c) 2019 Mort Huang)
+This package is licenced under a MIT licence (Copyright (c) 2019 Meng Huang)
 
 ### Authors
-code was written by Mort Huang.
+code was written by Meng Huang.

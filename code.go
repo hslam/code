@@ -4,17 +4,8 @@ import (
 	"unsafe"
 )
 
-type CodeType uint8
 
 const (
-	Null 		CodeType = 0
-	Int 		CodeType = 1
-	Float 		CodeType = 2
-	False		CodeType = 3
-	True		CodeType = 4
-	String 		CodeType = 5
-	Bytes 		CodeType = 6
-
 	v7 =1<<7
 	v8 =1<<8
 	v14=1<<14
@@ -30,110 +21,46 @@ const (
 	v49=1<<49
 	v56=1<<56
 	v63=1<<63
-	v64=1<<64
 
-	mask4=-1 ^ (-1 << 4)
 	mask7=-1 ^ (-1 << 7)
 	mask8=-1 ^ (-1 << 8)
 
 	msb7= 1<<7
-
-
-
 )
 
-func Encode(v interface{}) ([]byte, error) {
-	//c,n,b:=InterfaceType(v)
+func Encode(buf []byte,v interface{}) ([]byte, error) {
 	return nil,nil
 }
 
 func Decode(data []byte, v interface{}) error {
 	return nil
 }
-
-func InterfaceType(i interface{}) (c CodeType,n int,b uint8){
-	switch i.(type) {
-	case string:
-		n,b=StringType(i.(string))
-		return String,n,b
-	case uint,uint8,uint16,uint32,uint64,int,int8,int16,int32,int64:
-		n,b=IntType(i.(uint64))
-		return Int,n,b
-	case float32:
-		n,b=FloatType(4)
-		return Float,n,b
-	case float64:
-		n,b=FloatType(8)
-		return Float,n,b
-	case bool:
-		if i.(bool)==true{
-			n,b=TrueType()
-			return True,n,b
-		}else {
-			n,b=FalseType()
-			return False,n,b
-		}
-	default:
-		return Null,0,0
-	}
-}
-func Type(b byte) (c CodeType,n int){
-	n= int(b & mask4)
-	c=CodeType(b>>4)
-	return c,n
-}
-func StringType(i string) (n int,b uint8){
-	length:=len(i)
-	n=SizeInt(uint64(length))
-	b=uint8(String)<<4 |uint8(n)
-	return n,b
-}
-func IntType(i uint64) (n int,b uint8){
-	n=SizeInt(i)
-	b=uint8(Int)<<4 |uint8(n)
-	return n,b
-}
-func FloatType(l int) (n int,b uint8){
-	n=l
-	b=uint8(Float)<<4 |uint8(n)
-	return n,b
-}
-func TrueType() (n int,b uint8){
-	b=uint8(True)<<4
-	return n,b
-}
-func FalseType() (n int,b uint8){
-	b=uint8(False)<<4
-	return n,b
-}
 func EncodeInt(buf []byte,v uint64) []byte {
 	var s []byte
-	size,b:=IntType(v)
-	size+=1
+	sizeof:=SizeofInt(v)
+	size:=sizeof+1
 	if cap(buf) >= size {
 		s = buf[:size]
 	} else {
 		s = make([]byte, size)
 	}
-	s[0]=b
-	for i:=0; i< size; i++ {
+	s[0]=byte(sizeof)
+	for i:=1; i< size; i++ {
 		s[i] = uint8(v & mask8)
 		v >>= 8
 	}
 	return s
 }
 
-func DecodeInt(buf []byte) (v uint64, n int) {
-	for n = 0; n < 8; n++ {
-		if n >= len(buf) {
-			return v,n
-		}
+func DecodeInt(buf []byte) (v uint64, n int)  {
+	size:=int(buf[0])
+	for n = 1; n < size+1; n++ {
 		b := buf[n]
-		v |= uint64(b) << (uint(n)*8)
+		v |= uint64(b) << (uint(n-1)*8)
 	}
-	return v, n
+	return v,n
 }
-func SizeInt(v uint64) int {
+func SizeofInt(v uint64) int {
 	if v==0{
 		return 0
 	}else if v<v8{
@@ -157,7 +84,7 @@ func SizeInt(v uint64) int {
 
 func EncodeVarint(buf []byte,v uint64) []byte {
 	var s []byte
-	size:=SizeVarint(v)
+	size:=SizeofVarint(v)
 	if cap(buf) >= size {
 		s = buf[:size]
 	} else {
@@ -171,21 +98,21 @@ func EncodeVarint(buf []byte,v uint64) []byte {
 	return s
 }
 
-func DecodeVarint(buf []byte) (v uint64, n int) {
+func DecodeVarint(d []byte) (v uint64, n int) {
 	for i := 0; i < 10; i++ {
-		if i >= len(buf) {
+		if i >= len(d) {
 			return 0, 0
 		}
-		b := buf[i]
+		b := d[i]
 		v |= uint64(b) & mask7 << (uint(i)*7)
 		if b & msb7 == 0 {
-			return v, i
+			return v, i+1
 		}
 	}
 	return 0, 0
 }
 
-func SizeVarint(v uint64) int {
+func SizeofVarint(v uint64) int {
 	if v<v7{
 		return 1
 	}else if v < v14{
@@ -208,7 +135,33 @@ func SizeVarint(v uint64) int {
 		return 10
 	}
 }
+func  EncodeFloat32(buf []byte,f float32) []byte {
+	var s []byte
+	size:=4
+	if cap(buf) >= size {
+		s = buf[:size]
+	} else {
+		s = make([]byte, size)
+	}
+	v:=*(*uint32)(unsafe.Pointer(&f))
+	for i:=0;i<size ;i++  {
+		s[i]=uint8(v>>uint8(i*8))
+	}
+	return s
+}
 
+func DecodeFloat32(d []byte) (f float32, n int ) {
+	var v uint64
+	size:=4
+	for i := 0; i < size; i++ {
+		if i >= len(d) {
+			return 0,4
+		}
+		b := d[i]
+		v |= uint64(b) & mask8 << (uint(i)*8)
+	}
+	return *(*float32)(unsafe.Pointer(&v)),4
+}
 func EncodeFloat64(buf []byte,f float64) []byte {
 	v:=*(*uint64)(unsafe.Pointer(&f))
 	var s []byte
@@ -224,40 +177,128 @@ func EncodeFloat64(buf []byte,f float64) []byte {
 	return s
 }
 
-func DecodeFloat64(buf []byte) (f float64) {
+func DecodeFloat64(d []byte) (f float64, n int ) {
 	var v uint64
 	for i := 0; i < 8; i++ {
-		if i >= len(buf) {
-			return 0
+		if i >= len(d) {
+			return 0,8
 		}
-		b := buf[i]
+		b := d[i]
 		v |= uint64(b) & mask8 << (uint(i)*8)
 	}
-	return *(*float64)(unsafe.Pointer(&v))
+	return *(*float64)(unsafe.Pointer(&v)),8
 }
-func  EncodeFloat32(buf []byte,f float32) []byte {
-	v:=*(*uint32)(unsafe.Pointer(&f))
+
+func EncodeString(buf []byte,v string) []byte {
 	var s []byte
-	size:=4
+	length:=len(v)
+	b:=EncodeVarint(nil,uint64(length))
+	size:=len(b)+length
 	if cap(buf) >= size {
 		s = buf[:size]
 	} else {
 		s = make([]byte, size)
 	}
-	for i:=0;i<4 ;i++  {
-		s[i]=uint8(v>>uint8(i*8))
+	copy(s[:len(b)],b)
+	copy(s[len(b):],v)
+	return s
+}
+
+func DecodeString(d []byte) (s string, n int ) {
+	v,n:=DecodeVarint(d)
+	s=string(d[n:v+1])
+	return s,n+int(v)
+}
+
+func EncodeBool(buf []byte,v bool) []byte {
+	var s []byte
+	size:=1
+	if cap(buf) >= size {
+		s = buf[:size]
+	} else {
+		s = make([]byte, size)
+	}
+	if !v{
+		s[0]=0
+	}else{
+		s[0]=1
 	}
 	return s
 }
 
-func DecodeFloat32(buf []byte) (f float32) {
-	var v uint64
-	for i := 0; i < 4; i++ {
-		if i >= len(buf) {
-			return 0
-		}
-		b := buf[i]
-		v |= uint64(b) & mask8 << (uint(i)*8)
+func DecodeBool(d []byte) (s bool, n int) {
+	if len(d)==0{
+		return false,0
 	}
-	return *(*float32)(unsafe.Pointer(&v))
+	if d[0]==0{
+		return false,1
+	}
+	return true,1
 }
+
+func EncodeBytes(buf []byte,v []byte) []byte {
+	var s []byte
+	length:=len(v)
+	b:=EncodeVarint(nil,uint64(length))
+	size:=len(b)+length
+	if cap(buf) >= size {
+		s = buf[:size]
+	} else {
+		s = make([]byte, size)
+	}
+	copy(s[:len(b)],b)
+	copy(s[len(b):],v)
+	return s
+}
+
+func DecodeBytes(d []byte) (s []byte, n int) {
+	v,n:=DecodeVarint(d)
+	s=d[n:v+1]
+	return s ,n+int(v)
+}
+
+func EncodeSliceBytes(buf []byte,d [][]byte) []byte {
+	var s []byte
+	var size int
+	for _,v:=range d{
+		l:=len(v)
+		s:=SizeofVarint(uint64(l))
+		size+=s+l
+	}
+	if cap(buf) >= size {
+		s = buf[:size]
+	} else {
+		s = make([]byte, size)
+	}
+	var offset int
+	var tmpbuf =make([]byte,10)
+	for _,v:=range d{
+		l:=len(v)
+		b:=EncodeVarint(tmpbuf,uint64(l))
+		copy(s[offset:offset+len(b)],b)
+		copy(s[offset+len(b):],v)
+		offset+=len(b)+l
+	}
+	return s
+}
+
+func DecodeSliceBytes(d []byte) (s [][]byte, n int) {
+	var l int
+	var offset int
+	for offset<len(d){
+		v,n:=DecodeVarint(d[offset:])
+		offset+=n+int(v)
+		l++
+	}
+	s=make([][]byte,l)
+	offset=0
+	var i int
+	for offset<len(d){
+		v,n:=DecodeVarint(d[offset:])
+		s[i]=d[offset+n:offset+n+int(v)]
+		i++
+		offset+=n+int(v)
+	}
+	return s,offset
+}
+
