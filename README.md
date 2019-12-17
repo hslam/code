@@ -165,24 +165,24 @@ go test -v -run="none" -bench=. -benchtime=1s
 goos: darwin
 goarch: amd64
 pkg: github.com/hslam/code
-BenchmarkCodeInt-4                    	57345968	        20.4 ns/op	  98.23 MB/s
-BenchmarkCodeIntWithBuffer-4          	151837402	         7.85 ns/op	 254.90 MB/s
-BenchmarkCodeVarint-4                 	56025999	        20.9 ns/op	  95.81 MB/s
-BenchmarkCodeVarintWithBuffer-4       	137225653	         8.53 ns/op	 234.48 MB/s
-BenchmarkCodeFloat32-4                	44772171	        26.3 ns/op	 152.14 MB/s
-BenchmarkCodeFloat32WithBuffer-4      	87854490	        13.7 ns/op	 291.17 MB/s
-BenchmarkCodeFloat64-4                	29906814	        38.3 ns/op	 208.67 MB/s
-BenchmarkCodeFloat64WithBuffer-4      	51124149	        23.8 ns/op	 336.18 MB/s
-BenchmarkCodeBool-4                   	98387308	        12.0 ns/op	  83.58 MB/s
-BenchmarkCodeBoolWithBuffer-4         	1000000000	         0.328 ns/op	3049.39 MB/s
-BenchmarkCodeString-4                 	22178115	        53.2 ns/op	 206.68 MB/s
-BenchmarkCodeStringWithBuffer-4       	36173110	        33.1 ns/op	 331.89 MB/s
-BenchmarkCodeBytes-4                  	24055592	        50.3 ns/op	 218.52 MB/s
-BenchmarkCodeBytesWithBuffer-4        	44093928	        27.2 ns/op	 403.97 MB/s
-BenchmarkCodeSliceBytes-4             	 8689598	       132 ns/op	  45.49 MB/s
-BenchmarkCodeSliceBytesWithBuffer-4   	 9467461	       114 ns/op	  52.58 MB/s
+BenchmarkCodeInt-4                    	56613616	        20.7 ns/op	  96.48 MB/s
+BenchmarkCodeIntWithBuffer-4          	150139182	         7.82 ns/op	 255.76 MB/s
+BenchmarkCodeVarint-4                 	55521121	        21.2 ns/op	  94.40 MB/s
+BenchmarkCodeVarintWithBuffer-4       	138759502	         8.50 ns/op	 235.32 MB/s
+BenchmarkCodeFloat32-4                	44160877	        27.0 ns/op	 148.09 MB/s
+BenchmarkCodeFloat32WithBuffer-4      	85442888	        14.0 ns/op	 285.26 MB/s
+BenchmarkCodeFloat64-4                	26304907	        46.2 ns/op	 172.99 MB/s
+BenchmarkCodeFloat64WithBuffer-4      	50233800	        23.4 ns/op	 341.23 MB/s
+BenchmarkCodeBool-4                   	98675356	        12.7 ns/op	  78.64 MB/s
+BenchmarkCodeBoolWithBuffer-4         	1000000000	         0.327 ns/op	3061.24 MB/s
+BenchmarkCodeString-4                 	25952047	        42.5 ns/op	 259.05 MB/s
+BenchmarkCodeStringWithBuffer-4       	55594048	        21.7 ns/op	 507.74 MB/s
+BenchmarkCodeBytes-4                  	31624910	        37.5 ns/op	 293.43 MB/s
+BenchmarkCodeBytesWithBuffer-4        	71046694	        16.2 ns/op	 678.07 MB/s
+BenchmarkCodeSliceBytes-4             	 8975298	       131 ns/op	  45.84 MB/s
+BenchmarkCodeSliceBytesWithBuffer-4   	10085961	       114 ns/op	  52.44 MB/s
 PASS
-ok  	github.com/hslam/code	21.209s
+ok  	github.com/hslam/code	21.182s
 ```
 
 ### Licence

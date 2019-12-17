@@ -194,29 +194,7 @@ func DecodeFloat64(d []byte) (f float64, n int ) {
 func SizeofFloat64() int {
 	return 8
 }
-func EncodeString(buf []byte,v string) []byte {
-	var s []byte
-	length:=len(v)
-	b:=EncodeVarint(nil,uint64(length))
-	size:=len(b)+length
-	if cap(buf) >= size {
-		s = buf[:size]
-	} else {
-		s = make([]byte, size)
-	}
-	copy(s[:len(b)],b)
-	copy(s[len(b):],v)
-	return s
-}
 
-func DecodeString(d []byte) (s string, n int ) {
-	v,n:=DecodeVarint(d)
-	s=string(d[n:v+1])
-	return s,n+int(v)
-}
-func SizeofString(v string) int {
-	return SizeofVarint(uint64(len(v)))+len(v)
-}
 func EncodeBool(buf []byte,v bool) []byte {
 	var s []byte
 	size:=1
@@ -245,13 +223,49 @@ func DecodeBool(d []byte) (s bool, n int) {
 func SizeofBool() int {
 	return 1
 }
+
+func EncodeString(buf []byte,v string) []byte {
+	var s []byte
+	length:=len(v)
+	var sizebuf []byte
+	if cap(buf) >= 10 {
+		sizebuf = buf[:10]
+	} else {
+		sizebuf = make([]byte, 10)
+	}
+	b:=EncodeVarint(sizebuf,uint64(length))
+	size:=len(b)+length
+	if cap(buf) >= 10+size {
+		s = buf[10:10+size]
+	} else {
+		s = make([]byte, size)
+	}
+	copy(s[:len(b)],b)
+	copy(s[len(b):],v)
+	return s
+}
+
+func DecodeString(d []byte) (s string, n int ) {
+	v,n:=DecodeVarint(d)
+	s=string(d[n:v+1])
+	return s,n+int(v)
+}
+func SizeofString(v string) int {
+	return SizeofVarint(uint64(len(v)))+len(v)
+}
 func EncodeBytes(buf []byte,v []byte) []byte {
 	var s []byte
 	length:=len(v)
-	b:=EncodeVarint(nil,uint64(length))
+	var sizebuf []byte
+	if cap(buf) >= 10 {
+		sizebuf = buf[:10]
+	} else {
+		sizebuf = make([]byte, 10)
+	}
+	b:=EncodeVarint(sizebuf,uint64(length))
 	size:=len(b)+length
-	if cap(buf) >= size {
-		s = buf[:size]
+	if cap(buf) >= 10+size {
+		s = buf[10:10+size]
 	} else {
 		s = make([]byte, size)
 	}
@@ -282,10 +296,15 @@ func EncodeSliceBytes(buf []byte,d [][]byte) []byte {
 		s = make([]byte, size)
 	}
 	var offset int
-	var tmpbuf =make([]byte,10)
+	var sizebuf []byte
+	if cap(buf) >= size+10 {
+		sizebuf = buf[size:size+10]
+	} else {
+		sizebuf = make([]byte, 10)
+	}
 	for _,v:=range d{
 		l:=len(v)
-		b:=EncodeVarint(tmpbuf,uint64(l))
+		b:=EncodeVarint(sizebuf,uint64(l))
 		copy(s[offset:offset+len(b)],b)
 		copy(s[offset+len(b):],v)
 		offset+=len(b)+l

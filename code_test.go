@@ -194,7 +194,7 @@ func BenchmarkCodeBoolWithBuffer(b *testing.B) {
 }
 
 func TestCodeString(t *testing.T) {
-	var buf =make([]byte,16)
+	var buf =make([]byte,64)
 	var v string="HelloWorld"
 	data:=EncodeString(buf,v)
 	d,n:=DecodeString(data)
@@ -217,7 +217,7 @@ func BenchmarkCodeString(b *testing.B) {
 	}
 }
 func BenchmarkCodeStringWithBuffer(b *testing.B) {
-	var buf =make([]byte,16)
+	var buf =make([]byte,64)
 	var v string="HelloWorld"
 	data:=EncodeString(buf,v)
 	DecodeString(data)
@@ -230,7 +230,7 @@ func BenchmarkCodeStringWithBuffer(b *testing.B) {
 }
 
 func TestCodeBytes(t *testing.T) {
-	var buf =make([]byte,16)
+	var buf =make([]byte,64)
 	var v []byte=[]byte{1}
 	data:=EncodeBytes(buf,v)
 	d,n:=DecodeBytes(data)
@@ -253,7 +253,7 @@ func BenchmarkCodeBytes(b *testing.B) {
 	}
 }
 func BenchmarkCodeBytesWithBuffer(b *testing.B) {
-	var buf =make([]byte,16)
+	var buf =make([]byte,64)
 	var v []byte=[]byte{1,2,3,4,5,6,7,8,9,0}
 	data:=EncodeBytes(buf,v)
 	DecodeBytes(data)
@@ -266,7 +266,7 @@ func BenchmarkCodeBytesWithBuffer(b *testing.B) {
 }
 
 func TestCodeSliceBytes(t *testing.T) {
-	var buf =make([]byte,16)
+	var buf =make([]byte,64)
 	var v [][]byte=[][]byte{{1},{2}}
 	data:=EncodeSliceBytes(buf,v)
 	d,n:=DecodeSliceBytes(data)
@@ -289,7 +289,7 @@ func BenchmarkCodeSliceBytes(b *testing.B) {
 	}
 }
 func BenchmarkCodeSliceBytesWithBuffer(b *testing.B) {
-	var buf =make([]byte,16)
+	var buf =make([]byte,64)
 	var v [][]byte=[][]byte{{1,2},{3,4}}
 	data:=EncodeSliceBytes(buf,v)
 	DecodeSliceBytes(data)
