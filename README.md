@@ -165,16 +165,16 @@ go test -v -run="none" -bench=. -benchtime=1s
 goos: darwin
 goarch: amd64
 pkg: github.com/hslam/code
-BenchmarkCodeInt-4          	147019516	         8.06 ns/op	 248.16 MB/s
-BenchmarkCodeVarint-4       	139290777	         8.70 ns/op	 229.93 MB/s
-BenchmarkCodeFloat32-4      	73895397	        14.1 ns/op	 283.27 MB/s
-BenchmarkCodeFloat64-4      	51763390	        26.3 ns/op	 304.22 MB/s
-BenchmarkCodeBool-4         	1000000000	         0.328 ns/op	3044.41 MB/s
-BenchmarkCodeString-4       	55005217	        23.3 ns/op	 471.20 MB/s
-BenchmarkCodeBytes-4        	73133606	        16.0 ns/op	 688.30 MB/s
-BenchmarkCodeSliceBytes-4   	 8919524	       115 ns/op	  52.36 MB/s
+BenchmarkCodeInt-4          	149487769	         7.81 ns/op	 256.04 MB/s
+BenchmarkCodeVarint-4       	140075535	         8.70 ns/op	 229.82 MB/s
+BenchmarkCodeFloat32-4      	86497302	        14.3 ns/op	 279.39 MB/s
+BenchmarkCodeFloat64-4      	52717389	        23.1 ns/op	 345.75 MB/s
+BenchmarkCodeBool-4         	1000000000	         0.321 ns/op	3116.00 MB/s
+BenchmarkCodeString-4       	56156355	        21.2 ns/op	 519.33 MB/s
+BenchmarkCodeBytes-4        	77035242	        15.7 ns/op	 700.21 MB/s
+BenchmarkCodeSliceBytes-4   	10042554	       114 ns/op	  52.80 MB/s
 PASS
-ok  	github.com/hslam/code	10.568s
+ok  	github.com/hslam/code	10.627s
 ```
 
 ### Licence

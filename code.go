@@ -60,23 +60,24 @@ func DecodeInt(buf []byte) (v uint64, n int)  {
 	return v,n
 }
 func SizeofInt(v uint64) int {
-	if v==0{
+	switch {
+	case v ==0:
 		return 1
-	}else if v<v8{
+	case v < v8:
 		return 2
-	}else if v < v16{
+	case v < v16:
 		return 3
-	}else if v < v24{
+	case v < v24:
 		return 4
-	}else if v < v32{
+	case v < v32:
 		return 5
-	}else if v < v40{
+	case v < v40:
 		return 6
-	}else if v < v48{
+	case v < v48:
 		return 7
-	}else if v < v56{
+	case v < v56:
 		return 8
-	}else{
+	default:
 		return 9
 	}
 }
@@ -112,25 +113,26 @@ func DecodeVarint(d []byte) (v uint64, n int) {
 }
 
 func SizeofVarint(v uint64) int {
-	if v<v7{
+	switch {
+	case v < v7:
 		return 1
-	}else if v < v14{
+	case v < v14:
 		return 2
-	}else if v < v21{
+	case v < v21:
 		return 3
-	}else if v < v28{
+	case v < v28:
 		return 4
-	}else if v < v35{
+	case v < v35:
 		return 5
-	}else if v < v42{
+	case v < v42:
 		return 6
-	}else if v < v49{
+	case v < v49:
 		return 7
-	}else if v < v56{
+	case v < v56:
 		return 8
-	}else if v < v63 {
+	case v < v63:
 		return 9
-	}else {
+	default:
 		return 10
 	}
 }
