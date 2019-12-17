@@ -12,7 +12,7 @@ func TestCodeInt(t *testing.T) {
 	if v!=d{
 		t.Errorf("error %d != %d",v,d)
 	}
-	if n!=len(data){
+	if n!=SizeofInt(v){
 		t.Errorf("error %d != %d",n,len(data))
 	}
 
@@ -45,9 +45,12 @@ func TestCodeVarint(t *testing.T) {
 	var buf =make([]byte,9)
 	var v uint64=128
 	data:=EncodeVarint(buf,v)
-	d,_:=DecodeVarint(data)
+	d,n:=DecodeVarint(data)
 	if v!=d{
 		t.Errorf("error %d != %d",v,d)
+	}
+	if n!=SizeofVarint(v){
+		t.Errorf("error %d != %d",n,len(data))
 	}
 }
 func BenchmarkCodeVarint(b *testing.B) {
@@ -82,7 +85,7 @@ func TestCodeFloat32(t *testing.T) {
 	if v!=f{
 		t.Errorf("error %.7f != %.7f",v,f)
 	}
-	if n!=len(data){
+	if n!=SizeofFloat32(){
 		t.Errorf("error %d != %d",n,len(data))
 	}
 }
@@ -116,7 +119,7 @@ func TestCodeFloat64(t *testing.T) {
 	if v!=f{
 		t.Errorf("error %.7f != %.7f",v,f)
 	}
-	if n!=len(data){
+	if n!=SizeofFloat64(){
 		t.Errorf("error %d != %d",n,len(data))
 	}
 }
@@ -153,7 +156,7 @@ func TestCodeBool(t *testing.T) {
 	if v!=d{
 		t.Errorf("error %t != %t",v,d)
 	}
-	if n!=len(data){
+	if n!=SizeofBool(){
 		t.Errorf("error %d != %d",n,len(data))
 	}
 	v=false
@@ -162,7 +165,7 @@ func TestCodeBool(t *testing.T) {
 	if v!=d{
 		t.Errorf("error %t != %t",v,d)
 	}
-	if n!=len(data){
+	if n!=SizeofBool(){
 		t.Errorf("error %d != %d",n,len(data))
 	}
 }
@@ -198,7 +201,7 @@ func TestCodeString(t *testing.T) {
 	if v!=d{
 		t.Errorf("error %s != %s",v,d)
 	}
-	if n!=len(data){
+	if n!=SizeofString(v){
 		t.Errorf("error %d != %d",n,len(data))
 	}
 }
@@ -234,7 +237,7 @@ func TestCodeBytes(t *testing.T) {
 	if v[0]!=d[0]{
 		t.Errorf("error %d != %d",v[0],d[0])
 	}
-	if n!=len(data){
+	if n!=SizeofBytes(v){
 		t.Errorf("error %d != %d",n,len(data))
 	}
 }
@@ -270,7 +273,7 @@ func TestCodeSliceBytes(t *testing.T) {
 	if v[0][0]!=d[0][0]{
 		t.Errorf("error %d != %d",v[0][0],d[0][0])
 	}
-	if n!=len(data){
+	if n!=SizeofSliceBytes(v){
 		t.Errorf("error %d != %d",n,len(data))
 	}
 }
