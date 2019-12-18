@@ -346,8 +346,8 @@ func EncodeString(buf []byte,v string) []byte {
 
 func DecodeString(d []byte) (s string, n int ) {
 	v,n:=DecodeVarint(d)
-	s=string(d[n:v+1])
-	return s,n+int(v)
+	b:=d[n:v+1]
+	return *(*string)(unsafe.Pointer(&b)),n+int(v)
 }
 func SizeofString(v string) int {
 	return SizeofVarint(uint64(len(v)))+len(v)

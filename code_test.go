@@ -264,7 +264,7 @@ func TestCodeString(t *testing.T) {
 
 func BenchmarkCodeString(b *testing.B) {
 	var buf =make([]byte,64)
-	var v string="HelloWorld"
+	var v string="h"
 	data:=EncodeString(buf,v)
 	DecodeString(data)
 	b.SetBytes(int64(len(data)))
