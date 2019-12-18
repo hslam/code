@@ -355,7 +355,7 @@ func DecodeString(d []byte,s *string) ( n int ) {
 	}
 	i++
 	n=i
-	b:=d[n:v+1]
+	b:=d[n:n+int(v)]
 	*s=*(*string)(unsafe.Pointer(&b))
 	return n+int(v)
 }
@@ -396,7 +396,7 @@ func DecodeBytes(d []byte,s *[]byte) ( n int) {
 	}
 	i++
 	n=i
-	*s=d[n:v+1]
+	*s=d[n:n+int(v)]
 	return n+int(v)
 }
 func SizeofBytes(v []byte) int {
