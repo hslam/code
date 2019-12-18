@@ -23,7 +23,8 @@ func Uint8()  {
 	fmt.Printf("SizeofUint8:%d sizeof:%d\n",i,1)
 	data:=code.EncodeUint8(buf,i)
 	fmt.Printf("EncodeUint8:%d to []byte:%v\n",i,data)
-	v,n:=code.DecodeUint8(data)
+	var v uint8
+	n:=code.DecodeUint8(data,&v)
 	fmt.Printf("DecodeUint8:%d,length:%d\n",v,n)
 }
 func Uint16()  {
@@ -32,7 +33,8 @@ func Uint16()  {
 	fmt.Printf("SizeofUint16:%d sizeof:%d\n",i,2)
 	data:=code.EncodeUint16(buf,i)
 	fmt.Printf("EncodeUint16:%d to []byte:%v\n",i,data)
-	v,n:=code.DecodeUint16(data)
+	var v uint16
+	n:=code.DecodeUint16(data,&v)
 	fmt.Printf("DecodeUint16:%d,length:%d\n",v,n)
 }
 func Uint32()  {
@@ -41,7 +43,8 @@ func Uint32()  {
 	fmt.Printf("SizeofUint32:%d sizeof:%d\n",i,4)
 	data:=code.EncodeUint32(buf,i)
 	fmt.Printf("EncodeUint32:%d to []byte:%v\n",i,data)
-	v,n:=code.DecodeUint32(data)
+	var v uint32
+	n:=code.DecodeUint32(data,&v)
 	fmt.Printf("DecodeUint32:%d,length:%d\n",v,n)
 }
 func Uint64()  {
@@ -50,7 +53,8 @@ func Uint64()  {
 	fmt.Printf("SizeofUint64:%d sizeof:%d\n",i,8)
 	data:=code.EncodeUint64(buf,i)
 	fmt.Printf("EncodeUint64:%d to []byte:%v\n",i,data)
-	v,n:=code.DecodeUint64(data)
+	var v uint64
+	n:=code.DecodeUint64(data,&v)
 	fmt.Printf("DecodeUint64:%d,length:%d\n",v,n)
 }
 func Int()  {
@@ -60,7 +64,8 @@ func Int()  {
 	fmt.Printf("SizeofInt:%d sizeof:%d\n",i,size)
 	data:=code.EncodeInt(buf,i)
 	fmt.Printf("EncodeInt:%d to []byte:%v\n",i,data)
-	v,n:=code.DecodeInt(data)
+	var v uint64
+	n:=code.DecodeInt(data,&v)
 	fmt.Printf("DecodeInt:%d,length:%d\n",v,n)
 }
 func Varint()  {
@@ -70,7 +75,8 @@ func Varint()  {
 	fmt.Printf("SizeofVarint:%d sizeof:%d\n",i,size)
 	data:=code.EncodeVarint(buf,i)
 	fmt.Printf("EncodeVarint:%d to []byte:%v\n",i,data)
-	v,n:=code.DecodeVarint(data)
+	var v uint64
+	n:=code.DecodeVarint(data,&v)
 	fmt.Printf("DecodeVarint:%d,length:%d\n",v,n)
 }
 func Float32()  {
@@ -80,7 +86,8 @@ func Float32()  {
 	fmt.Printf("SizeofFloat32:%.2f sizeof:%d\n",i,size)
 	data:=code.EncodeFloat32(buf,i)
 	fmt.Printf("EncodeFloat32:%.2f to []byte:%v\n",i,data)
-	v,n:=code.DecodeFloat32(data)
+	var v float32
+	n:=code.DecodeFloat32(data,&v)
 	fmt.Printf("EncodeFloat32:%.2f,length:%d\n",v,n)
 }
 func Float64()  {
@@ -90,7 +97,8 @@ func Float64()  {
 	fmt.Printf("SizeofFloat64:%.2f sizeof:%d\n",i,size)
 	data:=code.EncodeFloat64(buf,i)
 	fmt.Printf("EncodeFloat64:%.2f to []byte:%v\n",i,data)
-	v,n:=code.DecodeFloat64(data)
+	var v float64
+	n:=code.DecodeFloat64(data,&v)
 	fmt.Printf("DecodeFloat64:%.2f,length:%d\n",v,n)
 }
 func Bool()  {
@@ -100,7 +108,8 @@ func Bool()  {
 	fmt.Printf("SizeofBool:%t sizeof:%d\n",i,size)
 	data:=code.EncodeBool(buf,i)
 	fmt.Printf("EncodeBool:%t to []byte:%v\n",i,data)
-	v,n:=code.DecodeBool(data)
+	var v bool
+	n:=code.DecodeBool(data,&v)
 	fmt.Printf("DecodeBool:%t,length:%d\n",v,n)
 }
 func String()  {
@@ -110,7 +119,8 @@ func String()  {
 	fmt.Printf("SizeofString:%s sizeof:%d\n",i,size)
 	data:=code.EncodeString(buf,i)
 	fmt.Printf("EncodeString:%s to []byte:%v\n",i,data)
-	v,n:=code.DecodeString(data)
+	var v string
+	n:=code.DecodeString(data,&v)
 	fmt.Printf("DecodeString:%s,length:%d\n",v,n)
 }
 func Bytes()  {
@@ -120,7 +130,8 @@ func Bytes()  {
 	fmt.Printf("SizeofBytes:%v sizeof:%d\n",i,size)
 	data:=code.EncodeBytes(buf,i)
 	fmt.Printf("EncodeBytes:%v to []byte:%v\n",i,data)
-	v,n:=code.DecodeBytes(data)
+	var v =make([]byte,2)
+	n:=code.DecodeBytes(data,&v)
 	fmt.Printf("DecodeBytes:%v,length:%d\n",v,n)
 }
 func SliceBytes()  {
@@ -130,6 +141,7 @@ func SliceBytes()  {
 	fmt.Printf("SizeofSliceBytes:%v sizeof:%d\n",i,size)
 	data:=code.EncodeSliceBytes(buf,i)
 	fmt.Printf("EncodeSliceBytes:%v to []byte:%v\n",i,data)
-	v,n:=code.DecodeSliceBytes(data)
+	var v =make([][]byte,2)
+	n:=code.DecodeSliceBytes(data,&v)
 	fmt.Printf("DecodeSliceBytes:%v,length:%d\n",v,n)
 }

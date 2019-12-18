@@ -7,7 +7,8 @@ func TestCodeUint8(t *testing.T) {
 	var buf =make([]byte,8)
 	var v uint8=128
 	data:=EncodeUint8(buf,v)
-	d,n:=DecodeUint8(data)
+	var d uint8
+	n:=DecodeUint8(data,&d)
 	if v!=d{
 		t.Errorf("error %d != %d",v,d)
 	}
@@ -21,19 +22,21 @@ func BenchmarkCodeUint8(b *testing.B) {
 	var v uint8=128
 	var buf =make([]byte,8)
 	data:=EncodeUint8(buf,v)
-	DecodeUint8(data)
+	var v2 uint8
+	DecodeUint8(data,&v2)
 	b.SetBytes(int64(len(data)))
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
 		data:=EncodeUint8(buf,v)
-		DecodeUint8(data)
+		DecodeUint8(data,&v2)
 	}
 }
 func TestCodeUint16(t *testing.T) {
 	var buf =make([]byte,8)
 	var v uint16=128
 	data:=EncodeUint16(buf,v)
-	d,n:=DecodeUint16(data)
+	var d uint16
+	n:=DecodeUint16(data,&d)
 	if v!=d{
 		t.Errorf("error %d != %d",v,d)
 	}
@@ -47,12 +50,13 @@ func BenchmarkCodeUint16(b *testing.B) {
 	var v uint16=128
 	var buf =make([]byte,8)
 	data:=EncodeUint16(buf,v)
-	DecodeUint16(data)
+	var v2 uint16
+	DecodeUint16(data,&v2)
 	b.SetBytes(int64(len(data)))
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
 		data:=EncodeUint16(buf,v)
-		DecodeUint16(data)
+		DecodeUint16(data,&v2)
 	}
 }
 
@@ -60,7 +64,8 @@ func TestCodeUint32(t *testing.T) {
 	var buf =make([]byte,8)
 	var v uint32=128
 	data:=EncodeUint32(buf,v)
-	d,n:=DecodeUint32(data)
+	var d uint32
+	n:=DecodeUint32(data,&d)
 	if v!=d{
 		t.Errorf("error %d != %d",v,d)
 	}
@@ -74,12 +79,13 @@ func BenchmarkCodeUint32(b *testing.B) {
 	var v uint32=128
 	var buf =make([]byte,8)
 	data:=EncodeUint32(buf,v)
-	DecodeUint32(data)
+	var v2 uint32
+	DecodeUint32(data,&v2)
 	b.SetBytes(int64(len(data)))
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
 		data:=EncodeUint32(buf,v)
-		DecodeUint32(data)
+		DecodeUint32(data,&v2)
 	}
 }
 
@@ -88,7 +94,8 @@ func TestCodeUint64(t *testing.T) {
 	var buf =make([]byte,8)
 	var v uint64=128
 	data:=EncodeUint64(buf,v)
-	d,n:=DecodeUint64(data)
+	var d uint64
+	n:=DecodeUint64(data,&d)
 	if v!=d{
 		t.Errorf("error %d != %d",v,d)
 	}
@@ -102,12 +109,13 @@ func BenchmarkCodeUint64(b *testing.B) {
 	var v uint64=128
 	var buf =make([]byte,8)
 	data:=EncodeUint64(buf,v)
-	DecodeUint64(data)
+	var v2 uint64
+	DecodeUint64(data,&v2)
 	b.SetBytes(int64(len(data)))
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
 		data:=EncodeUint64(buf,v)
-		DecodeUint64(data)
+		DecodeUint64(data,&v2)
 	}
 }
 
@@ -116,7 +124,8 @@ func TestCodeInt(t *testing.T) {
 	var buf =make([]byte,9)
 	var v uint64=128
 	data:=EncodeInt(buf,v)
-	d,n:=DecodeInt(data)
+	var d uint64
+	n:=DecodeInt(data,&d)
 	if v!=d{
 		t.Errorf("error %d != %d",v,d)
 	}
@@ -130,19 +139,21 @@ func BenchmarkCodeInt(b *testing.B) {
 	var v uint64=128
 	var buf =make([]byte,9)
 	data:=EncodeInt(buf,v)
-	DecodeInt(data)
+	var v2 uint64
+	DecodeInt(data,&v2)
 	b.SetBytes(int64(len(data)))
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
 		data:=EncodeInt(buf,v)
-		DecodeInt(data)
+		DecodeInt(data,&v2)
 	}
 }
 func TestCodeVarint(t *testing.T) {
 	var buf =make([]byte,9)
 	var v uint64=128
 	data:=EncodeVarint(buf,v)
-	d,n:=DecodeVarint(data)
+	var d uint64
+	n:=DecodeVarint(data,&d)
 	if v!=d{
 		t.Errorf("error %d != %d",v,d)
 	}
@@ -155,12 +166,13 @@ func BenchmarkCodeVarint(b *testing.B) {
 	var v uint64=128
 	var buf =make([]byte,9)
 	data:=EncodeVarint(buf,v)
-	DecodeVarint(data)
+	var v2 uint64
+	DecodeVarint(data,&v2)
 	b.SetBytes(int64(len(data)))
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
 		data:=EncodeVarint(buf,v)
-		DecodeVarint(data)
+		DecodeVarint(data,&v2)
 	}
 }
 
@@ -168,7 +180,8 @@ func BenchmarkCodeVarint(b *testing.B) {
 func TestCodeFloat32(t *testing.T) {
 	var f float32=3.1415926
 	data:=EncodeFloat32(nil,f)
-	v,n:=DecodeFloat32(data)
+	var v float32
+	n:=DecodeFloat32(data,&v)
 	if v!=f{
 		t.Errorf("error %.7f != %.7f",v,f)
 	}
@@ -181,18 +194,20 @@ func BenchmarkCodeFloat32(b *testing.B) {
 	var f float32=3.1415926
 	var buf =make([]byte,4)
 	data:=EncodeFloat32(buf,f)
-	DecodeFloat32(data)
+	var v float32
+	DecodeFloat32(data,&v)
 	b.SetBytes(int64(len(data)))
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
 		data:=EncodeFloat32(buf,f)
-		DecodeFloat32(data)
+		DecodeFloat32(data,&v)
 	}
 }
 func TestCodeFloat64(t *testing.T) {
 	var f float64=3.1415926
 	data:=EncodeFloat64(nil,f)
-	v,n:=DecodeFloat64(data)
+	var v float64
+	n:=DecodeFloat64(data,&v)
 	if v!=f{
 		t.Errorf("error %.7f != %.7f",v,f)
 	}
@@ -205,12 +220,13 @@ func BenchmarkCodeFloat64(b *testing.B) {
 	var f float64=3.1415926
 	var buf =make([]byte,8)
 	data:=EncodeFloat64(buf,f)
-	DecodeFloat64(data)
+	var v float64
+	DecodeFloat64(data,&v)
 	b.SetBytes(int64(len(data)))
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
 		data:=EncodeFloat64(buf,f)
-		DecodeFloat64(data)
+		DecodeFloat64(data,&v)
 	}
 }
 
@@ -218,7 +234,8 @@ func TestCodeBool(t *testing.T) {
 	var buf =make([]byte,9)
 	var v bool=true
 	data:=EncodeBool(buf,v)
-	d,n:=DecodeBool(data)
+	var d bool
+	n:=DecodeBool(data,&d)
 	if v!=d{
 		t.Errorf("error %t != %t",v,d)
 	}
@@ -227,7 +244,7 @@ func TestCodeBool(t *testing.T) {
 	}
 	v=false
 	data=EncodeBool(buf,v)
-	d,n=DecodeBool(data)
+	n=DecodeBool(data,&d)
 	if v!=d{
 		t.Errorf("error %t != %t",v,d)
 	}
@@ -240,12 +257,13 @@ func BenchmarkCodeBool(b *testing.B) {
 	var buf =make([]byte,1)
 	var v bool=true
 	data:=EncodeBool(buf,v)
-	DecodeBool(data)
+	var v2 bool
+	DecodeBool(data,&v2)
 	b.SetBytes(int64(len(data)))
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
 		data:=EncodeBool(buf,v)
-		DecodeBool(data)
+		DecodeBool(data,&v2)
 	}
 }
 
@@ -253,7 +271,8 @@ func TestCodeString(t *testing.T) {
 	var buf =make([]byte,64)
 	var v string="HelloWorld"
 	data:=EncodeString(buf,v)
-	d,n:=DecodeString(data)
+	var d string
+	n:=DecodeString(data,&d)
 	if v!=d{
 		t.Errorf("error %s != %s",v,d)
 	}
@@ -266,12 +285,13 @@ func BenchmarkCodeString(b *testing.B) {
 	var buf =make([]byte,64)
 	var v string="h"
 	data:=EncodeString(buf,v)
-	DecodeString(data)
+	var v2 string
+	DecodeString(data,&v2)
 	b.SetBytes(int64(len(data)))
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
 		data:=EncodeString(buf,v)
-		DecodeString(data)
+		DecodeString(data,&v2)
 	}
 }
 
@@ -279,7 +299,8 @@ func TestCodeBytes(t *testing.T) {
 	var buf =make([]byte,64)
 	var v []byte=[]byte{1}
 	data:=EncodeBytes(buf,v)
-	d,n:=DecodeBytes(data)
+	var d =make([]byte,2)
+	n:=DecodeBytes(data,&d)
 	if v[0]!=d[0]{
 		t.Errorf("error %d != %d",v[0],d[0])
 	}
@@ -290,14 +311,15 @@ func TestCodeBytes(t *testing.T) {
 
 func BenchmarkCodeBytes(b *testing.B) {
 	var buf =make([]byte,64)
-	var v []byte=[]byte{1,2,3,4,5,6,7,8,9,0}
+	var v []byte=[]byte{1}
 	data:=EncodeBytes(buf,v)
-	DecodeBytes(data)
+	var d =make([]byte,1)
+	DecodeBytes(data,&d)
 	b.SetBytes(int64(len(data)))
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
 		data:=EncodeBytes(buf,v)
-		DecodeBytes(data)
+		DecodeBytes(data,&d)
 	}
 }
 
@@ -305,9 +327,10 @@ func TestCodeSliceBytes(t *testing.T) {
 	var buf =make([]byte,64)
 	var v [][]byte=[][]byte{{1},{2}}
 	data:=EncodeSliceBytes(buf,v)
-	d,n:=DecodeSliceBytes(data)
-	if v[0][0]!=d[0][0]{
-		t.Errorf("error %d != %d",v[0][0],d[0][0])
+	var v2 [][]byte=make([][]byte,2)
+	n:=DecodeSliceBytes(data,&v2)
+	if v[0][0]!=v2[0][0]{
+		t.Errorf("error %d != %d",v[0][0],v2[0][0])
 	}
 	if n!=SizeofSliceBytes(v){
 		t.Errorf("error %d != %d",n,len(data))
@@ -316,14 +339,15 @@ func TestCodeSliceBytes(t *testing.T) {
 
 func BenchmarkCodeSliceBytes(b *testing.B) {
 	var buf =make([]byte,64)
-	var v [][]byte=[][]byte{{1,2},{3,4}}
+	var v [][]byte=[][]byte{{1},{2}}
 	data:=EncodeSliceBytes(buf,v)
-	DecodeSliceBytes(data)
+	var v2 [][]byte=make([][]byte,2)
+	DecodeSliceBytes(data,&v2)
 	b.SetBytes(int64(len(data)))
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
 		data:=EncodeSliceBytes(buf,v)
-		DecodeSliceBytes(data)
+		DecodeSliceBytes(data,&v2)
 	}
 }
 
