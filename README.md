@@ -2,6 +2,10 @@
 A code library written in golang for encoding and decoding.
 
 ## Feature
+* Uint8
+* Uint16
+* Uint32
+* Uint64
 * Int
 * Varint
 * Float32
