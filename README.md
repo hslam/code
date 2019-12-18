@@ -211,20 +211,20 @@ go test -v -run="none" -bench=. -benchtime=1s
 goos: darwin
 goarch: amd64
 pkg: github.com/hslam/code
-BenchmarkCodeUint8-4        	1000000000	         0.324 ns/op	3090.14 MB/s
-BenchmarkCodeUint16-4       	1000000000	         0.317 ns/op	6310.61 MB/s
-BenchmarkCodeUint32-4       	1000000000	         0.318 ns/op	12568.89 MB/s
-BenchmarkCodeUint64-4       	316729856	         3.75 ns/op	2131.79 MB/s
-BenchmarkCodeInt-4          	145029232	         8.25 ns/op	 242.31 MB/s
-BenchmarkCodeVarint-4       	130683343	         9.24 ns/op	 216.50 MB/s
-BenchmarkCodeFloat32-4      	1000000000	         0.321 ns/op	12467.47 MB/s
-BenchmarkCodeFloat64-4      	161058280	         7.54 ns/op	1060.87 MB/s
-BenchmarkCodeBool-4         	1000000000	         0.323 ns/op	3093.85 MB/s
-BenchmarkCodeString-4       	93031238	        12.3 ns/op	 162.07 MB/s
-BenchmarkCodeBytes-4        	100000000	        10.6 ns/op	1039.61 MB/s
-BenchmarkCodeSliceBytes-4   	11185539	       105 ns/op	  57.40 MB/s
+BenchmarkCodeUint8-4        	1000000000	         0.325 ns/op	3077.17 MB/s
+BenchmarkCodeUint16-4       	1000000000	         0.320 ns/op	6256.19 MB/s
+BenchmarkCodeUint32-4       	1000000000	         0.621 ns/op	6436.79 MB/s
+BenchmarkCodeUint64-4       	328552956	         3.59 ns/op	2229.48 MB/s
+BenchmarkCodeInt-4          	148696686	         8.74 ns/op	 228.89 MB/s
+BenchmarkCodeVarint-4       	100000000	        10.3 ns/op	 195.08 MB/s
+BenchmarkCodeFloat32-4      	1000000000	         0.353 ns/op	11339.16 MB/s
+BenchmarkCodeFloat64-4      	318723278	         3.93 ns/op	2034.96 MB/s
+BenchmarkCodeBool-4         	1000000000	         0.457 ns/op	2185.82 MB/s
+BenchmarkCodeString-4       	95758634	        12.6 ns/op	 158.35 MB/s
+BenchmarkCodeBytes-4        	100000000	        11.6 ns/op	 948.23 MB/s
+BenchmarkCodeSliceBytes-4   	10885207	       110 ns/op	  54.37 MB/s
 PASS
-ok  	github.com/hslam/code	13.009s
+ok  	github.com/hslam/code	12.348s
 ```
 
 ### Licence

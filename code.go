@@ -251,10 +251,10 @@ func  EncodeFloat32(buf []byte,f float32) []byte {
 
 func DecodeFloat32(d []byte) (f float32, n int ) {
 	var v uint64
-	v |= uint64(d[0]) & mask8
-	v |= uint64(d[1]) & mask8<<8
-	v |= uint64(d[2]) & mask8<<16
-	v |= uint64(d[3]) & mask8<<24
+	v |= uint64(d[0])
+	v |= uint64(d[1]) <<8
+	v |= uint64(d[2]) <<16
+	v |= uint64(d[3]) <<24
 	return *(*float32)(unsafe.Pointer(&v)),4
 }
 func SizeofFloat32() int {
@@ -281,14 +281,14 @@ func EncodeFloat64(buf []byte,f float64) []byte {
 
 func DecodeFloat64(d []byte) (f float64, n int ) {
 	var v uint64
-	v |= uint64(d[0]) & mask8
-	v |= uint64(d[1]) & mask8<<8
-	v |= uint64(d[2]) & mask8<<16
-	v |= uint64(d[3]) & mask8<<24
-	v |= uint64(d[4]) & mask8<<32
-	v |= uint64(d[5]) & mask8<<40
-	v |= uint64(d[6]) & mask8<<48
-	v |= uint64(d[7]) & mask8<<56
+	v |= uint64(d[0])
+	v |= uint64(d[1]) <<8
+	v |= uint64(d[2]) <<16
+	v |= uint64(d[3]) <<24
+	v |= uint64(d[4]) <<32
+	v |= uint64(d[5]) <<40
+	v |= uint64(d[6]) <<48
+	v |= uint64(d[7]) <<56
 	return *(*float64)(unsafe.Pointer(&v)),8
 }
 func SizeofFloat64() int {
