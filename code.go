@@ -46,7 +46,7 @@ func EncodeUint8(buf []byte,v uint8) []byte {
 	} else {
 		s = make([]byte, 1)
 	}
-	s[0] = byte(v & mask8)
+	s[0]=uint8(v)
 	return s
 }
 
@@ -61,9 +61,8 @@ func EncodeUint16(buf []byte,v uint16) []byte {
 	} else {
 		s = make([]byte, 2)
 	}
-	s[0] = byte(v & mask8)
-	v >>= 8
-	s[1] = byte(v & mask8)
+	s[0]=uint8(v)
+	s[1]=uint8(v>>8)
 	return s
 }
 
@@ -79,13 +78,10 @@ func EncodeUint32(buf []byte,v uint32) []byte {
 	} else {
 		s = make([]byte, 4)
 	}
-	s[0] = byte(v & mask8)
-	v >>= 8
-	s[1] = byte(v & mask8)
-	v >>= 8
-	s[2] = byte(v & mask8)
-	v >>= 8
-	s[3] = byte(v & mask8)
+	s[0]=uint8(v)
+	s[1]=uint8(v>>8)
+	s[2]=uint8(v>>16)
+	s[3]=uint8(v>>24)
 	return s
 }
 
@@ -103,21 +99,14 @@ func EncodeUint64(buf []byte,v uint64) []byte {
 	} else {
 		s = make([]byte, 8)
 	}
-	s[0] = byte(v & mask8)
-	v >>= 8
-	s[1] = byte(v & mask8)
-	v >>= 8
-	s[2] = byte(v & mask8)
-	v >>= 8
-	s[3] = byte(v & mask8)
-	v >>= 8
-	s[4] = byte(v & mask8)
-	v >>= 8
-	s[5] = byte(v & mask8)
-	v >>= 8
-	s[6] = byte(v & mask8)
-	v >>= 8
-	s[7] = byte(v & mask8)
+	s[0]=uint8(v)
+	s[1]=uint8(v>>8)
+	s[2]=uint8(v>>16)
+	s[3]=uint8(v>>24)
+	s[4]=uint8(v>>32)
+	s[5]=uint8(v>>40)
+	s[6]=uint8(v>>48)
+	s[7]=uint8(v>>56)
 	return s
 }
 
@@ -141,9 +130,11 @@ func EncodeInt(buf []byte,v uint64) []byte {
 		s = make([]byte, size)
 	}
 	s[0]=byte(size-1)
-	for i:=1; i< size; i++ {
-		s[i] = byte(v & mask8)
+	i := uint64(1)
+	for v > 0 {
+		buf[i] = byte(v)
 		v >>= 8
+		i++
 	}
 	return s
 }
@@ -187,26 +178,26 @@ func EncodeVarint(buf []byte,v uint64) []byte {
 	} else {
 		s = make([]byte, size)
 	}
-	for i:=0; i< size-1; i++ {
-		s[i] = byte(v & mask7 | msb7)
+	i := uint64(0)
+	for v >= msb7 {
+		buf[i] = byte(v) | msb7
 		v >>= 7
+		i++
 	}
-	s[size-1] = byte(v)
+	buf[i] = byte(v)
 	return s
 }
 
 func DecodeVarint(d []byte) (v uint64, n int) {
-	for i := 0; i < 10; i++ {
-		if i >= len(d) {
-			return 0, 0
-		}
-		b := d[i]
-		v |= uint64(b) & mask7 << (uint(i)*7)
-		if b & msb7 == 0 {
-			return v, i+1
-		}
+	s := uint8(7)
+	v = uint64(d[n])
+	for d[n]&msb7 == msb7 {
+		n++
+		v |= uint64(d[n]) << s
+		s += 7
 	}
-	return 0, 0
+	n++
+	return v, n
 }
 
 func SizeofVarint(v uint64) int {
