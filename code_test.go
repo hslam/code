@@ -148,6 +148,7 @@ func BenchmarkCodeInt(b *testing.B) {
 		DecodeInt(data,&v2)
 	}
 }
+
 func TestCodeVarint(t *testing.T) {
 	var buf =make([]byte,9)
 	var v uint64=128

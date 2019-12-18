@@ -179,7 +179,7 @@ func EncodeVarint(buf []byte,v uint64) []byte {
 	} else {
 		s = make([]byte, size)
 	}
-	i := uint64(0)
+	i := 0
 	for v >= msb7 {
 		buf[i] = byte(v) | msb7
 		v >>= 7
@@ -191,10 +191,10 @@ func EncodeVarint(buf []byte,v uint64) []byte {
 
 func DecodeVarint(d []byte,v *uint64) (n int) {
 	s := uint8(7)
-	*v = uint64(d[n])
+	*v = uint64(d[n]&mask7)
 	for d[n]&msb7 == msb7 {
 		n++
-		*v |= uint64(d[n]) << s
+		*v |= uint64(d[n]&mask7) << s
 		s += 7
 	}
 	n++
@@ -347,10 +347,10 @@ func DecodeString(d []byte,s *string) ( n int ) {
 	var v uint64
 	shift := uint8(7)
 	i:=0
-	v = uint64(d[i])
+	v = uint64(d[i]&mask7)
 	for d[i]&msb7 == msb7 {
 		i++
-		v |= uint64(d[i]) << shift
+		v |= uint64(d[i]&mask7) << shift
 		shift += 7
 	}
 	i++
@@ -388,10 +388,10 @@ func DecodeBytes(d []byte,s *[]byte) ( n int) {
 	var v uint64
 	shift := uint8(7)
 	i:=0
-	v = uint64(d[i])
+	v = uint64(d[i]&mask7)
 	for d[i]&msb7 == msb7 {
 		i++
-		v |= uint64(d[i]) << shift
+		v |= uint64(d[i]&mask7) << shift
 		shift += 7
 	}
 	i++
@@ -442,10 +442,10 @@ func DecodeSliceBytes(d []byte,s *[][]byte) (n int) {
 		shift := uint8(7)
 		j:=0
 		buf:=d[offset:]
-		v = uint64(buf[j])
+		v = uint64(buf[j]&mask7)
 		for buf[j]&msb7 == msb7 {
 			j++
-			v |= uint64(buf[j]) << shift
+			v |= uint64(buf[j]&mask7) << shift
 			shift += 7
 		}
 		j++
@@ -465,10 +465,10 @@ func DecodeSliceBytes(d []byte,s *[][]byte) (n int) {
 		shift := uint8(7)
 		j:=0
 		buf:=d[offset:]
-		v = uint64(buf[j])
+		v = uint64(buf[j]&mask7)
 		for buf[j]&msb7 == msb7 {
 			j++
-			v |= uint64(buf[j]) << shift
+			v |= uint64(buf[j]&mask7) << shift
 			shift += 7
 		}
 		j++
