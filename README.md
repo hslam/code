@@ -222,25 +222,25 @@ DecodeSliceBytes:[[1 2] [3]],length:5
 ```
 
 ### Benchmark
-go test -v -run="none" -bench=. -benchtime=1s
+go test -v -run="none" -bench=. -benchtime=30s
 ```
 goos: darwin
 goarch: amd64
 pkg: github.com/hslam/code
-BenchmarkCodeUint8-4        	1000000000	         0.324 ns/op	3087.55 MB/s
-BenchmarkCodeUint16-4       	1000000000	         0.314 ns/op	6369.32 MB/s
-BenchmarkCodeUint32-4       	1000000000	         0.316 ns/op	12662.64 MB/s
-BenchmarkCodeUint64-4       	311395356	         3.78 ns/op	2117.58 MB/s
-BenchmarkCodeInt-4          	146542162	         8.45 ns/op	 236.73 MB/s
-BenchmarkCodeVarint-4       	138961056	         8.65 ns/op	 231.20 MB/s
-BenchmarkCodeFloat32-4      	1000000000	         0.411 ns/op	9738.67 MB/s
-BenchmarkCodeFloat64-4      	294019719	         3.81 ns/op	2099.95 MB/s
-BenchmarkCodeBool-4         	1000000000	         0.645 ns/op	1549.92 MB/s
-BenchmarkCodeString-4       	100000000	        10.9 ns/op	 182.86 MB/s
-BenchmarkCodeBytes-4        	100000000	        11.3 ns/op	 176.22 MB/s
-BenchmarkCodeSliceBytes-4   	37372180	        31.8 ns/op	 125.71 MB/s
+BenchmarkCodeUint8-4        	1000000000	         0.635 ns/op	1573.85 MB/s
+BenchmarkCodeUint16-4       	1000000000	         0.310 ns/op	6443.68 MB/s
+BenchmarkCodeUint32-4       	1000000000	         0.311 ns/op	12877.46 MB/s
+BenchmarkCodeUint64-4       	1000000000	         3.71 ns/op	2157.80 MB/s
+BenchmarkCodeInt-4          	1000000000	         7.05 ns/op	 283.73 MB/s
+BenchmarkCodeVarint-4       	1000000000	         7.12 ns/op	 280.87 MB/s
+BenchmarkCodeFloat32-4      	1000000000	         0.387 ns/op	10335.71 MB/s
+BenchmarkCodeFloat64-4      	1000000000	         3.75 ns/op	2131.57 MB/s
+BenchmarkCodeBool-4         	1000000000	         0.636 ns/op	1573.08 MB/s
+BenchmarkCodeString-4       	1000000000	        11.3 ns/op	 177.61 MB/s
+BenchmarkCodeBytes-4        	1000000000	        10.9 ns/op	 182.72 MB/s
+BenchmarkCodeSliceBytes-4   	1000000000	        26.9 ns/op	 148.89 MB/s
 PASS
-ok  	github.com/hslam/code	12.959s
+ok  	github.com/hslam/code	80.415s
 ```
 
 ### Licence

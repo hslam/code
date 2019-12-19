@@ -64,14 +64,17 @@ func EncodeUint16(buf []byte,v *uint16) []byte {
 	} else {
 		s = make([]byte, 2)
 	}
-	s[0]=uint8(*v)
-	s[1]=uint8(*v>>8)
+	var t = *v
+	s[0]=uint8(t)
+	s[1]=uint8(t>>8)
 	return s
 }
 
 func DecodeUint16(buf []byte,v *uint16) ( n int)  {
-	*v = uint16(buf[0])
-	*v |= uint16(buf[1]) << 8
+	var t uint16
+	t = uint16(buf[0])
+	t |= uint16(buf[1]) << 8
+	*v=t
 	return 2
 }
 func SizeofUint16() int {
@@ -84,18 +87,21 @@ func EncodeUint32(buf []byte,v *uint32) []byte {
 	} else {
 		s = make([]byte, 4)
 	}
-	s[0]=uint8(*v)
-	s[1]=uint8(*v>>8)
-	s[2]=uint8(*v>>16)
-	s[3]=uint8(*v>>24)
+	var t = *v
+	s[0]=uint8(t)
+	s[1]=uint8(t>>8)
+	s[2]=uint8(t>>16)
+	s[3]=uint8(t>>24)
 	return s
 }
 
 func DecodeUint32(buf []byte,v *uint32) ( n int)  {
-	*v = uint32(buf[0])
-	*v |= uint32(buf[1]) << 8
-	*v |= uint32(buf[2]) << 16
-	*v |= uint32(buf[3]) << 24
+	var t uint32
+	t = uint32(buf[0])
+	t |= uint32(buf[1]) << 8
+	t |= uint32(buf[2]) << 16
+	t |= uint32(buf[3]) << 24
+	*v=t
 	return 4
 }
 func SizeofUint32() int {
@@ -121,14 +127,16 @@ func EncodeUint64(buf []byte,v *uint64) []byte {
 }
 
 func DecodeUint64(buf []byte,v *uint64) ( n int)  {
-	*v = uint64(buf[0])
-	*v |= uint64(buf[1]) << 8
-	*v |= uint64(buf[2]) << 16
-	*v |= uint64(buf[3]) << 24
-	*v |= uint64(buf[4]) << 32
-	*v |= uint64(buf[5]) << 40
-	*v |= uint64(buf[6]) << 48
-	*v |= uint64(buf[7]) << 56
+	var t uint64
+	t = uint64(buf[0])
+	t |= uint64(buf[1]) << 8
+	t |= uint64(buf[2]) << 16
+	t |= uint64(buf[3]) << 24
+	t |= uint64(buf[4]) << 32
+	t |= uint64(buf[5]) << 40
+	t |= uint64(buf[6]) << 48
+	t |= uint64(buf[7]) << 56
+	*v=t
 	return 8
 }
 func SizeofUint64() int {
@@ -136,49 +144,95 @@ func SizeofUint64() int {
 }
 func EncodeInt(buf []byte,v *uint64) []byte {
 	var s []byte
-	size:=SizeofInt(v)
+	var t = *v
+
+	var size =SizeofInt(v)
 	if cap(buf) >= size {
 		s = buf[:size]
 	} else {
 		s = make([]byte, size)
 	}
 	s[0]=byte(size-1)
-	i := uint64(1)
-	var t = *v
-	for t > 0 {
-		buf[i] = byte(t)
+	for i:=1;i<size;i++ {
+		s[i] = byte(t)
 		t>>= 8
-		i++
 	}
 	return s
 }
 
 func DecodeInt(buf []byte,v *uint64) ( n int)  {
 	size:=int(buf[0])
-	*v=0
-	for n = 1; n < size+1; n++ {
-		b := buf[n]
-		*v |= uint64(b) << (uint(n-1)*8)
+	var t uint64
+
+	//for n = 1; n < size+1; n++ {
+	//	t |= uint64(buf[n]) << (uint(n-1)*8)
+	//}
+
+	if size==0{
+		n=1
+		goto done
 	}
+	t |= uint64(buf[1])
+	if size==1{
+		n=2
+		goto done
+	}
+	t |= uint64(buf[2])<<8
+	if size==2{
+		n=3
+		goto done
+	}
+	t |= uint64(buf[3])<<16
+	if size==3{
+		n=4
+		goto done
+	}
+	t |= uint64(buf[4])<<24
+	if size==4{
+		n=5
+		goto done
+	}
+	t |= uint64(buf[5])<<32
+	if size==5{
+		n=6
+		goto done
+	}
+	t |= uint64(buf[6])<<40
+	if size==6{
+		n=7
+		goto done
+	}
+	t |= uint64(buf[7])<<48
+	if size==7{
+		n=8
+		goto done
+	}
+	t |= uint64(buf[8])<<56
+	n=9
+	goto done
+done:
+	*v=t
 	return n
 }
+
 func SizeofInt(v *uint64) int {
+	var t = *v
 	switch {
-	case *v ==0:
+	case t ==0:
 		return 1
-	case *v < v8:
+	case t < v8:
 		return 2
-	case *v < v16:
+	case t < v16:
 		return 3
-	case *v < v24:
+	case t < v24:
 		return 4
-	case *v < v32:
+	case t < v32:
 		return 5
-	case *v < v40:
+	case t < v40:
 		return 6
-	case *v < v48:
+	case t < v48:
 		return 7
-	case *v < v56:
+	case t < v56:
 		return 8
 	default:
 		return 9
@@ -187,54 +241,106 @@ func SizeofInt(v *uint64) int {
 
 func EncodeVarint(buf []byte,v *uint64) []byte {
 	var s []byte
-	size:=SizeofVarint(v)
+	var t = *v
+	var size =SizeofVarint(v)
 	if cap(buf) >= size {
 		s = buf[:size]
 	} else {
 		s = make([]byte, size)
 	}
-	i := 0
-	var t = *v
-	for t >= msb7 {
-		buf[i] = byte(t) | msb7
+	for i := 0;i<size-1;i++ {
+		s[i] = byte(t&mask7) | msb7
 		t >>= 7
-		i++
 	}
-	buf[i] = byte(t)
+	s[size-1] = byte(t)
 	return s
 }
 
 func DecodeVarint(d []byte,v *uint64) (n int) {
-	s := uint8(7)
-	*v = uint64(d[n]&mask7)
-	for d[n]&msb7 == msb7 {
-		n++
-		*v |= uint64(d[n]&mask7) << s
-		s += 7
+	var t uint64
+
+	//shift := uint8(7)
+	//t = uint64(d[n]&mask7)
+	//for d[n]&msb7 == msb7 {
+	//	n++
+	//	t |= uint64(d[n]&mask7) << shift
+	//	shift += 7
+	//}
+
+	t = uint64(d[n]&mask7)
+	if d[n]&msb7 == 0 {
+		goto done
 	}
 	n++
+	t |= uint64(d[n]&mask7) << 7
+	if d[n]&msb7 == 0 {
+		goto done
+	}
+	n++
+	t |= uint64(d[n]&mask7) << 14
+	if d[n]&msb7 == 0 {
+		goto done
+	}
+	n++
+	t |= uint64(d[n]&mask7) << 21
+	if d[n]&msb7 == 0 {
+		goto done
+	}
+	n++
+	t |= uint64(d[n]&mask7) << 28
+	if d[n]&msb7 == 0 {
+		goto done
+	}
+	n++
+	t |= uint64(d[n]&mask7) << 35
+	if d[n]&msb7 == 0 {
+		goto done
+	}
+	n++
+	t |= uint64(d[n]&mask7) << 42
+	if d[n]&msb7 == 0 {
+		goto done
+	}
+	n++
+	t |= uint64(d[n]&mask7) << 49
+	if d[n]&msb7 == 0 {
+		goto done
+	}
+	n++
+	t |= uint64(d[n]&mask7) << 56
+	if d[n]&msb7 == 0 {
+		goto done
+	}
+	n++
+	t |= uint64(d[n]&mask7) << 63
+	goto done
+done:
+	n++
+	*v=t
 	return n
 }
 
+
 func SizeofVarint(v *uint64) int {
+	var t = *v
 	switch {
-	case *v < v7:
+	case t < v7:
 		return 1
-	case *v < v14:
+	case t < v14:
 		return 2
-	case *v < v21:
+	case t < v21:
 		return 3
-	case *v < v28:
+	case t < v28:
 		return 4
-	case *v < v35:
+	case t < v35:
 		return 5
-	case *v < v42:
+	case t < v42:
 		return 6
-	case *v < v49:
+	case t < v49:
 		return 7
-	case *v < v56:
+	case t < v56:
 		return 8
-	case *v < v63:
+	case t < v63:
 		return 9
 	default:
 		return 10
@@ -346,33 +452,71 @@ func EncodeString(buf []byte,v *string) []byte {
 	} else {
 		s = make([]byte, size)
 	}
-	l:=length
-	i := uint64(0)
-	for l >= msb7 {
-		buf[i] = byte(l) | msb7
-		l >>= 7
-		i++
+	t:=length
+	for i := 0;i<length_size-1;i++ {
+		s[i] = byte(t&mask7) | msb7
+		t >>= 7
 	}
-	buf[i] = byte(l)
+	s[length_size-1] = byte(t)
 	copy(s[length_size:],*v)
 	return s
 }
 
 func DecodeString(d []byte,s *string) ( n int ) {
-	var v uint64
-	shift := uint8(7)
-	i:=0
-	v = uint64(d[i]&mask7)
-	for d[i]&msb7 == msb7 {
-		i++
-		v |= uint64(d[i]&mask7) << shift
-		shift += 7
+	var t uint64
+	t = uint64(d[n]&mask7)
+	if d[n]&msb7 == 0 {
+		goto done
 	}
-	i++
-	n=i
-	b:=d[n:n+int(v)]
+	n++
+	t |= uint64(d[n]&mask7) << 7
+	if d[n]&msb7 == 0 {
+		goto done
+	}
+	n++
+	t |= uint64(d[n]&mask7) << 14
+	if d[n]&msb7 == 0 {
+		goto done
+	}
+	n++
+	t |= uint64(d[n]&mask7) << 21
+	if d[n]&msb7 == 0 {
+		goto done
+	}
+	n++
+	t |= uint64(d[n]&mask7) << 28
+	if d[n]&msb7 == 0 {
+		goto done
+	}
+	n++
+	t |= uint64(d[n]&mask7) << 35
+	if d[n]&msb7 == 0 {
+		goto done
+	}
+	n++
+	t |= uint64(d[n]&mask7) << 42
+	if d[n]&msb7 == 0 {
+		goto done
+	}
+	n++
+	t |= uint64(d[n]&mask7) << 49
+	if d[n]&msb7 == 0 {
+		goto done
+	}
+	n++
+	t |= uint64(d[n]&mask7) << 56
+	if d[n]&msb7 == 0 {
+		goto done
+	}
+	n++
+	t |= uint64(d[n]&mask7) << 63
+	goto done
+done:
+	n++
+
+	b:=d[n:n+int(t)]
 	*s=*(*string)(unsafe.Pointer(&b))
-	return n+int(v)
+	return n+int(t)
 }
 func SizeofString(v *string) int {
 	length:=uint64(len(*v))
@@ -388,64 +532,95 @@ func EncodeBytes(buf []byte,v *[]byte) []byte {
 	} else {
 		s = make([]byte, size)
 	}
-	l:=length
-	i := uint64(0)
-	for l >= msb7 {
-		buf[i] = byte(l) | msb7
-		l >>= 7
-		i++
+	t:=length
+	for i := 0;i<length_size-1;i++ {
+		s[i] = byte(t&mask7) | msb7
+		t >>= 7
 	}
-	buf[i] = byte(l)
+	s[length_size-1] = byte(t)
 	copy(s[length_size:],*v)
 	return s
 }
-
 func DecodeBytes(d []byte,s *[]byte) ( n int) {
-	var v uint64
-	shift := uint8(7)
-	i:=0
-	v = uint64(d[i]&mask7)
-	for d[i]&msb7 == msb7 {
-		i++
-		v |= uint64(d[i]&mask7) << shift
-		shift += 7
+	var t uint64
+	t = uint64(d[n]&mask7)
+	if d[n]&msb7 == 0 {
+		goto done
 	}
-	i++
-	n=i
-	*s=d[n:n+int(v)]
-	return n+int(v)
+	n++
+	t |= uint64(d[n]&mask7) << 7
+	if d[n]&msb7 == 0 {
+		goto done
+	}
+	n++
+	t |= uint64(d[n]&mask7) << 14
+	if d[n]&msb7 == 0 {
+		goto done
+	}
+	n++
+	t |= uint64(d[n]&mask7) << 21
+	if d[n]&msb7 == 0 {
+		goto done
+	}
+	n++
+	t |= uint64(d[n]&mask7) << 28
+	if d[n]&msb7 == 0 {
+		goto done
+	}
+	n++
+	t |= uint64(d[n]&mask7) << 35
+	if d[n]&msb7 == 0 {
+		goto done
+	}
+	n++
+	t |= uint64(d[n]&mask7) << 42
+	if d[n]&msb7 == 0 {
+		goto done
+	}
+	n++
+	t |= uint64(d[n]&mask7) << 49
+	if d[n]&msb7 == 0 {
+		goto done
+	}
+	n++
+	t |= uint64(d[n]&mask7) << 56
+	if d[n]&msb7 == 0 {
+		goto done
+	}
+	n++
+	t |= uint64(d[n]&mask7) << 63
+	goto done
+done:
+	n++
+	*s=d[n:n+int(t)]
+	return n+int(t)
 }
+
 func SizeofBytes(v *[]byte) int {
 	length:=uint64(len(*v))
 	return SizeofVarint(&length)+len(*v)
 }
 func EncodeSliceBytes(buf []byte,d *[][]byte) []byte {
 	var s []byte
+	var offset int
 	var size int
 	for _,v:=range *d{
 		length:=uint64(len(v))
-		s:=SizeofVarint(&length)
-		size+=s+int(length)
-	}
-	if cap(buf) >= size {
-		s = buf[:size]
-	} else {
-		s = make([]byte, size)
-	}
-	var offset int
-	for _,v:=range *d{
-		length:=uint64(len(v))
 		length_size:=SizeofVarint(&length)
-		l:=length
-		i := offset
-		for l >= msb7 {
-			buf[i] = byte(l) | msb7
-			l >>= 7
-			i++
+		size+=length_size+int(length)
+		t:=length
+		for i := 0;i<length_size-1;i++ {
+			s[offset+i] = byte(t&mask7) | msb7
+			t >>= 7
 		}
-		buf[i] = byte(l)
-
-		copy(s[offset+length_size:],v)
+		if cap(buf) >= size {
+			s = buf[:size]
+			s[offset+length_size-1] = byte(t)
+			copy(s[offset+length_size:],v)
+		} else {
+			s=append(s,byte(t))
+			s=append(s,v...)
+		}
 		offset+=int(length)+length_size
 	}
 	return s
@@ -454,45 +629,73 @@ func EncodeSliceBytes(buf []byte,d *[][]byte) []byte {
 func DecodeSliceBytes(d []byte,s *[][]byte) (n int) {
 	var l int
 	var offset int
-	for offset<len(d){
-		var v uint64
-		shift := uint8(7)
-		j:=0
-		buf:=d[offset:]
-		v = uint64(buf[j]&mask7)
-		for buf[j]&msb7 == msb7 {
-			j++
-			v |= uint64(buf[j]&mask7) << shift
-			shift += 7
-		}
-		j++
-		n=j
-		offset+=n+int(v)
-		l++
-	}
-	if cap(*s) >= l {
-		*s = (*s)[:l]
-	} else {
-		*s = make([][]byte, l)
-	}
-	offset=0
 	var i int
 	for offset<len(d){
-		var v uint64
-		shift := uint8(7)
-		j:=0
 		buf:=d[offset:]
-		v = uint64(buf[j]&mask7)
-		for buf[j]&msb7 == msb7 {
-			j++
-			v |= uint64(buf[j]&mask7) << shift
-			shift += 7
+		j:=0
+		var t uint64
+		t = uint64(buf[j]&mask7)
+		if buf[j]&msb7 == 0 {
+			goto done
 		}
 		j++
+		t |= uint64(buf[j]&mask7) << 7
+		if buf[j]&msb7 == 0 {
+			goto done
+		}
+		j++
+		t |= uint64(buf[j]&mask7) << 14
+		if buf[j]&msb7 == 0 {
+			goto done
+		}
+		j++
+		t |= uint64(buf[j]&mask7) << 21
+		if buf[j]&msb7 == 0 {
+			goto done
+		}
+		j++
+		t |= uint64(buf[j]&mask7) << 28
+		if buf[j]&msb7 == 0 {
+			goto done
+		}
+		j++
+		t |= uint64(buf[j]&mask7) << 35
+		if buf[j]&msb7 == 0 {
+			goto done
+		}
+		j++
+		t |= uint64(buf[j]&mask7) << 42
+		if buf[j]&msb7 == 0 {
+			goto done
+		}
+		j++
+		t |= uint64(buf[j]&mask7) << 49
+		if buf[j]&msb7 == 0 {
+			goto done
+		}
+		j++
+		t |= uint64(buf[j]&mask7) << 56
+		if buf[j]&msb7 == 0 {
+			goto done
+		}
+		j++
+		t |= uint64(buf[j]&mask7) << 63
+		goto done
+	done:
+		j++
+
 		n=j
-		(*s)[i]=d[offset+n:offset+n+int(v)]
+		l++
+
+		b:=d[offset+n:offset+n+int(t)]
+		if cap(*s) >= l {
+			*s = (*s)[:l]
+			(*s)[i]=b
+		} else {
+			*s=append(*s,b)
+		}
 		i++
-		offset+=n+int(v)
+		offset+=n+int(t)
 	}
 	return offset
 }

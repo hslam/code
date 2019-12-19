@@ -3,6 +3,7 @@ package code
 import (
 	"testing"
 )
+
 func TestCodeUint8(t *testing.T) {
 	var buf =make([]byte,8)
 	var v uint8=128
@@ -176,7 +177,6 @@ func BenchmarkCodeVarint(b *testing.B) {
 		DecodeVarint(data,&v2)
 	}
 }
-
 
 func TestCodeFloat32(t *testing.T) {
 	var f float32=3.1415926
@@ -352,40 +352,5 @@ func BenchmarkCodeSliceBytes(b *testing.B) {
 	}
 }
 
-//
-//func EncodeString1(buf []byte,v string) []byte {
-//	var s []byte
-//	length:=len(v)
-//	length_size:=SizeofVarint(uint64(length))
-//	var size int =length_size+length
-//	if cap(buf) >= size {
-//		s = buf[:size]
-//	} else {
-//		s = make([]byte, size)
-//	}
-//	l:=length
-//	for i:=0; i< length_size-1; i++ {
-//		s[i] = byte(l & mask7 | msb7)
-//		l >>= 7
-//	}
-//	s[length_size-1] = byte(l)
-//	copy(s[length_size:],v)
-//	return s
-//}
-//func BenchmarkCodeSizeofVarint1(b *testing.B) {
-//	var v string="helloworld"
-//	var buf=make([]byte,100)
-//	b.ResetTimer()
-//	for i := 0; i < b.N; i++ {
-//		EncodeString(buf,v)
-//	}
-//}
-//
-//func BenchmarkCodeSizeofVarint2(b *testing.B) {
-//	var v string="helloworld"
-//	var buf=make([]byte,100)
-//	b.ResetTimer()
-//	for i := 0; i < b.N; i++ {
-//		EncodeString1(buf,v)
-//	}
-//}
+
+
