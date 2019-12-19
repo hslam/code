@@ -249,7 +249,7 @@ func EncodeVarint(buf []byte,v *uint64) []byte {
 		s = make([]byte, size)
 	}
 	for i := 0;i<size-1;i++ {
-		s[i] = byte(t&mask7) | msb7
+		s[i] = byte(t) | msb7
 		t >>= 7
 	}
 	s[size-1] = byte(t)
@@ -454,7 +454,7 @@ func EncodeString(buf []byte,v *string) []byte {
 	}
 	t:=length
 	for i := 0;i<length_size-1;i++ {
-		s[i] = byte(t&mask7) | msb7
+		s[i] = byte(t) | msb7
 		t >>= 7
 	}
 	s[length_size-1] = byte(t)
@@ -534,7 +534,7 @@ func EncodeBytes(buf []byte,v *[]byte) []byte {
 	}
 	t:=length
 	for i := 0;i<length_size-1;i++ {
-		s[i] = byte(t&mask7) | msb7
+		s[i] = byte(t) | msb7
 		t >>= 7
 	}
 	s[length_size-1] = byte(t)
@@ -610,7 +610,7 @@ func EncodeSliceBytes(buf []byte,d *[][]byte) []byte {
 		size+=length_size+int(length)
 		t:=length
 		for i := 0;i<length_size-1;i++ {
-			s[offset+i] = byte(t&mask7) | msb7
+			s[offset+i] = byte(t) | msb7
 			t >>= 7
 		}
 		if cap(buf) >= size {
