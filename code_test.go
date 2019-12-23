@@ -18,7 +18,6 @@ func TestCodeUint8(t *testing.T) {
 	}
 
 }
-
 func BenchmarkCodeUint8(b *testing.B) {
 	var v uint8=128
 	var buf =make([]byte,8)
@@ -353,4 +352,90 @@ func BenchmarkCodeSliceBytes(b *testing.B) {
 }
 
 
+//Sizeof
+func BenchmarkSizeofUint8(b *testing.B) {
+	b.SetBytes(int64(1))
+	for i := 0; i < b.N; i++ {
+		SizeofUint8()
+	}
+}
+func BenchmarkSizeofUint16(b *testing.B) {
+	b.SetBytes(int64(2))
+	for i := 0; i < b.N; i++ {
+		SizeofUint16()
+	}
+}
+func BenchmarkSizeofUint32(b *testing.B) {
+	b.SetBytes(int64(4))
+	for i := 0; i < b.N; i++ {
+		SizeofUint32()
+	}
+}
 
+func BenchmarkSizeofUint64(b *testing.B) {
+	b.SetBytes(int64(8))
+	for i := 0; i < b.N; i++ {
+		SizeofUint64()
+	}
+}
+
+
+func BenchmarkSizeofInt(b *testing.B) {
+	var v uint64 =128
+	b.SetBytes(int64(2))
+	for i := 0; i < b.N; i++ {
+		SizeofInt(&v)
+	}
+}
+
+func BenchmarkSizeofVarint(b *testing.B) {
+	b.SetBytes(int64(2))
+	var v uint64 =128
+	for i := 0; i < b.N; i++ {
+		SizeofVarint(&v)
+	}
+}
+
+func BenchmarkSizeofFloat32(b *testing.B) {
+	b.SetBytes(int64(4))
+	for i := 0; i < b.N; i++ {
+		SizeofFloat32()
+	}
+}
+func BenchmarkSizeofFloat64(b *testing.B) {
+	b.SetBytes(int64(8))
+	for i := 0; i < b.N; i++ {
+		SizeofFloat64()
+	}
+}
+
+func BenchmarkSizeofBool(b *testing.B) {
+	b.SetBytes(int64(1))
+	for i := 0; i < b.N; i++ {
+		SizeofBool()
+	}
+}
+
+func BenchmarkSizeofString(b *testing.B) {
+	var v string="h"
+	b.SetBytes(int64(1))
+	for i := 0; i < b.N; i++ {
+		SizeofString(&v)
+	}
+}
+
+func BenchmarkSizeofBytes(b *testing.B) {
+	var v []byte=[]byte{1}
+	b.SetBytes(int64(1))
+	for i := 0; i < b.N; i++ {
+		SizeofBytes(&v)
+	}
+}
+
+func BenchmarkSizeofSliceBytes(b *testing.B) {
+	var v [][]byte=[][]byte{{1},{2}}
+	b.SetBytes(int64(2))
+	for i := 0; i < b.N; i++ {
+		SizeofSliceBytes(&v)
+	}
+}
