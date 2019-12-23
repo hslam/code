@@ -52,7 +52,7 @@ func Uint8()  {
 	var i uint8=128
 	size:=code.SizeofUint8()
 	fmt.Printf("SizeofUint8:%d sizeof:%d\n",i,size)
-	data:=code.EncodeUint8(buf,&i)
+	data:=code.EncodeUint8(buf,i)
 	fmt.Printf("EncodeUint8:%d to []byte:%v\n",i,data)
 	var v uint8
 	n:=code.DecodeUint8(data,&v)
@@ -63,7 +63,7 @@ func Uint16()  {
 	var i uint16=128
 	size:=code.SizeofUint16()
 	fmt.Printf("SizeofUint16:%d sizeof:%d\n",i,size)
-	data:=code.EncodeUint16(buf,&i)
+	data:=code.EncodeUint16(buf,i)
 	fmt.Printf("EncodeUint16:%d to []byte:%v\n",i,data)
 	var v uint16
 	n:=code.DecodeUint16(data,&v)
@@ -74,7 +74,7 @@ func Uint32()  {
 	var i uint32=128
 	size:=code.SizeofUint32()
 	fmt.Printf("SizeofUint32:%d sizeof:%d\n",i,size)
-	data:=code.EncodeUint32(buf,&i)
+	data:=code.EncodeUint32(buf,i)
 	fmt.Printf("EncodeUint32:%d to []byte:%v\n",i,data)
 	var v uint32
 	n:=code.DecodeUint32(data,&v)
@@ -85,7 +85,7 @@ func Uint64()  {
 	var i uint64=128
 	size:=code.SizeofUint64()
 	fmt.Printf("SizeofUint64:%d sizeof:%d\n",i,size)
-	data:=code.EncodeUint64(buf,&i)
+	data:=code.EncodeUint64(buf,i)
 	fmt.Printf("EncodeUint64:%d to []byte:%v\n",i,data)
 	var v uint64
 	n:=code.DecodeUint64(data,&v)
@@ -94,9 +94,9 @@ func Uint64()  {
 func Int()  {
 	var buf =make([]byte,9)
 	var i uint64=128
-	size:=code.SizeofInt(&i)
+	size:=code.SizeofInt(i)
 	fmt.Printf("SizeofInt:%d sizeof:%d\n",i,size)
-	data:=code.EncodeInt(buf,&i)
+	data:=code.EncodeInt(buf,i)
 	fmt.Printf("EncodeInt:%d to []byte:%v\n",i,data)
 	var v uint64
 	n:=code.DecodeInt(data,&v)
@@ -105,9 +105,9 @@ func Int()  {
 func Varint()  {
 	var buf =make([]byte,10)
 	var i uint64=128
-	size:=code.SizeofVarint(&i)
+	size:=code.SizeofVarint(i)
 	fmt.Printf("SizeofVarint:%d sizeof:%d\n",i,size)
-	data:=code.EncodeVarint(buf,&i)
+	data:=code.EncodeVarint(buf,i)
 	fmt.Printf("EncodeVarint:%d to []byte:%v\n",i,data)
 	var v uint64
 	n:=code.DecodeVarint(data,&v)
@@ -118,7 +118,7 @@ func Float32()  {
 	var i float32=3.14
 	size:=code.SizeofFloat32()
 	fmt.Printf("SizeofFloat32:%.2f sizeof:%d\n",i,size)
-	data:=code.EncodeFloat32(buf,&i)
+	data:=code.EncodeFloat32(buf,i)
 	fmt.Printf("EncodeFloat32:%.2f to []byte:%v\n",i,data)
 	var v float32
 	n:=code.DecodeFloat32(data,&v)
@@ -129,7 +129,7 @@ func Float64()  {
 	var i float64=3.14
 	size:=code.SizeofFloat64()
 	fmt.Printf("SizeofFloat64:%.2f sizeof:%d\n",i,size)
-	data:=code.EncodeFloat64(buf,&i)
+	data:=code.EncodeFloat64(buf,i)
 	fmt.Printf("EncodeFloat64:%.2f to []byte:%v\n",i,data)
 	var v float64
 	n:=code.DecodeFloat64(data,&v)
@@ -140,7 +140,7 @@ func Bool()  {
 	var i bool=true
 	size:=code.SizeofBool()
 	fmt.Printf("SizeofBool:%t sizeof:%d\n",i,size)
-	data:=code.EncodeBool(buf,&i)
+	data:=code.EncodeBool(buf,i)
 	fmt.Printf("EncodeBool:%t to []byte:%v\n",i,data)
 	var v bool
 	n:=code.DecodeBool(data,&v)
@@ -149,9 +149,9 @@ func Bool()  {
 func String()  {
 	var buf =make([]byte,16)
 	var i string="Hello"
-	size:=code.SizeofString(&i)
+	size:=code.SizeofString(i)
 	fmt.Printf("SizeofString:%s sizeof:%d\n",i,size)
-	data:=code.EncodeString(buf,&i)
+	data:=code.EncodeString(buf,i)
 	fmt.Printf("EncodeString:%s to []byte:%v\n",i,data)
 	var v string
 	n:=code.DecodeString(data,&v)
@@ -160,9 +160,9 @@ func String()  {
 func Bytes()  {
 	var buf =make([]byte,16)
 	var i []byte=[]byte{1,2}
-	size:=code.SizeofBytes(&i)
+	size:=code.SizeofBytes(i)
 	fmt.Printf("SizeofBytes:%v sizeof:%d\n",i,size)
-	data:=code.EncodeBytes(buf,&i)
+	data:=code.EncodeBytes(buf,i)
 	fmt.Printf("EncodeBytes:%v to []byte:%v\n",i,data)
 	var v =make([]byte,2)
 	n:=code.DecodeBytes(data,&v)
@@ -171,9 +171,9 @@ func Bytes()  {
 func SliceBytes()  {
 	var buf =make([]byte,16)
 	var i [][]byte=[][]byte{{1,2},{3}}
-	size:=code.SizeofSliceBytes(&i)
+	size:=code.SizeofSliceBytes(i)
 	fmt.Printf("SizeofSliceBytes:%v sizeof:%d\n",i,size)
-	data:=code.EncodeSliceBytes(buf,&i)
+	data:=code.EncodeSliceBytes(buf,i)
 	fmt.Printf("EncodeSliceBytes:%v to []byte:%v\n",i,data)
 	var v =make([][]byte,2)
 	n:=code.DecodeSliceBytes(data,&v)
@@ -227,32 +227,32 @@ go test -v -run="none" -bench=. -benchtime=30s
 goos: darwin
 goarch: amd64
 pkg: github.com/hslam/code
-BenchmarkCodeUint8-4          	1000000000	         0.316 ns/op	3162.97 MB/s
-BenchmarkCodeUint16-4         	1000000000	         0.314 ns/op	6377.94 MB/s
-BenchmarkCodeUint32-4         	1000000000	         0.616 ns/op	6496.00 MB/s
-BenchmarkCodeUint64-4         	1000000000	         3.69 ns/op	2166.61 MB/s
-BenchmarkCodeInt-4            	1000000000	         6.96 ns/op	 287.23 MB/s
-BenchmarkCodeVarint-4         	1000000000	         7.13 ns/op	 280.39 MB/s
-BenchmarkCodeFloat32-4        	1000000000	         0.617 ns/op	6485.05 MB/s
-BenchmarkCodeFloat64-4        	1000000000	         3.70 ns/op	2162.81 MB/s
-BenchmarkCodeBool-4           	1000000000	         0.637 ns/op	1570.83 MB/s
-BenchmarkCodeString-4         	1000000000	        10.6 ns/op	 188.89 MB/s
-BenchmarkCodeBytes-4          	1000000000	        11.1 ns/op	 180.84 MB/s
-BenchmarkCodeSliceBytes-4     	1000000000	        28.0 ns/op	 142.71 MB/s
-BenchmarkSizeofUint8-4        	1000000000	         0.312 ns/op	3203.35 MB/s
-BenchmarkSizeofUint16-4       	1000000000	         0.309 ns/op	6463.51 MB/s
-BenchmarkSizeofUint32-4       	1000000000	         0.310 ns/op	12903.88 MB/s
-BenchmarkSizeofUint64-4       	1000000000	         0.311 ns/op	25729.40 MB/s
-BenchmarkSizeofInt-4          	1000000000	         0.310 ns/op	6451.63 MB/s
-BenchmarkSizeofVarint-4       	1000000000	         0.310 ns/op	6452.42 MB/s
-BenchmarkSizeofFloat32-4      	1000000000	         0.311 ns/op	12852.80 MB/s
-BenchmarkSizeofFloat64-4      	1000000000	         0.311 ns/op	25740.42 MB/s
-BenchmarkSizeofBool-4         	1000000000	         0.311 ns/op	3219.39 MB/s
-BenchmarkSizeofString-4       	1000000000	         1.72 ns/op	 581.15 MB/s
-BenchmarkSizeofBytes-4        	1000000000	         1.73 ns/op	 576.86 MB/s
-BenchmarkSizeofSliceBytes-4   	1000000000	         3.57 ns/op	 560.76 MB/s
+BenchmarkCodeUint8-4          	1000000000	         0.626 ns/op	1597.52 MB/s
+BenchmarkCodeUint16-4         	1000000000	         0.631 ns/op	3171.74 MB/s
+BenchmarkCodeUint32-4         	1000000000	         0.618 ns/op	6469.81 MB/s
+BenchmarkCodeUint64-4         	1000000000	         3.71 ns/op	2156.23 MB/s
+BenchmarkCodeInt-4            	1000000000	         7.34 ns/op	 272.32 MB/s
+BenchmarkCodeVarint-4         	1000000000	         7.12 ns/op	 281.03 MB/s
+BenchmarkCodeFloat32-4        	1000000000	         0.311 ns/op	12844.64 MB/s
+BenchmarkCodeFloat64-4        	1000000000	         3.71 ns/op	2155.96 MB/s
+BenchmarkCodeBool-4           	1000000000	         0.311 ns/op	3218.10 MB/s
+BenchmarkCodeString-4         	1000000000	        10.2 ns/op	 196.33 MB/s
+BenchmarkCodeBytes-4          	1000000000	        10.7 ns/op	 187.01 MB/s
+BenchmarkCodeSliceBytes-4     	1000000000	        25.1 ns/op	 159.51 MB/s
+BenchmarkSizeofUint8-4        	1000000000	         0.312 ns/op	3204.05 MB/s
+BenchmarkSizeofUint16-4       	1000000000	         0.310 ns/op	6452.75 MB/s
+BenchmarkSizeofUint32-4       	1000000000	         0.310 ns/op	12905.50 MB/s
+BenchmarkSizeofUint64-4       	1000000000	         0.310 ns/op	25765.30 MB/s
+BenchmarkSizeofInt-4          	1000000000	         0.312 ns/op	6400.29 MB/s
+BenchmarkSizeofVarint-4       	1000000000	         0.309 ns/op	6469.84 MB/s
+BenchmarkSizeofFloat32-4      	1000000000	         0.315 ns/op	12689.66 MB/s
+BenchmarkSizeofFloat64-4      	1000000000	         0.310 ns/op	25788.69 MB/s
+BenchmarkSizeofBool-4         	1000000000	         0.310 ns/op	3224.82 MB/s
+BenchmarkSizeofString-4       	1000000000	         0.310 ns/op	3222.34 MB/s
+BenchmarkSizeofBytes-4        	1000000000	         0.313 ns/op	3199.32 MB/s
+BenchmarkSizeofSliceBytes-4   	1000000000	         3.08 ns/op	 648.42 MB/s
 PASS
-ok  	github.com/hslam/code	91.884s
+ok  	github.com/hslam/code	84.665s
 ```
 
 ### Licence

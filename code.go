@@ -39,14 +39,14 @@ func Encode(buf []byte,v interface{}) ([]byte, error) {
 func Decode(data []byte, v interface{}) error {
 	return nil
 }
-func EncodeUint8(buf []byte,v *uint8) []byte {
+func EncodeUint8(buf []byte,v uint8) []byte {
 	var s []byte
 	if cap(buf) >= 1 {
 		s = buf[:1]
 	} else {
 		s = make([]byte, 1)
 	}
-	s[0]=uint8(*v)
+	s[0]=uint8(v)
 	return s
 }
 
@@ -54,17 +54,19 @@ func DecodeUint8(buf []byte,v *uint8) ( n int)  {
 	*v = uint8(buf[0])
 	return 1
 }
+
 func SizeofUint8() int {
 	return 1
 }
-func EncodeUint16(buf []byte,v *uint16) []byte {
+
+func EncodeUint16(buf []byte,v uint16) []byte {
 	var s []byte
 	if cap(buf) >= 2 {
 		s = buf[:2]
 	} else {
 		s = make([]byte, 2)
 	}
-	var t = *v
+	var t = v
 	s[0]=uint8(t)
 	s[1]=uint8(t>>8)
 	return s
@@ -77,17 +79,19 @@ func DecodeUint16(buf []byte,v *uint16) ( n int)  {
 	*v=t
 	return 2
 }
+
 func SizeofUint16() int {
 	return 2
 }
-func EncodeUint32(buf []byte,v *uint32) []byte {
+
+func EncodeUint32(buf []byte,v uint32) []byte {
 	var s []byte
 	if cap(buf) >= 4 {
 		s = buf[:4]
 	} else {
 		s = make([]byte, 4)
 	}
-	var t = *v
+	var t = v
 	s[0]=uint8(t)
 	s[1]=uint8(t>>8)
 	s[2]=uint8(t>>16)
@@ -104,17 +108,19 @@ func DecodeUint32(buf []byte,v *uint32) ( n int)  {
 	*v=t
 	return 4
 }
+
 func SizeofUint32() int {
 	return 4
 }
-func EncodeUint64(buf []byte,v *uint64) []byte {
+
+func EncodeUint64(buf []byte,v uint64) []byte {
 	var s []byte
 	if cap(buf) >= 8 {
 		s = buf[:8]
 	} else {
 		s = make([]byte, 8)
 	}
-	var t =*v
+	var t =v
 	s[0]=uint8(t)
 	s[1]=uint8(t>>8)
 	s[2]=uint8(t>>16)
@@ -139,12 +145,14 @@ func DecodeUint64(buf []byte,v *uint64) ( n int)  {
 	*v=t
 	return 8
 }
+
 func SizeofUint64() int {
 	return 8
 }
-func EncodeInt(buf []byte,v *uint64) []byte {
+
+func EncodeInt(buf []byte,v uint64) []byte {
 	var s []byte
-	var t = *v
+	var t = v
 
 	var size =SizeofInt(v)
 	if cap(buf) >= size {
@@ -215,8 +223,8 @@ done:
 	return n
 }
 
-func SizeofInt(v *uint64) int {
-	var t = *v
+func SizeofInt(v uint64) int {
+	var t = v
 	switch {
 	case t ==0:
 		return 1
@@ -239,9 +247,9 @@ func SizeofInt(v *uint64) int {
 	}
 }
 
-func EncodeVarint(buf []byte,v *uint64) []byte {
+func EncodeVarint(buf []byte,v uint64) []byte {
 	var s []byte
-	var t = *v
+	var t = v
 	var size =SizeofVarint(v)
 	if cap(buf) >= size {
 		s = buf[:size]
@@ -321,8 +329,8 @@ done:
 }
 
 
-func SizeofVarint(v *uint64) int {
-	var t = *v
+func SizeofVarint(v uint64) int {
+	var t = v
 	switch {
 	case t < v7:
 		return 1
@@ -347,14 +355,14 @@ func SizeofVarint(v *uint64) int {
 	}
 }
 
-func  EncodeFloat32(buf []byte,f *float32) []byte {
+func  EncodeFloat32(buf []byte,f float32) []byte {
 	var s []byte
 	if cap(buf) >= 4 {
 		s = buf[:4]
 	} else {
 		s = make([]byte, 4)
 	}
-	v:=*(*uint32)(unsafe.Pointer(f))
+	v:=*(*uint32)(unsafe.Pointer(&f))
 	s[0]=uint8(v)
 	s[1]=uint8(v>>8)
 	s[2]=uint8(v>>16)
@@ -374,8 +382,8 @@ func DecodeFloat32(d []byte,f *float32) ( n int ) {
 func SizeofFloat32() int {
 	return 4
 }
-func EncodeFloat64(buf []byte,f *float64) []byte {
-	v:=*(*uint64)(unsafe.Pointer(f))
+func EncodeFloat64(buf []byte,f float64) []byte {
+	v:=*(*uint64)(unsafe.Pointer(&f))
 	var s []byte
 	if cap(buf) >= 8 {
 		s = buf[:8]
@@ -410,7 +418,7 @@ func SizeofFloat64() int {
 	return 8
 }
 
-func EncodeBool(buf []byte,v *bool) []byte {
+func EncodeBool(buf []byte,v bool) []byte {
 	var s []byte
 	size:=1
 	if cap(buf) >= size {
@@ -418,7 +426,7 @@ func EncodeBool(buf []byte,v *bool) []byte {
 	} else {
 		s = make([]byte, size)
 	}
-	if !*v{
+	if !v{
 		s[0]=0
 	}else{
 		s[0]=1
@@ -442,10 +450,10 @@ func SizeofBool() int {
 	return 1
 }
 
-func EncodeString(buf []byte,v *string) []byte {
+func EncodeString(buf []byte,v string) []byte {
 	var s []byte
-	length:=uint64(len(*v))
-	length_size:=SizeofVarint(&length)
+	length:=uint64(len(v))
+	length_size:=SizeofVarint(length)
 	var size int =length_size+int(length)
 	if cap(buf) >= size {
 		s = buf[:size]
@@ -458,7 +466,7 @@ func EncodeString(buf []byte,v *string) []byte {
 		t >>= 7
 	}
 	s[length_size-1] = byte(t)
-	copy(s[length_size:],*v)
+	copy(s[length_size:],v)
 	return s
 }
 
@@ -518,14 +526,14 @@ done:
 	*s=*(*string)(unsafe.Pointer(&b))
 	return n+int(t)
 }
-func SizeofString(v *string) int {
-	length:=uint64(len(*v))
-	return SizeofVarint(&length)+len(*v)
+func SizeofString(v string) int {
+	length:=uint64(len(v))
+	return SizeofVarint(length)+len(v)
 }
-func EncodeBytes(buf []byte,v *[]byte) []byte {
+func EncodeBytes(buf []byte,v []byte) []byte {
 	var s []byte
-	length:=uint64(len(*v))
-	length_size:=SizeofVarint(&length)
+	length:=uint64(len(v))
+	length_size:=SizeofVarint(length)
 	var size int =length_size+int(length)
 	if cap(buf) >= size {
 		s = buf[:size]
@@ -538,7 +546,7 @@ func EncodeBytes(buf []byte,v *[]byte) []byte {
 		t >>= 7
 	}
 	s[length_size-1] = byte(t)
-	copy(s[length_size:],*v)
+	copy(s[length_size:],v)
 	return s
 }
 func DecodeBytes(d []byte,s *[]byte) ( n int) {
@@ -596,17 +604,17 @@ done:
 	return n+int(t)
 }
 
-func SizeofBytes(v *[]byte) int {
-	length:=uint64(len(*v))
-	return SizeofVarint(&length)+len(*v)
+func SizeofBytes(v []byte) int {
+	length:=len(v)
+	return SizeofVarint(uint64(length))+length
 }
-func EncodeSliceBytes(buf []byte,d *[][]byte) []byte {
+func EncodeSliceBytes(buf []byte,d [][]byte) []byte {
 	var s []byte
 	var offset int
 	var size int
-	for _,v:=range *d{
+	for _,v:=range d{
 		length:=uint64(len(v))
-		length_size:=SizeofVarint(&length)
+		length_size:=SizeofVarint(length)
 		size+=length_size+int(length)
 		t:=length
 		for i := 0;i<length_size-1;i++ {
@@ -700,11 +708,11 @@ func DecodeSliceBytes(d []byte,s *[][]byte) (n int) {
 	return offset
 }
 
-func SizeofSliceBytes(d *[][]byte) int {
+func SizeofSliceBytes(d [][]byte) int {
 	var size int
-	for _,v:=range *d{
+	for _,v:=range d{
 		length:=uint64(len(v))
-		s:=SizeofVarint(&length)
+		s:=SizeofVarint(length)
 		size+=s+int(length)
 	}
 	return size
