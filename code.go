@@ -39,7 +39,7 @@ func Encode(buf []byte,v interface{}) ([]byte, error) {
 func Decode(data []byte, v interface{}) error {
 	return nil
 }
-func EncodeUint8(buf []byte,v uint8) []byte {
+func EncodeUint8(buf []byte,v uint8) uint64 {
 	var s []byte
 	if cap(buf) >= 1 {
 		s = buf[:1]
@@ -47,19 +47,19 @@ func EncodeUint8(buf []byte,v uint8) []byte {
 		s = make([]byte, 1)
 	}
 	s[0]=uint8(v)
-	return s
+	return 1
 }
 
-func DecodeUint8(buf []byte,v *uint8) ( n int)  {
+func DecodeUint8(buf []byte,v *uint8) uint64 {
 	*v = uint8(buf[0])
 	return 1
 }
 
-func SizeofUint8() int {
+func SizeofUint8() uint64 {
 	return 1
 }
 
-func EncodeUint16(buf []byte,v uint16) []byte {
+func EncodeUint16(buf []byte,v uint16) uint64 {
 	var s []byte
 	if cap(buf) >= 2 {
 		s = buf[:2]
@@ -69,10 +69,10 @@ func EncodeUint16(buf []byte,v uint16) []byte {
 	var t = v
 	s[0]=uint8(t)
 	s[1]=uint8(t>>8)
-	return s
+	return 2
 }
 
-func DecodeUint16(buf []byte,v *uint16) ( n int)  {
+func DecodeUint16(buf []byte,v *uint16) uint64 {
 	var t uint16
 	t = uint16(buf[0])
 	t |= uint16(buf[1]) << 8
@@ -80,11 +80,11 @@ func DecodeUint16(buf []byte,v *uint16) ( n int)  {
 	return 2
 }
 
-func SizeofUint16() int {
+func SizeofUint16() uint64 {
 	return 2
 }
 
-func EncodeUint32(buf []byte,v uint32) []byte {
+func EncodeUint32(buf []byte,v uint32) uint64 {
 	var s []byte
 	if cap(buf) >= 4 {
 		s = buf[:4]
@@ -96,10 +96,10 @@ func EncodeUint32(buf []byte,v uint32) []byte {
 	s[1]=uint8(t>>8)
 	s[2]=uint8(t>>16)
 	s[3]=uint8(t>>24)
-	return s
+	return 4
 }
 
-func DecodeUint32(buf []byte,v *uint32) ( n int)  {
+func DecodeUint32(buf []byte,v *uint32) uint64 {
 	var t uint32
 	t = uint32(buf[0])
 	t |= uint32(buf[1]) << 8
@@ -109,11 +109,11 @@ func DecodeUint32(buf []byte,v *uint32) ( n int)  {
 	return 4
 }
 
-func SizeofUint32() int {
+func SizeofUint32() uint64 {
 	return 4
 }
 
-func EncodeUint64(buf []byte,v uint64) []byte {
+func EncodeUint64(buf []byte,v uint64) uint64 {
 	var s []byte
 	if cap(buf) >= 8 {
 		s = buf[:8]
@@ -129,10 +129,10 @@ func EncodeUint64(buf []byte,v uint64) []byte {
 	s[5]=uint8(t>>40)
 	s[6]=uint8(t>>48)
 	s[7]=uint8(t>>56)
-	return s
+	return 8
 }
 
-func DecodeUint64(buf []byte,v *uint64) ( n int)  {
+func DecodeUint64(buf []byte,v *uint64) uint64 {
 	var t uint64
 	t = uint64(buf[0])
 	t |= uint64(buf[1]) << 8
@@ -146,31 +146,32 @@ func DecodeUint64(buf []byte,v *uint64) ( n int)  {
 	return 8
 }
 
-func SizeofUint64() int {
+func SizeofUint64() uint64 {
 	return 8
 }
 
-func EncodeInt(buf []byte,v uint64) []byte {
+func EncodeInt(buf []byte,v uint64) uint64{
 	var s []byte
 	var t = v
 
 	var size =SizeofInt(v)
-	if cap(buf) >= size {
+	if uint64(cap(buf)) >= size {
 		s = buf[:size]
 	} else {
 		s = make([]byte, size)
 	}
 	s[0]=byte(size-1)
-	for i:=1;i<size;i++ {
+	for i:=uint64(1);i<size;i++ {
 		s[i] = byte(t)
 		t>>= 8
 	}
-	return s
+	return size
 }
 
-func DecodeInt(buf []byte,v *uint64) ( n int)  {
+func DecodeInt(buf []byte,v *uint64) uint64 {
 	size:=int(buf[0])
 	var t uint64
+	var n uint64
 
 	//for n = 1; n < size+1; n++ {
 	//	t |= uint64(buf[n]) << (uint(n-1)*8)
@@ -223,7 +224,7 @@ done:
 	return n
 }
 
-func SizeofInt(v uint64) int {
+func SizeofInt(v uint64) uint64 {
 	var t = v
 	switch {
 	case t ==0:
@@ -247,26 +248,26 @@ func SizeofInt(v uint64) int {
 	}
 }
 
-func EncodeVarint(buf []byte,v uint64) []byte {
+func EncodeVarint(buf []byte,v uint64) uint64{
 	var s []byte
 	var t = v
 	var size =SizeofVarint(v)
-	if cap(buf) >= size {
+	if uint64(cap(buf)) >= size {
 		s = buf[:size]
 	} else {
 		s = make([]byte, size)
 	}
-	for i := 0;i<size-1;i++ {
+	for i := uint64(0);i<size-1;i++ {
 		s[i] = byte(t) | msb7
 		t >>= 7
 	}
 	s[size-1] = byte(t)
-	return s
+	return size
 }
 
-func DecodeVarint(d []byte,v *uint64) (n int) {
+func DecodeVarint(d []byte,v *uint64)uint64 {
 	var t uint64
-
+	var n uint64
 	//shift := uint8(7)
 	//t = uint64(d[n]&mask7)
 	//for d[n]&msb7 == msb7 {
@@ -329,7 +330,7 @@ done:
 }
 
 
-func SizeofVarint(v uint64) int {
+func SizeofVarint(v uint64) uint64 {
 	var t = v
 	switch {
 	case t < v7:
@@ -355,7 +356,7 @@ func SizeofVarint(v uint64) int {
 	}
 }
 
-func  EncodeFloat32(buf []byte,f float32) []byte {
+func  EncodeFloat32(buf []byte,f float32) uint64 {
 	var s []byte
 	if cap(buf) >= 4 {
 		s = buf[:4]
@@ -367,10 +368,10 @@ func  EncodeFloat32(buf []byte,f float32) []byte {
 	s[1]=uint8(v>>8)
 	s[2]=uint8(v>>16)
 	s[3]=uint8(v>>24)
-	return s
+	return 4
 }
 
-func DecodeFloat32(d []byte,f *float32) ( n int ) {
+func DecodeFloat32(d []byte,f *float32) uint64 {
 	var v uint64
 	v |= uint64(d[0])
 	v |= uint64(d[1]) <<8
@@ -379,10 +380,10 @@ func DecodeFloat32(d []byte,f *float32) ( n int ) {
 	*f=*(*float32)(unsafe.Pointer(&v))
 	return 4
 }
-func SizeofFloat32() int {
+func SizeofFloat32() uint64 {
 	return 4
 }
-func EncodeFloat64(buf []byte,f float64) []byte {
+func EncodeFloat64(buf []byte,f float64) uint64 {
 	v:=*(*uint64)(unsafe.Pointer(&f))
 	var s []byte
 	if cap(buf) >= 8 {
@@ -398,10 +399,10 @@ func EncodeFloat64(buf []byte,f float64) []byte {
 	s[5]=uint8(v>>40)
 	s[6]=uint8(v>>48)
 	s[7]=uint8(v>>56)
-	return s
+	return 8
 }
 
-func DecodeFloat64(d []byte,f *float64) (n int ) {
+func DecodeFloat64(d []byte,f *float64)uint64{
 	var v uint64
 	v |= uint64(d[0])
 	v |= uint64(d[1]) <<8
@@ -414,11 +415,11 @@ func DecodeFloat64(d []byte,f *float64) (n int ) {
 	*f=*(*float64)(unsafe.Pointer(&v))
 	return 8
 }
-func SizeofFloat64() int {
+func SizeofFloat64() uint64 {
 	return 8
 }
 
-func EncodeBool(buf []byte,v bool) []byte {
+func EncodeBool(buf []byte,v bool) uint64 {
 	var s []byte
 	size:=1
 	if cap(buf) >= size {
@@ -431,10 +432,10 @@ func EncodeBool(buf []byte,v bool) []byte {
 	}else{
 		s[0]=1
 	}
-	return s
+	return 1
 }
 
-func DecodeBool(d []byte,s *bool) ( n int) {
+func DecodeBool(d []byte,s *bool)uint64 {
 	if len(d)==0{
 		*s=false
 		return 0
@@ -446,32 +447,33 @@ func DecodeBool(d []byte,s *bool) ( n int) {
 	*s=true
 	return 1
 }
-func SizeofBool() int {
+func SizeofBool() uint64 {
 	return 1
 }
 
-func EncodeString(buf []byte,v string) []byte {
+func EncodeString(buf []byte,v string) uint64{
 	var s []byte
 	length:=uint64(len(v))
 	length_size:=SizeofVarint(length)
-	var size int =length_size+int(length)
-	if cap(buf) >= size {
+	var size uint64 =length_size+length
+	if uint64(cap(buf) )>= size {
 		s = buf[:size]
 	} else {
 		s = make([]byte, size)
 	}
 	t:=length
-	for i := 0;i<length_size-1;i++ {
+	for i := uint64(0);i<length_size-1;i++ {
 		s[i] = byte(t) | msb7
 		t >>= 7
 	}
 	s[length_size-1] = byte(t)
 	copy(s[length_size:],v)
-	return s
+	return size
 }
 
-func DecodeString(d []byte,s *string) ( n int ) {
+func DecodeString(d []byte,s *string)uint64{
 	var t uint64
+	var n uint64
 	t = uint64(d[n]&mask7)
 	if d[n]&msb7 == 0 {
 		goto done
@@ -522,35 +524,36 @@ func DecodeString(d []byte,s *string) ( n int ) {
 done:
 	n++
 
-	b:=d[n:n+int(t)]
+	b:=d[n:n+t]
 	*s=*(*string)(unsafe.Pointer(&b))
-	return n+int(t)
+	return n+t
 }
-func SizeofString(v string) int {
+func SizeofString(v string) uint64 {
 	length:=uint64(len(v))
-	return SizeofVarint(length)+len(v)
+	return SizeofVarint(length)+length
 }
-func EncodeBytes(buf []byte,v []byte) []byte {
+func EncodeBytes(buf []byte,v []byte) uint64 {
 	var s []byte
 	length:=uint64(len(v))
 	length_size:=SizeofVarint(length)
-	var size int =length_size+int(length)
-	if cap(buf) >= size {
+	var size uint64 =length_size+length
+	if uint64(cap(buf) )>= size {
 		s = buf[:size]
 	} else {
 		s = make([]byte, size)
 	}
 	t:=length
-	for i := 0;i<length_size-1;i++ {
+	for i := uint64(0);i<length_size-1;i++ {
 		s[i] = byte(t) | msb7
 		t >>= 7
 	}
 	s[length_size-1] = byte(t)
 	copy(s[length_size:],v)
-	return s
+	return size
 }
-func DecodeBytes(d []byte,s *[]byte) ( n int) {
+func DecodeBytes(d []byte,s *[]byte) uint64 {
 	var t uint64
+	var n uint64
 	t = uint64(d[n]&mask7)
 	if d[n]&msb7 == 0 {
 		goto done
@@ -600,47 +603,48 @@ func DecodeBytes(d []byte,s *[]byte) ( n int) {
 	goto done
 done:
 	n++
-	*s=d[n:n+int(t)]
-	return n+int(t)
+	*s=d[n:n+t]
+	return n+t
 }
 
-func SizeofBytes(v []byte) int {
-	length:=len(v)
-	return SizeofVarint(uint64(length))+length
+func SizeofBytes(v []byte) uint64 {
+	length:=uint64(len(v))
+	return SizeofVarint(length)+length
 }
-func EncodeSliceBytes(buf []byte,d [][]byte) []byte {
-	var s []byte
-	var offset int
-	var size int
+func EncodeSliceBytes(buf []byte,d [][]byte)uint64 {
+	var offset uint64
+	var size uint64
 	for _,v:=range d{
 		length:=uint64(len(v))
 		length_size:=SizeofVarint(length)
-		size+=length_size+int(length)
+		size+=length_size+length
 		t:=length
-		for i := 0;i<length_size-1;i++ {
-			s[offset+i] = byte(t) | msb7
+		if uint64(cap(buf)) >= size {
+			buf = buf[:size]
+		} else {
+			tmp:=make([]byte,size)
+			copy(tmp,buf)
+			buf=tmp
+		}
+		for i := uint64(0);i<length_size-1;i++ {
+			buf[offset+i] = byte(t) | msb7
 			t >>= 7
 		}
-		if cap(buf) >= size {
-			s = buf[:size]
-			s[offset+length_size-1] = byte(t)
-			copy(s[offset+length_size:],v)
-		} else {
-			s=append(s,byte(t))
-			s=append(s,v...)
-		}
-		offset+=int(length)+length_size
+		buf[offset+length_size-1] = byte(t)
+		copy(buf[offset+length_size:],v)
+		offset+=length+length_size
 	}
-	return s
+	return size
 }
 
-func DecodeSliceBytes(d []byte,s *[][]byte) (n int) {
-	var l int
-	var offset int
-	var i int
-	for offset<len(d){
+func DecodeSliceBytes(d []byte,s *[][]byte) uint64{
+	var l uint64
+	var offset uint64
+	var i uint64
+	var n uint64
+	for offset<uint64(len(d)){
 		buf:=d[offset:]
-		j:=0
+		j:=uint64(0)
 		var t uint64
 		t = uint64(buf[j]&mask7)
 		if buf[j]&msb7 == 0 {
@@ -695,25 +699,25 @@ func DecodeSliceBytes(d []byte,s *[][]byte) (n int) {
 		n=j
 		l++
 
-		b:=d[offset+n:offset+n+int(t)]
-		if cap(*s) >= l {
+		b:=d[offset+n:offset+n+t]
+		if uint64(cap(*s)) >= l {
 			*s = (*s)[:l]
 			(*s)[i]=b
 		} else {
 			*s=append(*s,b)
 		}
 		i++
-		offset+=n+int(t)
+		offset+=n+t
 	}
 	return offset
 }
 
-func SizeofSliceBytes(d [][]byte) int {
-	var size int
+func SizeofSliceBytes(d [][]byte) uint64 {
+	var size uint64
 	for _,v:=range d{
 		length:=uint64(len(v))
 		s:=SizeofVarint(length)
-		size+=s+int(length)
+		size+=s+length
 	}
 	return size
 }
