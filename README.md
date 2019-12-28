@@ -27,18 +27,18 @@ A code library written in golang for encoding and decoding.
 
 ### Install
 ```
-go get github.com/hslam/code
+go get hslam.com/git/x/code
 ```
 ### Import
 ```
-import "github.com/hslam/code"
+import "hslam.com/git/x/code"
 ```
 ### Usage
 #### Example
 ```
 package main
 import (
-	"github.com/hslam/code"
+	"hslam.com/git/x/code"
 	"fmt"
 )
 func main()  {
@@ -384,7 +384,7 @@ go test -v -run="none" -bench=. -benchtime=30s
 ```
 goos: darwin
 goarch: amd64
-pkg: github.com/hslam/code
+pkg: hslam.com/git/x/code
 BenchmarkCodeUint8-4            	1000000000	         0.319 ns/op	3131.82 MB/s
 BenchmarkCodeUint16-4           	1000000000	         0.316 ns/op	6338.31 MB/s
 BenchmarkCodeUint32-4           	1000000000	         0.314 ns/op	12725.54 MB/s
@@ -426,7 +426,7 @@ BenchmarkSizeofSliceBool-4      	1000000000	         0.315 ns/op	3178.47 MB/s
 BenchmarkSizeofSliceString-4    	1000000000	         3.27 ns/op	 611.40 MB/s
 BenchmarkSizeofSliceBytes-4     	1000000000	         3.12 ns/op	 641.27 MB/s
 PASS
-ok  	github.com/hslam/code	200.258s
+ok  	hslam.com/git/x/code	200.258s
 ```
 
 ### Licence

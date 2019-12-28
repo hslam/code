@@ -6,24 +6,15 @@ import (
 
 const (
 	v7 =1<<7
-	v8 =1<<8
 	v14=1<<14
-	v16=1<<16
 	v21=1<<21
-	v24=1<<24
 	v28=1<<28
-	v32=1<<32
 	v35=1<<35
-	v40=1<<40
 	v42=1<<42
-	v48=1<<48
 	v49=1<<49
 	v56=1<<56
 	v63=1<<63
-
 	mask7=-1 ^ (-1 << 7)
-	mask8=-1 ^ (-1 << 8)
-
 	msb7= 1<<7
 )
 
@@ -34,6 +25,7 @@ func Encode(buf []byte,v interface{}) ([]byte, error) {
 func Decode(data []byte, v interface{}) error {
 	return nil
 }
+
 func EncodeUint8(buf []byte,v uint8) uint64 {
 	if cap(buf) >= 1 {
 		buf = buf[:1]
@@ -160,6 +152,7 @@ func EncodeVarint(buf []byte,v uint64) uint64{
 func DecodeVarint(d []byte,v *uint64)uint64 {
 	var t uint64
 	var n uint64
+
 	//shift := uint8(7)
 	//t = uint64(d[n]&mask7)
 	//for d[n]&msb7 == msb7 {
@@ -271,9 +264,11 @@ func DecodeFloat32(d []byte,f *float32) uint64 {
 	*f=*(*float32)(unsafe.Pointer(&v))
 	return 4
 }
+
 func SizeofFloat32() uint64 {
 	return 4
 }
+
 func EncodeFloat64(buf []byte,f float64) uint64 {
 	v:=*(*uint64)(unsafe.Pointer(&f))
 	if cap(buf) >= 8 {
@@ -305,6 +300,7 @@ func DecodeFloat64(d []byte,f *float64)uint64{
 	*f=*(*float64)(unsafe.Pointer(&v))
 	return 8
 }
+
 func SizeofFloat64() uint64 {
 	return 8
 }
@@ -336,6 +332,7 @@ func DecodeBool(d []byte,s *bool)uint64 {
 	*s=true
 	return 1
 }
+
 func SizeofBool() uint64 {
 	return 1
 }
@@ -418,6 +415,7 @@ done:
 	*s=*(*string)(unsafe.Pointer(&b))
 	return n+t
 }
+
 func SizeofString(v string) uint64 {
 	length:=uint64(len(v))
 	return SizeofVarint(length)+length
@@ -441,6 +439,7 @@ func EncodeBytes(buf []byte,v []byte) uint64 {
 	copy(buf[length_size:],v)
 	return size
 }
+
 func DecodeBytes(d []byte,s *[]byte) uint64 {
 	var t uint64
 	var n uint64
@@ -501,7 +500,6 @@ func SizeofBytes(v []byte) uint64 {
 	length:=uint64(len(v))
 	return SizeofVarint(length)+length
 }
-
 
 func EncodeSliceUint8(buf []byte,d []uint8)uint64 {
 	var offset uint64
@@ -603,7 +601,6 @@ func SizeofSliceUint8(d []uint8) uint64 {
 	var length uint64 =uint64(len(d))
 	return SizeofVarint(length)+length
 }
-
 
 func EncodeSliceUint16(buf []byte,d []uint16)uint64 {
 	var offset uint64
@@ -707,7 +704,6 @@ func SizeofSliceUint16(d []uint16) uint64 {
 	var length uint64 =uint64(len(d))
 	return SizeofVarint(length)+length*2
 }
-
 
 func EncodeSliceUint32(buf []byte,d []uint32)uint64 {
 	var offset uint64
@@ -1098,8 +1094,6 @@ func SizeofSliceVarint(d []uint64) uint64 {
 	}
 	return size
 }
-
-
 
 func EncodeSliceFloat32 (buf []byte,d []float32)uint64 {
 	var offset uint64

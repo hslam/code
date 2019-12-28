@@ -1,8 +1,10 @@
 package main
+
 import (
-	"github.com/hslam/code"
+	"hslam.com/git/x/code"
 	"fmt"
 )
+
 func main()  {
 	Uint8()
 	Uint16()
@@ -25,6 +27,7 @@ func main()  {
 	SliceString()
 	SliceBytes()
 }
+
 func Uint8()  {
 	var buf =make([]byte,4)
 	var i uint8=128
