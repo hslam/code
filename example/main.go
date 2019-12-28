@@ -8,13 +8,21 @@ func main()  {
 	Uint16()
 	Uint32()
 	Uint64()
-	Int()
 	Varint()
 	Float32()
 	Float64()
 	Bool()
 	String()
 	Bytes()
+	SliceUint8()
+	SliceUint16()
+	SliceUint32()
+	SliceUint64()
+	SliceVarint()
+	SliceFloat32()
+	SliceFloat64()
+	SliceBool()
+	SliceString()
 	SliceBytes()
 }
 func Uint8()  {
@@ -65,18 +73,7 @@ func Uint64()  {
 	n=code.DecodeUint64(buf[:n],&v)
 	fmt.Printf("DecodeUint64:%d,length:%d\n",v,n)
 }
-func Int()  {
-	var buf =make([]byte,9)
-	var i uint64=128
-	var n uint64
-	size:=code.SizeofInt(i)
-	fmt.Printf("SizeofInt:%d sizeof:%d\n",i,size)
-	n=code.EncodeInt(buf,i)
-	fmt.Printf("EncodeInt:%d to []byte:%v\n",i,buf[:n])
-	var v uint64
-	n=code.DecodeInt(buf[:n],&v)
-	fmt.Printf("DecodeInt:%d,length:%d\n",v,n)
-}
+
 func Varint()  {
 	var buf =make([]byte,10)
 	var i uint64=128
@@ -103,7 +100,7 @@ func Float32()  {
 }
 func Float64()  {
 	var buf =make([]byte,9)
-	var i float64=3.14
+	var i float64=3.1415926
 	var n uint64
 	size:=code.SizeofFloat64()
 	fmt.Printf("SizeofFloat64:%.2f sizeof:%d\n",i,size)
@@ -149,8 +146,125 @@ func Bytes()  {
 	n=code.DecodeBytes(buf[:n],&v)
 	fmt.Printf("DecodeBytes:%v,length:%d\n",v,n)
 }
+
+
+func SliceUint8()  {
+	var buf =make([]byte,64)
+	var i []uint8=[]uint8{128,255}
+	var n uint64
+	size:=code.SizeofSliceUint8(i)
+	fmt.Printf("SizeofSliceUint8:%v sizeof:%d\n",i,size)
+	n=code.EncodeSliceUint8(buf,i)
+	fmt.Printf("EncodeSliceUint8:%v to []byte:%v\n",i,buf[:n])
+	var v =make([]uint8,2)
+	n=code.DecodeSliceUint8(buf[:n],&v)
+	fmt.Printf("DecodeSliceUint8:%v,length:%d\n",v,n)
+}
+
+func SliceUint16()  {
+	var buf =make([]byte,64)
+	var i []uint16=[]uint16{128,256}
+	var n uint64
+	size:=code.SizeofSliceUint16(i)
+	fmt.Printf("SizeofSliceUint16:%v sizeof:%d\n",i,size)
+	n=code.EncodeSliceUint16(buf,i)
+	fmt.Printf("EncodeSliceUint16:%v to []byte:%v\n",i,buf[:n])
+	var v =make([]uint16,2)
+	n=code.DecodeSliceUint16(buf[:n],&v)
+	fmt.Printf("DecodeSliceUint16:%v,length:%d\n",v,n)
+}
+
+func SliceUint32()  {
+	var buf =make([]byte,64)
+	var i []uint32=[]uint32{128,256}
+	var n uint64
+	size:=code.SizeofSliceUint32(i)
+	fmt.Printf("SizeofSliceUint32:%v sizeof:%d\n",i,size)
+	n=code.EncodeSliceUint32(buf,i)
+	fmt.Printf("EncodeSliceUint32:%v to []byte:%v\n",i,buf[:n])
+	var v =make([]uint32,2)
+	n=code.DecodeSliceUint32(buf[:n],&v)
+	fmt.Printf("DecodeSliceUint32:%v,length:%d\n",v,n)
+}
+
+func SliceUint64()  {
+	var buf =make([]byte,64)
+	var i []uint64=[]uint64{128,256}
+	var n uint64
+	size:=code.SizeofSliceUint64(i)
+	fmt.Printf("SizeofSliceUint64:%v sizeof:%d\n",i,size)
+	n=code.EncodeSliceUint64(buf,i)
+	fmt.Printf("EncodeSliceUint64:%v to []byte:%v\n",i,buf[:n])
+	var v =make([]uint64,2)
+	n=code.DecodeSliceUint64(buf[:n],&v)
+	fmt.Printf("DecodeSliceUint64:%v,length:%d\n",v,n)
+}
+
+func SliceVarint()  {
+	var buf =make([]byte,64)
+	var i []uint64=[]uint64{128,256}
+	var n uint64
+	size:=code.SizeofSliceVarint(i)
+	fmt.Printf("SizeofSliceVarint:%v sizeof:%d\n",i,size)
+	n=code.EncodeSliceVarint(buf,i)
+	fmt.Printf("EncodeSliceVarint:%v to []byte:%v\n",i,buf[:n])
+	var v =make([]uint64,2)
+	n=code.DecodeSliceVarint(buf[:n],&v)
+	fmt.Printf("DecodeSliceVarint:%v,length:%d\n",v,n)
+}
+
+func SliceFloat32()  {
+	var buf =make([]byte,64)
+	var i []float32=[]float32{3.14}
+	var n uint64
+	size:=code.SizeofSliceFloat32(i)
+	fmt.Printf("SizeofSliceFloat32:%v sizeof:%d\n",i,size)
+	n=code.EncodeSliceFloat32(buf,i)
+	fmt.Printf("EncodeSliceFloat32:%v to []byte:%v\n",i,buf[:n])
+	var v =make([]float32,2)
+	n=code.DecodeSliceFloat32(buf[:n],&v)
+	fmt.Printf("DecodeSliceFloat32:%v,length:%d\n",v,n)
+}
+
+func SliceFloat64()  {
+	var buf =make([]byte,64)
+	var i []float64=[]float64{3.1415926}
+	var n uint64
+	size:=code.SizeofSliceFloat64(i)
+	fmt.Printf("SizeofSliceFloat64:%v sizeof:%d\n",i,size)
+	n=code.EncodeSliceFloat64(buf,i)
+	fmt.Printf("EncodeSliceFloat64:%v to []byte:%v\n",i,buf[:n])
+	var v =make([]float64,2)
+	n=code.DecodeSliceFloat64(buf[:n],&v)
+	fmt.Printf("DecodeSliceFloat64:%v,length:%d\n",v,n)
+}
+
+func SliceBool()  {
+	var buf =make([]byte,64)
+	var i []bool=[]bool{true,false}
+	var n uint64
+	size:=code.SizeofSliceBool(i)
+	fmt.Printf("SizeofSliceBool:%v sizeof:%d\n",i,size)
+	n=code.EncodeSliceBool(buf,i)
+	fmt.Printf("EncodeSliceBool:%v to []byte:%v\n",i,buf[:n])
+	var v =make([]bool,2)
+	n=code.DecodeSliceBool(buf[:n],&v)
+	fmt.Printf("DecodeSliceBool:%v,length:%d\n",v,n)
+}
+func SliceString()  {
+	var buf =make([]byte,64)
+	var i []string=[]string{"Hello","World"}
+	var n uint64
+	size:=code.SizeofSliceString(i)
+	fmt.Printf("SizeofSliceString:%v sizeof:%d\n",i,size)
+	n=code.EncodeSliceString(buf,i)
+	fmt.Printf("EncodeSliceString:%v to []byte:%v\n",i,buf[:n])
+	var v =make([]string,2)
+	n=code.DecodeSliceString(buf[:n],&v)
+	fmt.Printf("DecodeSliceString:%v,length:%d\n",v,n)
+}
 func SliceBytes()  {
-	var buf =make([]byte,16)
+	var buf =make([]byte,64)
 	var i [][]byte=[][]byte{{1,2},{3}}
 	var n uint64
 	size:=code.SizeofSliceBytes(i)
