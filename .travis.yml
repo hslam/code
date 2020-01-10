@@ -1,0 +1,12 @@
+language: go
+os:
+  - linux
+go:
+  - 1.13
+install:
+  - go get -t -v -d ./...
+script:
+  - go test .
+after_success:
+  - go build -o main -v ./example/main.go
+  - ./main
