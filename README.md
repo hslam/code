@@ -27,21 +27,23 @@ A code library written in golang for encoding and decoding.
 
 ### Install
 ```
-go get hslam.com/git/x/code
+go get github.com/hslam/code
 ```
 ### Import
 ```
-import "hslam.com/git/x/code"
+import "github.com/hslam/code"
 ```
 ### Usage
 #### Example
 ```
 package main
+
 import (
-	"hslam.com/git/x/code"
 	"fmt"
+	"github.com/hslam/code"
 )
-func main()  {
+
+func main() {
 	Uint8()
 	Uint16()
 	Uint32()
@@ -63,255 +65,285 @@ func main()  {
 	SliceString()
 	SliceBytes()
 }
-func Uint8()  {
-	var buf =make([]byte,4)
-	var i uint8=128
+
+//Uint8 example
+func Uint8() {
+	var buf = make([]byte, 4)
+	var i uint8 = 128
 	var n uint64
-	size:=code.SizeofUint8()
-	fmt.Printf("SizeofUint8:%d sizeof:%d\n",i,size)
-	n=code.EncodeUint8(buf,i)
-	fmt.Printf("EncodeUint8:%d to []byte:%v\n",i,buf[:n])
+	size := code.SizeofUint8(i)
+	fmt.Printf("SizeofUint8:%d sizeof:%d\n", i, size)
+	n = code.EncodeUint8(buf, i)
+	fmt.Printf("EncodeUint8:%d to []byte:%v\n", i, buf[:n])
 	var v uint8
-	n=code.DecodeUint8(buf[:n],&v)
-	fmt.Printf("DecodeUint8:%d,length:%d\n",v,n)
+	n = code.DecodeUint8(buf[:n], &v)
+	fmt.Printf("DecodeUint8:%d,length:%d\n", v, n)
 }
-func Uint16()  {
-	var buf =make([]byte,4)
-	var i uint16=128
+
+//Uint16 example
+func Uint16() {
+	var buf = make([]byte, 4)
+	var i uint16 = 128
 	var n uint64
-	size:=code.SizeofUint16()
-	fmt.Printf("SizeofUint16:%d sizeof:%d\n",i,size)
-	n=code.EncodeUint16(buf,i)
-	fmt.Printf("EncodeUint16:%d to []byte:%v\n",i,buf[:n])
+	size := code.SizeofUint16(i)
+	fmt.Printf("SizeofUint16:%d sizeof:%d\n", i, size)
+	n = code.EncodeUint16(buf, i)
+	fmt.Printf("EncodeUint16:%d to []byte:%v\n", i, buf[:n])
 	var v uint16
-	n=code.DecodeUint16(buf[:n],&v)
-	fmt.Printf("DecodeUint16:%d,length:%d\n",v,n)
+	n = code.DecodeUint16(buf[:n], &v)
+	fmt.Printf("DecodeUint16:%d,length:%d\n", v, n)
 }
-func Uint32()  {
-	var buf =make([]byte,4)
-	var i uint32=128
+
+//Uint32 example
+func Uint32() {
+	var buf = make([]byte, 4)
+	var i uint32 = 128
 	var n uint64
-	size:=code.SizeofUint32()
-	fmt.Printf("SizeofUint32:%d sizeof:%d\n",i,size)
-	n=code.EncodeUint32(buf,i)
-	fmt.Printf("EncodeUint32:%d to []byte:%v\n",i,buf[:n])
+	size := code.SizeofUint32(i)
+	fmt.Printf("SizeofUint32:%d sizeof:%d\n", i, size)
+	n = code.EncodeUint32(buf, i)
+	fmt.Printf("EncodeUint32:%d to []byte:%v\n", i, buf[:n])
 	var v uint32
-	n=code.DecodeUint32(buf[:n],&v)
-	fmt.Printf("DecodeUint32:%d,length:%d\n",v,n)
-}
-func Uint64()  {
-	var buf =make([]byte,8)
-	var i uint64=128
-	var n uint64
-	size:=code.SizeofUint64()
-	fmt.Printf("SizeofUint64:%d sizeof:%d\n",i,size)
-	n=code.EncodeUint64(buf,i)
-	fmt.Printf("EncodeUint64:%d to []byte:%v\n",i,buf[:n])
-	var v uint64
-	n=code.DecodeUint64(buf[:n],&v)
-	fmt.Printf("DecodeUint64:%d,length:%d\n",v,n)
+	n = code.DecodeUint32(buf[:n], &v)
+	fmt.Printf("DecodeUint32:%d,length:%d\n", v, n)
 }
 
-func Varint()  {
-	var buf =make([]byte,10)
-	var i uint64=128
+//Uint64 example
+func Uint64() {
+	var buf = make([]byte, 8)
+	var i uint64 = 128
 	var n uint64
-	size:=code.SizeofVarint(i)
-	fmt.Printf("SizeofVarint:%d sizeof:%d\n",i,size)
-	n=code.EncodeVarint(buf,i)
-	fmt.Printf("EncodeVarint:%d to []byte:%v\n",i,buf[:n])
+	size := code.SizeofUint64(i)
+	fmt.Printf("SizeofUint64:%d sizeof:%d\n", i, size)
+	n = code.EncodeUint64(buf, i)
+	fmt.Printf("EncodeUint64:%d to []byte:%v\n", i, buf[:n])
 	var v uint64
-	n=code.DecodeVarint(buf[:n],&v)
-	fmt.Printf("DecodeVarint:%d,length:%d\n",v,n)
+	n = code.DecodeUint64(buf[:n], &v)
+	fmt.Printf("DecodeUint64:%d,length:%d\n", v, n)
 }
-func Float32()  {
-	var buf =make([]byte,9)
-	var i float32=3.14
+
+//Varint example
+func Varint() {
+	var buf = make([]byte, 10)
+	var i uint64 = 128
 	var n uint64
-	size:=code.SizeofFloat32()
-	fmt.Printf("SizeofFloat32:%.2f sizeof:%d\n",i,size)
-	n=code.EncodeFloat32(buf,i)
-	fmt.Printf("EncodeFloat32:%.2f to []byte:%v\n",i,buf[:n])
+	size := code.SizeofVarint(i)
+	fmt.Printf("SizeofVarint:%d sizeof:%d\n", i, size)
+	n = code.EncodeVarint(buf, i)
+	fmt.Printf("EncodeVarint:%d to []byte:%v\n", i, buf[:n])
+	var v uint64
+	n = code.DecodeVarint(buf[:n], &v)
+	fmt.Printf("DecodeVarint:%d,length:%d\n", v, n)
+}
+
+//Float32 example
+func Float32() {
+	var buf = make([]byte, 9)
+	var i float32 = 3.14
+	var n uint64
+	size := code.SizeofFloat32(i)
+	fmt.Printf("SizeofFloat32:%.2f sizeof:%d\n", i, size)
+	n = code.EncodeFloat32(buf, i)
+	fmt.Printf("EncodeFloat32:%.2f to []byte:%v\n", i, buf[:n])
 	var v float32
-	n=code.DecodeFloat32(buf[:n],&v)
-	fmt.Printf("EncodeFloat32:%.2f,length:%d\n",v,n)
+	n = code.DecodeFloat32(buf[:n], &v)
+	fmt.Printf("EncodeFloat32:%.2f,length:%d\n", v, n)
 }
-func Float64()  {
-	var buf =make([]byte,9)
-	var i float64=3.1415926
+
+//Float64 example
+func Float64() {
+	var buf = make([]byte, 9)
+	var i float64 = 3.1415926
 	var n uint64
-	size:=code.SizeofFloat64()
-	fmt.Printf("SizeofFloat64:%.2f sizeof:%d\n",i,size)
-	n=code.EncodeFloat64(buf,i)
-	fmt.Printf("EncodeFloat64:%.2f to []byte:%v\n",i,buf[:n])
+	size := code.SizeofFloat64(i)
+	fmt.Printf("SizeofFloat64:%.2f sizeof:%d\n", i, size)
+	n = code.EncodeFloat64(buf, i)
+	fmt.Printf("EncodeFloat64:%.2f to []byte:%v\n", i, buf[:n])
 	var v float64
-	n=code.DecodeFloat64(buf[:n],&v)
-	fmt.Printf("DecodeFloat64:%.2f,length:%d\n",v,n)
+	n = code.DecodeFloat64(buf[:n], &v)
+	fmt.Printf("DecodeFloat64:%.2f,length:%d\n", v, n)
 }
-func Bool()  {
-	var buf =make([]byte,16)
-	var i bool=true
+
+//Bool example
+func Bool() {
+	var buf = make([]byte, 16)
+	var i bool = true
 	var n uint64
-	size:=code.SizeofBool()
-	fmt.Printf("SizeofBool:%t sizeof:%d\n",i,size)
-	n=code.EncodeBool(buf,i)
-	fmt.Printf("EncodeBool:%t to []byte:%v\n",i,buf[:n])
+	size := code.SizeofBool(i)
+	fmt.Printf("SizeofBool:%t sizeof:%d\n", i, size)
+	n = code.EncodeBool(buf, i)
+	fmt.Printf("EncodeBool:%t to []byte:%v\n", i, buf[:n])
 	var v bool
-	n=code.DecodeBool(buf[:n],&v)
-	fmt.Printf("DecodeBool:%t,length:%d\n",v,n)
+	n = code.DecodeBool(buf[:n], &v)
+	fmt.Printf("DecodeBool:%t,length:%d\n", v, n)
 }
-func String()  {
-	var buf =make([]byte,16)
-	var i string="Hello"
+
+//String example
+func String() {
+	var buf = make([]byte, 16)
+	var i string = "Hello"
 	var n uint64
-	size:=code.SizeofString(i)
-	fmt.Printf("SizeofString:%s sizeof:%d\n",i,size)
-	n=code.EncodeString(buf,i)
-	fmt.Printf("EncodeString:%s to []byte:%v\n",i,buf[:n])
+	size := code.SizeofString(i)
+	fmt.Printf("SizeofString:%s sizeof:%d\n", i, size)
+	n = code.EncodeString(buf, i)
+	fmt.Printf("EncodeString:%s to []byte:%v\n", i, buf[:n])
 	var v string
-	n=code.DecodeString(buf[:n],&v)
-	fmt.Printf("DecodeString:%s,length:%d\n",v,n)
-}
-func Bytes()  {
-	var buf =make([]byte,16)
-	var i []byte=[]byte{1,2}
-	var n uint64
-	size:=code.SizeofBytes(i)
-	fmt.Printf("SizeofBytes:%v sizeof:%d\n",i,size)
-	n=code.EncodeBytes(buf,i)
-	fmt.Printf("EncodeBytes:%v to []byte:%v\n",i,buf[:n])
-	var v =make([]byte,2)
-	n=code.DecodeBytes(buf[:n],&v)
-	fmt.Printf("DecodeBytes:%v,length:%d\n",v,n)
+	n = code.DecodeString(buf[:n], &v)
+	fmt.Printf("DecodeString:%s,length:%d\n", v, n)
 }
 
-
-func SliceUint8()  {
-	var buf =make([]byte,64)
-	var i []uint8=[]uint8{128,255}
+//Bytes example
+func Bytes() {
+	var buf = make([]byte, 16)
+	var i []byte = []byte{1, 2}
 	var n uint64
-	size:=code.SizeofSliceUint8(i)
-	fmt.Printf("SizeofSliceUint8:%v sizeof:%d\n",i,size)
-	n=code.EncodeSliceUint8(buf,i)
-	fmt.Printf("EncodeSliceUint8:%v to []byte:%v\n",i,buf[:n])
-	var v =make([]uint8,2)
-	n=code.DecodeSliceUint8(buf[:n],&v)
-	fmt.Printf("DecodeSliceUint8:%v,length:%d\n",v,n)
+	size := code.SizeofBytes(i)
+	fmt.Printf("SizeofBytes:%v sizeof:%d\n", i, size)
+	n = code.EncodeBytes(buf, i)
+	fmt.Printf("EncodeBytes:%v to []byte:%v\n", i, buf[:n])
+	var v = make([]byte, 2)
+	n = code.DecodeBytes(buf[:n], &v)
+	fmt.Printf("DecodeBytes:%v,length:%d\n", v, n)
 }
 
-func SliceUint16()  {
-	var buf =make([]byte,64)
-	var i []uint16=[]uint16{128,256}
+//SliceUint8 example
+func SliceUint8() {
+	var buf = make([]byte, 64)
+	var i []uint8 = []uint8{128, 255}
 	var n uint64
-	size:=code.SizeofSliceUint16(i)
-	fmt.Printf("SizeofSliceUint16:%v sizeof:%d\n",i,size)
-	n=code.EncodeSliceUint16(buf,i)
-	fmt.Printf("EncodeSliceUint16:%v to []byte:%v\n",i,buf[:n])
-	var v =make([]uint16,2)
-	n=code.DecodeSliceUint16(buf[:n],&v)
-	fmt.Printf("DecodeSliceUint16:%v,length:%d\n",v,n)
+	size := code.SizeofSliceUint8(i)
+	fmt.Printf("SizeofSliceUint8:%v sizeof:%d\n", i, size)
+	n = code.EncodeSliceUint8(buf, i)
+	fmt.Printf("EncodeSliceUint8:%v to []byte:%v\n", i, buf[:n])
+	var v = make([]uint8, 2)
+	n = code.DecodeSliceUint8(buf[:n], &v)
+	fmt.Printf("DecodeSliceUint8:%v,length:%d\n", v, n)
 }
 
-func SliceUint32()  {
-	var buf =make([]byte,64)
-	var i []uint32=[]uint32{128,256}
+//SliceUint16 example
+func SliceUint16() {
+	var buf = make([]byte, 64)
+	var i []uint16 = []uint16{128, 256}
 	var n uint64
-	size:=code.SizeofSliceUint32(i)
-	fmt.Printf("SizeofSliceUint32:%v sizeof:%d\n",i,size)
-	n=code.EncodeSliceUint32(buf,i)
-	fmt.Printf("EncodeSliceUint32:%v to []byte:%v\n",i,buf[:n])
-	var v =make([]uint32,2)
-	n=code.DecodeSliceUint32(buf[:n],&v)
-	fmt.Printf("DecodeSliceUint32:%v,length:%d\n",v,n)
+	size := code.SizeofSliceUint16(i)
+	fmt.Printf("SizeofSliceUint16:%v sizeof:%d\n", i, size)
+	n = code.EncodeSliceUint16(buf, i)
+	fmt.Printf("EncodeSliceUint16:%v to []byte:%v\n", i, buf[:n])
+	var v = make([]uint16, 2)
+	n = code.DecodeSliceUint16(buf[:n], &v)
+	fmt.Printf("DecodeSliceUint16:%v,length:%d\n", v, n)
 }
 
-func SliceUint64()  {
-	var buf =make([]byte,64)
-	var i []uint64=[]uint64{128,256}
+//SliceUint32 example
+func SliceUint32() {
+	var buf = make([]byte, 64)
+	var i []uint32 = []uint32{128, 256}
 	var n uint64
-	size:=code.SizeofSliceUint64(i)
-	fmt.Printf("SizeofSliceUint64:%v sizeof:%d\n",i,size)
-	n=code.EncodeSliceUint64(buf,i)
-	fmt.Printf("EncodeSliceUint64:%v to []byte:%v\n",i,buf[:n])
-	var v =make([]uint64,2)
-	n=code.DecodeSliceUint64(buf[:n],&v)
-	fmt.Printf("DecodeSliceUint64:%v,length:%d\n",v,n)
+	size := code.SizeofSliceUint32(i)
+	fmt.Printf("SizeofSliceUint32:%v sizeof:%d\n", i, size)
+	n = code.EncodeSliceUint32(buf, i)
+	fmt.Printf("EncodeSliceUint32:%v to []byte:%v\n", i, buf[:n])
+	var v = make([]uint32, 2)
+	n = code.DecodeSliceUint32(buf[:n], &v)
+	fmt.Printf("DecodeSliceUint32:%v,length:%d\n", v, n)
 }
 
-func SliceVarint()  {
-	var buf =make([]byte,64)
-	var i []uint64=[]uint64{128,256}
+//SliceUint64 example
+func SliceUint64() {
+	var buf = make([]byte, 64)
+	var i []uint64 = []uint64{128, 256}
 	var n uint64
-	size:=code.SizeofSliceVarint(i)
-	fmt.Printf("SizeofSliceVarint:%v sizeof:%d\n",i,size)
-	n=code.EncodeSliceVarint(buf,i)
-	fmt.Printf("EncodeSliceVarint:%v to []byte:%v\n",i,buf[:n])
-	var v =make([]uint64,2)
-	n=code.DecodeSliceVarint(buf[:n],&v)
-	fmt.Printf("DecodeSliceVarint:%v,length:%d\n",v,n)
+	size := code.SizeofSliceUint64(i)
+	fmt.Printf("SizeofSliceUint64:%v sizeof:%d\n", i, size)
+	n = code.EncodeSliceUint64(buf, i)
+	fmt.Printf("EncodeSliceUint64:%v to []byte:%v\n", i, buf[:n])
+	var v = make([]uint64, 2)
+	n = code.DecodeSliceUint64(buf[:n], &v)
+	fmt.Printf("DecodeSliceUint64:%v,length:%d\n", v, n)
 }
 
-func SliceFloat32()  {
-	var buf =make([]byte,64)
-	var i []float32=[]float32{3.14}
+//SliceVarint example
+func SliceVarint() {
+	var buf = make([]byte, 64)
+	var i []uint64 = []uint64{128, 256}
 	var n uint64
-	size:=code.SizeofSliceFloat32(i)
-	fmt.Printf("SizeofSliceFloat32:%v sizeof:%d\n",i,size)
-	n=code.EncodeSliceFloat32(buf,i)
-	fmt.Printf("EncodeSliceFloat32:%v to []byte:%v\n",i,buf[:n])
-	var v =make([]float32,2)
-	n=code.DecodeSliceFloat32(buf[:n],&v)
-	fmt.Printf("DecodeSliceFloat32:%v,length:%d\n",v,n)
+	size := code.SizeofSliceVarint(i)
+	fmt.Printf("SizeofSliceVarint:%v sizeof:%d\n", i, size)
+	n = code.EncodeSliceVarint(buf, i)
+	fmt.Printf("EncodeSliceVarint:%v to []byte:%v\n", i, buf[:n])
+	var v = make([]uint64, 2)
+	n = code.DecodeSliceVarint(buf[:n], &v)
+	fmt.Printf("DecodeSliceVarint:%v,length:%d\n", v, n)
 }
 
-func SliceFloat64()  {
-	var buf =make([]byte,64)
-	var i []float64=[]float64{3.1415926}
+//SliceFloat32 example
+func SliceFloat32() {
+	var buf = make([]byte, 64)
+	var i []float32 = []float32{3.14}
 	var n uint64
-	size:=code.SizeofSliceFloat64(i)
-	fmt.Printf("SizeofSliceFloat64:%v sizeof:%d\n",i,size)
-	n=code.EncodeSliceFloat64(buf,i)
-	fmt.Printf("EncodeSliceFloat64:%v to []byte:%v\n",i,buf[:n])
-	var v =make([]float64,2)
-	n=code.DecodeSliceFloat64(buf[:n],&v)
-	fmt.Printf("DecodeSliceFloat64:%v,length:%d\n",v,n)
+	size := code.SizeofSliceFloat32(i)
+	fmt.Printf("SizeofSliceFloat32:%v sizeof:%d\n", i, size)
+	n = code.EncodeSliceFloat32(buf, i)
+	fmt.Printf("EncodeSliceFloat32:%v to []byte:%v\n", i, buf[:n])
+	var v = make([]float32, 2)
+	n = code.DecodeSliceFloat32(buf[:n], &v)
+	fmt.Printf("DecodeSliceFloat32:%v,length:%d\n", v, n)
 }
 
-func SliceBool()  {
-	var buf =make([]byte,64)
-	var i []bool=[]bool{true,false}
+//SliceFloat64 example
+func SliceFloat64() {
+	var buf = make([]byte, 64)
+	var i []float64 = []float64{3.1415926}
 	var n uint64
-	size:=code.SizeofSliceBool(i)
-	fmt.Printf("SizeofSliceBool:%v sizeof:%d\n",i,size)
-	n=code.EncodeSliceBool(buf,i)
-	fmt.Printf("EncodeSliceBool:%v to []byte:%v\n",i,buf[:n])
-	var v =make([]bool,2)
-	n=code.DecodeSliceBool(buf[:n],&v)
-	fmt.Printf("DecodeSliceBool:%v,length:%d\n",v,n)
+	size := code.SizeofSliceFloat64(i)
+	fmt.Printf("SizeofSliceFloat64:%v sizeof:%d\n", i, size)
+	n = code.EncodeSliceFloat64(buf, i)
+	fmt.Printf("EncodeSliceFloat64:%v to []byte:%v\n", i, buf[:n])
+	var v = make([]float64, 2)
+	n = code.DecodeSliceFloat64(buf[:n], &v)
+	fmt.Printf("DecodeSliceFloat64:%v,length:%d\n", v, n)
 }
-func SliceString()  {
-	var buf =make([]byte,64)
-	var i []string=[]string{"Hello","World"}
+
+//SliceBool example
+func SliceBool() {
+	var buf = make([]byte, 64)
+	var i []bool = []bool{true, false}
 	var n uint64
-	size:=code.SizeofSliceString(i)
-	fmt.Printf("SizeofSliceString:%v sizeof:%d\n",i,size)
-	n=code.EncodeSliceString(buf,i)
-	fmt.Printf("EncodeSliceString:%v to []byte:%v\n",i,buf[:n])
-	var v =make([]string,2)
-	n=code.DecodeSliceString(buf[:n],&v)
-	fmt.Printf("DecodeSliceString:%v,length:%d\n",v,n)
+	size := code.SizeofSliceBool(i)
+	fmt.Printf("SizeofSliceBool:%v sizeof:%d\n", i, size)
+	n = code.EncodeSliceBool(buf, i)
+	fmt.Printf("EncodeSliceBool:%v to []byte:%v\n", i, buf[:n])
+	var v = make([]bool, 2)
+	n = code.DecodeSliceBool(buf[:n], &v)
+	fmt.Printf("DecodeSliceBool:%v,length:%d\n", v, n)
 }
-func SliceBytes()  {
-	var buf =make([]byte,64)
-	var i [][]byte=[][]byte{{1,2},{3}}
+
+//SliceString example
+func SliceString() {
+	var buf = make([]byte, 64)
+	var i []string = []string{"Hello", "World"}
 	var n uint64
-	size:=code.SizeofSliceBytes(i)
-	fmt.Printf("SizeofSliceBytes:%v sizeof:%d\n",i,size)
-	n=code.EncodeSliceBytes(buf,i)
-	fmt.Printf("EncodeSliceBytes:%v to []byte:%v\n",i,buf[:n])
-	var v =make([][]byte,2)
-	n=code.DecodeSliceBytes(buf[:n],&v)
-	fmt.Printf("DecodeSliceBytes:%v,length:%d\n",v,n)
+	size := code.SizeofSliceString(i)
+	fmt.Printf("SizeofSliceString:%v sizeof:%d\n", i, size)
+	n = code.EncodeSliceString(buf, i)
+	fmt.Printf("EncodeSliceString:%v to []byte:%v\n", i, buf[:n])
+	var v = make([]string, 2)
+	n = code.DecodeSliceString(buf[:n], &v)
+	fmt.Printf("DecodeSliceString:%v,length:%d\n", v, n)
+}
+
+//SliceBytes example
+func SliceBytes() {
+	var buf = make([]byte, 64)
+	var i [][]byte = [][]byte{{1, 2}, {3}}
+	var n uint64
+	size := code.SizeofSliceBytes(i)
+	fmt.Printf("SizeofSliceBytes:%v sizeof:%d\n", i, size)
+	n = code.EncodeSliceBytes(buf, i)
+	fmt.Printf("EncodeSliceBytes:%v to []byte:%v\n", i, buf[:n])
+	var v = make([][]byte, 2)
+	n = code.DecodeSliceBytes(buf[:n], &v)
+	fmt.Printf("DecodeSliceBytes:%v,length:%d\n", v, n)
 }
 ```
 
@@ -384,49 +416,51 @@ go test -v -run="none" -bench=. -benchtime=30s
 ```
 goos: darwin
 goarch: amd64
-pkg: hslam.com/git/x/code
-BenchmarkCodeUint8-4            	1000000000	         0.319 ns/op	3131.82 MB/s
-BenchmarkCodeUint16-4           	1000000000	         0.316 ns/op	6338.31 MB/s
-BenchmarkCodeUint32-4           	1000000000	         0.314 ns/op	12725.54 MB/s
-BenchmarkCodeUint64-4           	1000000000	         3.47 ns/op	2307.95 MB/s
-BenchmarkCodeVarint-4           	1000000000	         7.02 ns/op	 285.07 MB/s
-BenchmarkCodeFloat32-4          	1000000000	         0.626 ns/op	6387.92 MB/s
-BenchmarkCodeFloat64-4          	1000000000	         3.51 ns/op	2276.50 MB/s
-BenchmarkCodeBool-4             	1000000000	         0.315 ns/op	3170.87 MB/s
-BenchmarkCodeString-4           	1000000000	         9.32 ns/op	 214.54 MB/s
-BenchmarkCodeBytes-4            	1000000000	        10.1 ns/op	 198.41 MB/s
-BenchmarkCodeSliceUint8-4       	1000000000	         8.11 ns/op	 246.48 MB/s
-BenchmarkCodeSliceUint16-4      	1000000000	         9.12 ns/op	 328.77 MB/s
-BenchmarkCodeSliceUint32-4      	1000000000	         9.80 ns/op	 510.36 MB/s
-BenchmarkCodeSliceUint64-4      	1000000000	        11.6 ns/op	 774.18 MB/s
-BenchmarkCodeSliceVarint-4      	1000000000	        10.1 ns/op	 198.59 MB/s
-BenchmarkCodeSliceFloat32-4     	1000000000	        10.3 ns/op	 484.21 MB/s
-BenchmarkCodeSliceFloat64-4     	1000000000	        13.4 ns/op	 672.42 MB/s
-BenchmarkCodeSliceBool-4        	1000000000	         8.45 ns/op	 236.82 MB/s
-BenchmarkCodeSliceString-4      	1000000000	        24.6 ns/op	 203.30 MB/s
-BenchmarkCodeSliceBytes-4       	1000000000	        26.2 ns/op	 191.20 MB/s
-BenchmarkSizeofUint8-4          	1000000000	         0.321 ns/op	3111.28 MB/s
-BenchmarkSizeofUint16-4         	1000000000	         0.323 ns/op	6194.01 MB/s
-BenchmarkSizeofUint32-4         	1000000000	         0.315 ns/op	12705.34 MB/s
-BenchmarkSizeofUint64-4         	1000000000	         0.315 ns/op	25364.37 MB/s
-BenchmarkSizeofVarint-4         	1000000000	         0.314 ns/op	6362.95 MB/s
-BenchmarkSizeofFloat32-4        	1000000000	         0.313 ns/op	12764.37 MB/s
-BenchmarkSizeofFloat64-4        	1000000000	         0.313 ns/op	25520.28 MB/s
-BenchmarkSizeofBool-4           	1000000000	         0.315 ns/op	3175.97 MB/s
-BenchmarkSizeofString-4         	1000000000	         0.319 ns/op	3132.46 MB/s
-BenchmarkSizeofBytes-4          	1000000000	         0.313 ns/op	3196.14 MB/s
-BenchmarkSizeofSliceUint8-4     	1000000000	         0.316 ns/op	3165.90 MB/s
-BenchmarkSizeofSliceUint16-4    	1000000000	         0.315 ns/op	3171.74 MB/s
-BenchmarkSizeofSliceUint32-4    	1000000000	         0.313 ns/op	3191.90 MB/s
-BenchmarkSizeofSliceUint64-4    	1000000000	         0.327 ns/op	3061.26 MB/s
-BenchmarkSizeofSliceVarint-4    	1000000000	         2.98 ns/op	 335.80 MB/s
-BenchmarkSizeofSliceFloat32-4   	1000000000	         0.314 ns/op	12730.18 MB/s
-BenchmarkSizeofSliceFloat64-4   	1000000000	         0.317 ns/op	25235.57 MB/s
-BenchmarkSizeofSliceBool-4      	1000000000	         0.315 ns/op	3178.47 MB/s
-BenchmarkSizeofSliceString-4    	1000000000	         3.27 ns/op	 611.40 MB/s
-BenchmarkSizeofSliceBytes-4     	1000000000	         3.12 ns/op	 641.27 MB/s
+pkg: github.com/hslam/code
+BenchmarkCheckBuffer-4          	1000000000	         0.312 ns/op	819937.90 MB/s
+BenchmarkCodeUint8-4            	1000000000	         0.312 ns/op	3208.75 MB/s
+BenchmarkCodeUint16-4           	1000000000	         0.329 ns/op	6076.44 MB/s
+BenchmarkCodeUint32-4           	1000000000	         0.342 ns/op	11688.81 MB/s
+BenchmarkCodeUint64-4           	1000000000	         0.311 ns/op	25712.79 MB/s
+BenchmarkCodeVarint-4           	1000000000	         7.21 ns/op	 277.23 MB/s
+BenchmarkBinaryVarint-4         	1000000000	        10.1 ns/op	 197.22 MB/s
+BenchmarkCodeFloat32-4          	1000000000	         0.311 ns/op	12881.38 MB/s
+BenchmarkCodeFloat64-4          	1000000000	         0.924 ns/op	8658.87 MB/s
+BenchmarkCodeBool-4             	1000000000	         0.330 ns/op	3031.09 MB/s
+BenchmarkCodeString-4           	1000000000	        11.0 ns/op	 181.55 MB/s
+BenchmarkCodeBytes-4            	1000000000	        10.9 ns/op	 183.31 MB/s
+BenchmarkCodeSliceUint8-4       	1000000000	         9.49 ns/op	 210.84 MB/s
+BenchmarkCodeSliceUint16-4      	1000000000	         9.95 ns/op	 301.51 MB/s
+BenchmarkCodeSliceUint32-4      	1000000000	        10.7 ns/op	 467.08 MB/s
+BenchmarkCodeSliceUint64-4      	1000000000	        15.0 ns/op	 601.80 MB/s
+BenchmarkCodeSliceVarint-4      	1000000000	        11.4 ns/op	 175.34 MB/s
+BenchmarkCodeSliceFloat32-4     	1000000000	        12.5 ns/op	 400.30 MB/s
+BenchmarkCodeSliceFloat64-4     	1000000000	        16.1 ns/op	 560.15 MB/s
+BenchmarkCodeSliceBool-4        	1000000000	        10.1 ns/op	 198.89 MB/s
+BenchmarkCodeSliceString-4      	1000000000	        27.1 ns/op	 184.26 MB/s
+BenchmarkCodeSliceBytes-4       	1000000000	        29.9 ns/op	 167.44 MB/s
+BenchmarkSizeofUint8-4          	1000000000	         0.311 ns/op	3212.92 MB/s
+BenchmarkSizeofUint16-4         	1000000000	         0.311 ns/op	6424.97 MB/s
+BenchmarkSizeofUint32-4         	1000000000	         0.309 ns/op	12927.46 MB/s
+BenchmarkSizeofUint64-4         	1000000000	         0.310 ns/op	25835.71 MB/s
+BenchmarkSizeofVarint-4         	1000000000	         0.311 ns/op	6440.99 MB/s
+BenchmarkSizeofFloat32-4        	1000000000	         0.310 ns/op	12904.85 MB/s
+BenchmarkSizeofFloat64-4        	1000000000	         0.311 ns/op	25716.63 MB/s
+BenchmarkSizeofBool-4           	1000000000	         0.310 ns/op	3228.32 MB/s
+BenchmarkSizeofString-4         	1000000000	         0.311 ns/op	3215.73 MB/s
+BenchmarkSizeofBytes-4          	1000000000	         0.337 ns/op	2968.08 MB/s
+BenchmarkSizeofSliceUint8-4     	1000000000	         0.331 ns/op	3021.86 MB/s
+BenchmarkSizeofSliceUint16-4    	1000000000	         0.312 ns/op	3210.18 MB/s
+BenchmarkSizeofSliceUint32-4    	1000000000	         0.311 ns/op	3215.84 MB/s
+BenchmarkSizeofSliceUint64-4    	1000000000	         0.311 ns/op	3211.50 MB/s
+BenchmarkSizeofSliceVarint-4    	1000000000	         3.39 ns/op	 294.86 MB/s
+BenchmarkSizeofSliceFloat32-4   	1000000000	         0.311 ns/op	12847.91 MB/s
+BenchmarkSizeofSliceFloat64-4   	1000000000	         0.312 ns/op	25663.19 MB/s
+BenchmarkSizeofSliceBool-4      	1000000000	         0.311 ns/op	3218.15 MB/s
+BenchmarkSizeofSliceString-4    	1000000000	         3.40 ns/op	 588.11 MB/s
+BenchmarkSizeofSliceBytes-4     	1000000000	         3.39 ns/op	 589.49 MB/s
 PASS
-ok  	hslam.com/git/x/code	200.258s
+ok  	github.com/hslam/code	232.615s
 ```
 
 ### Licence
