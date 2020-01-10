@@ -13,6 +13,7 @@ func TestCheckBuffer(t *testing.T) {
 		t.Errorf("error %d != %d", len(b), n)
 	}
 }
+
 func BenchmarkCheckBuffer(b *testing.B) {
 	var buf = make([]byte, 512)
 	n := uint64(256)
@@ -658,19 +659,20 @@ func BenchmarkCodeSliceBytes(b *testing.B) {
 	}
 }
 
-//Sizeof
 func BenchmarkSizeofUint8(b *testing.B) {
 	b.SetBytes(int64(1))
 	for i := 0; i < b.N; i++ {
 		SizeofUint8(1)
 	}
 }
+
 func BenchmarkSizeofUint16(b *testing.B) {
 	b.SetBytes(int64(2))
 	for i := 0; i < b.N; i++ {
 		SizeofUint16(1)
 	}
 }
+
 func BenchmarkSizeofUint32(b *testing.B) {
 	b.SetBytes(int64(4))
 	for i := 0; i < b.N; i++ {
