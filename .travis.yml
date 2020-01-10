@@ -6,7 +6,8 @@ go:
 install:
   - go get -t -v -d ./...
 script:
-  - go test .
+  - go test -v .
 after_success:
+  - go test -v -run="none" -bench=.
   - go build -o main -v ./example/main.go
   - ./main
