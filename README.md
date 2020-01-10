@@ -74,7 +74,7 @@ func main() {
 
 //Uint8 example
 func Uint8() {
-	var buf = make([]byte, 4)
+	var buf = make([]byte, 1)
 	var i uint8 = 128
 	var n uint64
 	size := code.SizeofUint8(i)
@@ -88,7 +88,7 @@ func Uint8() {
 
 //Uint16 example
 func Uint16() {
-	var buf = make([]byte, 4)
+	var buf = make([]byte, 2)
 	var i uint16 = 128
 	var n uint64
 	size := code.SizeofUint16(i)
@@ -144,7 +144,7 @@ func Varint() {
 
 //Float32 example
 func Float32() {
-	var buf = make([]byte, 9)
+	var buf = make([]byte, 4)
 	var i float32 = 3.14
 	var n uint64
 	size := code.SizeofFloat32(i)
@@ -158,21 +158,21 @@ func Float32() {
 
 //Float64 example
 func Float64() {
-	var buf = make([]byte, 9)
+	var buf = make([]byte, 8)
 	var i float64 = 3.1415926
 	var n uint64
 	size := code.SizeofFloat64(i)
-	fmt.Printf("SizeofFloat64:%.2f sizeof:%d\n", i, size)
+	fmt.Printf("SizeofFloat64:%.7f sizeof:%d\n", i, size)
 	n = code.EncodeFloat64(buf, i)
-	fmt.Printf("EncodeFloat64:%.2f to []byte:%v\n", i, buf[:n])
+	fmt.Printf("EncodeFloat64:%.7f to []byte:%v\n", i, buf[:n])
 	var v float64
 	n = code.DecodeFloat64(buf[:n], &v)
-	fmt.Printf("DecodeFloat64:%.2f,length:%d\n", v, n)
+	fmt.Printf("DecodeFloat64:%.7f,length:%d\n", v, n)
 }
 
 //Bool example
 func Bool() {
-	var buf = make([]byte, 16)
+	var buf = make([]byte, 1)
 	var i bool = true
 	var n uint64
 	size := code.SizeofBool(i)
@@ -373,9 +373,9 @@ DecodeVarint:128,length:2
 SizeofFloat32:3.14 sizeof:4
 EncodeFloat32:3.14 to []byte:[195 245 72 64]
 EncodeFloat32:3.14,length:4
-SizeofFloat64:3.14 sizeof:8
-EncodeFloat64:3.14 to []byte:[74 216 18 77 251 33 9 64]
-DecodeFloat64:3.14,length:8
+SizeofFloat64:3.1415926 sizeof:8
+EncodeFloat64:3.1415926 to []byte:[74 216 18 77 251 33 9 64]
+DecodeFloat64:3.1415926,length:8
 SizeofBool:true sizeof:1
 EncodeBool:true to []byte:[1]
 DecodeBool:true,length:1
