@@ -160,55 +160,55 @@ func EncodeVarint(buf []byte, v uint64) uint64 {
 // DecodeVarint decodes a uint64 from buf, stores the result in the value pointed to by v
 // and returns the number of bytes read (> 0).
 // If the buffer is not from EncodeVarint, DecodeVarint will panic.
-func DecodeVarint(d []byte, v *uint64) uint64 {
+func DecodeVarint(buf []byte, v *uint64) uint64 {
 	var t uint64
 	var n uint64
-	t = uint64(d[n] & mask7)
-	if d[n]&msb7 == 0 {
+	t = uint64(buf[n] & mask7)
+	if buf[n]&msb7 == 0 {
 		goto done
 	}
 	n++
-	t |= uint64(d[n]&mask7) << 7
-	if d[n]&msb7 == 0 {
+	t |= uint64(buf[n]&mask7) << 7
+	if buf[n]&msb7 == 0 {
 		goto done
 	}
 	n++
-	t |= uint64(d[n]&mask7) << 14
-	if d[n]&msb7 == 0 {
+	t |= uint64(buf[n]&mask7) << 14
+	if buf[n]&msb7 == 0 {
 		goto done
 	}
 	n++
-	t |= uint64(d[n]&mask7) << 21
-	if d[n]&msb7 == 0 {
+	t |= uint64(buf[n]&mask7) << 21
+	if buf[n]&msb7 == 0 {
 		goto done
 	}
 	n++
-	t |= uint64(d[n]&mask7) << 28
-	if d[n]&msb7 == 0 {
+	t |= uint64(buf[n]&mask7) << 28
+	if buf[n]&msb7 == 0 {
 		goto done
 	}
 	n++
-	t |= uint64(d[n]&mask7) << 35
-	if d[n]&msb7 == 0 {
+	t |= uint64(buf[n]&mask7) << 35
+	if buf[n]&msb7 == 0 {
 		goto done
 	}
 	n++
-	t |= uint64(d[n]&mask7) << 42
-	if d[n]&msb7 == 0 {
+	t |= uint64(buf[n]&mask7) << 42
+	if buf[n]&msb7 == 0 {
 		goto done
 	}
 	n++
-	t |= uint64(d[n]&mask7) << 49
-	if d[n]&msb7 == 0 {
+	t |= uint64(buf[n]&mask7) << 49
+	if buf[n]&msb7 == 0 {
 		goto done
 	}
 	n++
-	t |= uint64(d[n]&mask7) << 56
-	if d[n]&msb7 == 0 {
+	t |= uint64(buf[n]&mask7) << 56
+	if buf[n]&msb7 == 0 {
 		goto done
 	}
 	n++
-	t |= uint64(d[n]&mask7) << 63
+	t |= uint64(buf[n]&mask7) << 63
 	goto done
 done:
 	n++
@@ -257,12 +257,12 @@ func EncodeFloat32(buf []byte, v float32) uint64 {
 // DecodeFloat32 decodes a float32 from buf, stores the result in the value pointed to by v
 // and returns the number of bytes read (> 0).
 // If the buffer is not from EncodeFloat32, DecodeFloat32 will panic.
-func DecodeFloat32(d []byte, v *float32) uint64 {
+func DecodeFloat32(buf []byte, v *float32) uint64 {
 	var t uint64
-	t |= uint64(d[0])
-	t |= uint64(d[1]) << 8
-	t |= uint64(d[2]) << 16
-	t |= uint64(d[3]) << 24
+	t |= uint64(buf[0])
+	t |= uint64(buf[1]) << 8
+	t |= uint64(buf[2]) << 16
+	t |= uint64(buf[3]) << 24
 	*v = *(*float32)(unsafe.Pointer(&t))
 	return 4
 }
@@ -290,16 +290,16 @@ func EncodeFloat64(buf []byte, v float64) uint64 {
 // DecodeFloat64 decodes a float64 from buf, stores the result in the value pointed to by v
 // and returns the number of bytes read (> 0).
 // If the buffer is not from EncodeFloat64, DecodeFloat64 will panic.
-func DecodeFloat64(d []byte, v *float64) uint64 {
+func DecodeFloat64(buf []byte, v *float64) uint64 {
 	var t uint64
-	t |= uint64(d[0])
-	t |= uint64(d[1]) << 8
-	t |= uint64(d[2]) << 16
-	t |= uint64(d[3]) << 24
-	t |= uint64(d[4]) << 32
-	t |= uint64(d[5]) << 40
-	t |= uint64(d[6]) << 48
-	t |= uint64(d[7]) << 56
+	t |= uint64(buf[0])
+	t |= uint64(buf[1]) << 8
+	t |= uint64(buf[2]) << 16
+	t |= uint64(buf[3]) << 24
+	t |= uint64(buf[4]) << 32
+	t |= uint64(buf[5]) << 40
+	t |= uint64(buf[6]) << 48
+	t |= uint64(buf[7]) << 56
 	*v = *(*float64)(unsafe.Pointer(&t))
 	return 8
 }
@@ -323,12 +323,12 @@ func EncodeBool(buf []byte, v bool) uint64 {
 // DecodeBool decodes a bool from buf, stores the result in the value pointed to by v
 // and returns the number of bytes read (> 0).
 // If the buffer is not from EncodeBool, DecodeBool will panic.
-func DecodeBool(d []byte, v *bool) uint64 {
-	if len(d) == 0 {
+func DecodeBool(buf []byte, v *bool) uint64 {
+	if len(buf) == 0 {
 		*v = false
 		return 0
 	}
-	if d[0] == 0 {
+	if buf[0] == 0 {
 		*v = false
 		return 1
 	}
@@ -362,59 +362,59 @@ func EncodeString(buf []byte, v string) uint64 {
 // DecodeString decodes a string from buf, stores the result in the value pointed to by v
 // and returns the number of bytes read (> 0).
 // If the buffer is not from EncodeString, DecodeString will panic.
-func DecodeString(d []byte, v *string) uint64 {
+func DecodeString(buf []byte, v *string) uint64 {
 	var t uint64
 	var n uint64
-	t = uint64(d[n] & mask7)
-	if d[n]&msb7 == 0 {
+	t = uint64(buf[n] & mask7)
+	if buf[n]&msb7 == 0 {
 		goto done
 	}
 	n++
-	t |= uint64(d[n]&mask7) << 7
-	if d[n]&msb7 == 0 {
+	t |= uint64(buf[n]&mask7) << 7
+	if buf[n]&msb7 == 0 {
 		goto done
 	}
 	n++
-	t |= uint64(d[n]&mask7) << 14
-	if d[n]&msb7 == 0 {
+	t |= uint64(buf[n]&mask7) << 14
+	if buf[n]&msb7 == 0 {
 		goto done
 	}
 	n++
-	t |= uint64(d[n]&mask7) << 21
-	if d[n]&msb7 == 0 {
+	t |= uint64(buf[n]&mask7) << 21
+	if buf[n]&msb7 == 0 {
 		goto done
 	}
 	n++
-	t |= uint64(d[n]&mask7) << 28
-	if d[n]&msb7 == 0 {
+	t |= uint64(buf[n]&mask7) << 28
+	if buf[n]&msb7 == 0 {
 		goto done
 	}
 	n++
-	t |= uint64(d[n]&mask7) << 35
-	if d[n]&msb7 == 0 {
+	t |= uint64(buf[n]&mask7) << 35
+	if buf[n]&msb7 == 0 {
 		goto done
 	}
 	n++
-	t |= uint64(d[n]&mask7) << 42
-	if d[n]&msb7 == 0 {
+	t |= uint64(buf[n]&mask7) << 42
+	if buf[n]&msb7 == 0 {
 		goto done
 	}
 	n++
-	t |= uint64(d[n]&mask7) << 49
-	if d[n]&msb7 == 0 {
+	t |= uint64(buf[n]&mask7) << 49
+	if buf[n]&msb7 == 0 {
 		goto done
 	}
 	n++
-	t |= uint64(d[n]&mask7) << 56
-	if d[n]&msb7 == 0 {
+	t |= uint64(buf[n]&mask7) << 56
+	if buf[n]&msb7 == 0 {
 		goto done
 	}
 	n++
-	t |= uint64(d[n]&mask7) << 63
+	t |= uint64(buf[n]&mask7) << 63
 	goto done
 done:
 	n++
-	b := d[n : n+t]
+	b := buf[n : n+t]
 	*v = *(*string)(unsafe.Pointer(&b))
 	return n + t
 }
@@ -444,59 +444,59 @@ func EncodeBytes(buf []byte, v []byte) uint64 {
 // DecodeBytes decodes a []byte from buf, stores the result in the value pointed to by v
 // and returns the number of bytes read (> 0).
 // If the buffer is not from EncodeBytes, DecodeBytes will panic.
-func DecodeBytes(d []byte, v *[]byte) uint64 {
+func DecodeBytes(buf []byte, v *[]byte) uint64 {
 	var t uint64
 	var n uint64
-	t = uint64(d[n] & mask7)
-	if d[n]&msb7 == 0 {
+	t = uint64(buf[n] & mask7)
+	if buf[n]&msb7 == 0 {
 		goto done
 	}
 	n++
-	t |= uint64(d[n]&mask7) << 7
-	if d[n]&msb7 == 0 {
+	t |= uint64(buf[n]&mask7) << 7
+	if buf[n]&msb7 == 0 {
 		goto done
 	}
 	n++
-	t |= uint64(d[n]&mask7) << 14
-	if d[n]&msb7 == 0 {
+	t |= uint64(buf[n]&mask7) << 14
+	if buf[n]&msb7 == 0 {
 		goto done
 	}
 	n++
-	t |= uint64(d[n]&mask7) << 21
-	if d[n]&msb7 == 0 {
+	t |= uint64(buf[n]&mask7) << 21
+	if buf[n]&msb7 == 0 {
 		goto done
 	}
 	n++
-	t |= uint64(d[n]&mask7) << 28
-	if d[n]&msb7 == 0 {
+	t |= uint64(buf[n]&mask7) << 28
+	if buf[n]&msb7 == 0 {
 		goto done
 	}
 	n++
-	t |= uint64(d[n]&mask7) << 35
-	if d[n]&msb7 == 0 {
+	t |= uint64(buf[n]&mask7) << 35
+	if buf[n]&msb7 == 0 {
 		goto done
 	}
 	n++
-	t |= uint64(d[n]&mask7) << 42
-	if d[n]&msb7 == 0 {
+	t |= uint64(buf[n]&mask7) << 42
+	if buf[n]&msb7 == 0 {
 		goto done
 	}
 	n++
-	t |= uint64(d[n]&mask7) << 49
-	if d[n]&msb7 == 0 {
+	t |= uint64(buf[n]&mask7) << 49
+	if buf[n]&msb7 == 0 {
 		goto done
 	}
 	n++
-	t |= uint64(d[n]&mask7) << 56
-	if d[n]&msb7 == 0 {
+	t |= uint64(buf[n]&mask7) << 56
+	if buf[n]&msb7 == 0 {
 		goto done
 	}
 	n++
-	t |= uint64(d[n]&mask7) << 63
+	t |= uint64(buf[n]&mask7) << 63
 	goto done
 done:
 	n++
-	*v = d[n : n+t]
+	*v = buf[n : n+t]
 	return n + t
 }
 
@@ -532,57 +532,57 @@ func EncodeUint8Slice(buf []byte, v []uint8) uint64 {
 // DecodeUint8Slice decodes a []uint8 from buf, stores the result in the value pointed to by v
 // and returns the number of bytes read (> 0).
 // If the buffer is not from EncodeUint8Slice, DecodeUint8Slice will panic.
-func DecodeUint8Slice(d []byte, v *[]uint8) uint64 {
+func DecodeUint8Slice(buf []byte, v *[]uint8) uint64 {
 	var length uint64
 	var offset uint64
 	var n uint64
 	var t uint64
-	t = uint64(d[n] & mask7)
-	if d[n]&msb7 == 0 {
+	t = uint64(buf[n] & mask7)
+	if buf[n]&msb7 == 0 {
 		goto done
 	}
 	n++
-	t |= uint64(d[n]&mask7) << 7
-	if d[n]&msb7 == 0 {
+	t |= uint64(buf[n]&mask7) << 7
+	if buf[n]&msb7 == 0 {
 		goto done
 	}
 	n++
-	t |= uint64(d[n]&mask7) << 14
-	if d[n]&msb7 == 0 {
+	t |= uint64(buf[n]&mask7) << 14
+	if buf[n]&msb7 == 0 {
 		goto done
 	}
 	n++
-	t |= uint64(d[n]&mask7) << 21
-	if d[n]&msb7 == 0 {
+	t |= uint64(buf[n]&mask7) << 21
+	if buf[n]&msb7 == 0 {
 		goto done
 	}
 	n++
-	t |= uint64(d[n]&mask7) << 28
-	if d[n]&msb7 == 0 {
+	t |= uint64(buf[n]&mask7) << 28
+	if buf[n]&msb7 == 0 {
 		goto done
 	}
 	n++
-	t |= uint64(d[n]&mask7) << 35
-	if d[n]&msb7 == 0 {
+	t |= uint64(buf[n]&mask7) << 35
+	if buf[n]&msb7 == 0 {
 		goto done
 	}
 	n++
-	t |= uint64(d[n]&mask7) << 42
-	if d[n]&msb7 == 0 {
+	t |= uint64(buf[n]&mask7) << 42
+	if buf[n]&msb7 == 0 {
 		goto done
 	}
 	n++
-	t |= uint64(d[n]&mask7) << 49
-	if d[n]&msb7 == 0 {
+	t |= uint64(buf[n]&mask7) << 49
+	if buf[n]&msb7 == 0 {
 		goto done
 	}
 	n++
-	t |= uint64(d[n]&mask7) << 56
-	if d[n]&msb7 == 0 {
+	t |= uint64(buf[n]&mask7) << 56
+	if buf[n]&msb7 == 0 {
 		goto done
 	}
 	n++
-	t |= uint64(d[n]&mask7) << 63
+	t |= uint64(buf[n]&mask7) << 63
 	goto done
 done:
 	n++
@@ -595,7 +595,7 @@ done:
 	offset = n
 	for i := uint64(0); i < length; i++ {
 		var s uint8
-		s |= uint8(d[offset+0])
+		s |= uint8(buf[offset+0])
 		(*v)[i] = s
 		offset++
 	}
@@ -635,57 +635,57 @@ func EncodeUint16Slice(buf []byte, v []uint16) uint64 {
 // DecodeUint16Slice decodes a uint64 from buf, stores the result in the value pointed to by v
 // and returns the number of bytes read (> 0).
 // If the buffer is not from EncodeUint16Slice, DecodeUint16Slice will panic.
-func DecodeUint16Slice(d []byte, v *[]uint16) uint64 {
+func DecodeUint16Slice(buf []byte, v *[]uint16) uint64 {
 	var length uint64
 	var offset uint64
 	var n uint64
 	var t uint64
-	t = uint64(d[n] & mask7)
-	if d[n]&msb7 == 0 {
+	t = uint64(buf[n] & mask7)
+	if buf[n]&msb7 == 0 {
 		goto done
 	}
 	n++
-	t |= uint64(d[n]&mask7) << 7
-	if d[n]&msb7 == 0 {
+	t |= uint64(buf[n]&mask7) << 7
+	if buf[n]&msb7 == 0 {
 		goto done
 	}
 	n++
-	t |= uint64(d[n]&mask7) << 14
-	if d[n]&msb7 == 0 {
+	t |= uint64(buf[n]&mask7) << 14
+	if buf[n]&msb7 == 0 {
 		goto done
 	}
 	n++
-	t |= uint64(d[n]&mask7) << 21
-	if d[n]&msb7 == 0 {
+	t |= uint64(buf[n]&mask7) << 21
+	if buf[n]&msb7 == 0 {
 		goto done
 	}
 	n++
-	t |= uint64(d[n]&mask7) << 28
-	if d[n]&msb7 == 0 {
+	t |= uint64(buf[n]&mask7) << 28
+	if buf[n]&msb7 == 0 {
 		goto done
 	}
 	n++
-	t |= uint64(d[n]&mask7) << 35
-	if d[n]&msb7 == 0 {
+	t |= uint64(buf[n]&mask7) << 35
+	if buf[n]&msb7 == 0 {
 		goto done
 	}
 	n++
-	t |= uint64(d[n]&mask7) << 42
-	if d[n]&msb7 == 0 {
+	t |= uint64(buf[n]&mask7) << 42
+	if buf[n]&msb7 == 0 {
 		goto done
 	}
 	n++
-	t |= uint64(d[n]&mask7) << 49
-	if d[n]&msb7 == 0 {
+	t |= uint64(buf[n]&mask7) << 49
+	if buf[n]&msb7 == 0 {
 		goto done
 	}
 	n++
-	t |= uint64(d[n]&mask7) << 56
-	if d[n]&msb7 == 0 {
+	t |= uint64(buf[n]&mask7) << 56
+	if buf[n]&msb7 == 0 {
 		goto done
 	}
 	n++
-	t |= uint64(d[n]&mask7) << 63
+	t |= uint64(buf[n]&mask7) << 63
 	goto done
 done:
 	n++
@@ -698,8 +698,8 @@ done:
 	offset = n
 	for i := uint64(0); i < length; i++ {
 		var s uint16
-		s |= uint16(d[offset+0])
-		s |= uint16(d[offset+1]) << 8
+		s |= uint16(buf[offset+0])
+		s |= uint16(buf[offset+1]) << 8
 		(*v)[i] = s
 		offset += 2
 	}
@@ -741,57 +741,57 @@ func EncodeUint32Slice(buf []byte, v []uint32) uint64 {
 // DecodeUint32Slice decodes a []uint32 from buf, stores the result in the value pointed to by v
 // and returns the number of bytes read (> 0).
 // If the buffer is not from EncodeUint32Slice, DecodeUint32Slice will panic.
-func DecodeUint32Slice(d []byte, v *[]uint32) uint64 {
+func DecodeUint32Slice(buf []byte, v *[]uint32) uint64 {
 	var length uint64
 	var offset uint64
 	var n uint64
 	var t uint64
-	t = uint64(d[n] & mask7)
-	if d[n]&msb7 == 0 {
+	t = uint64(buf[n] & mask7)
+	if buf[n]&msb7 == 0 {
 		goto done
 	}
 	n++
-	t |= uint64(d[n]&mask7) << 7
-	if d[n]&msb7 == 0 {
+	t |= uint64(buf[n]&mask7) << 7
+	if buf[n]&msb7 == 0 {
 		goto done
 	}
 	n++
-	t |= uint64(d[n]&mask7) << 14
-	if d[n]&msb7 == 0 {
+	t |= uint64(buf[n]&mask7) << 14
+	if buf[n]&msb7 == 0 {
 		goto done
 	}
 	n++
-	t |= uint64(d[n]&mask7) << 21
-	if d[n]&msb7 == 0 {
+	t |= uint64(buf[n]&mask7) << 21
+	if buf[n]&msb7 == 0 {
 		goto done
 	}
 	n++
-	t |= uint64(d[n]&mask7) << 28
-	if d[n]&msb7 == 0 {
+	t |= uint64(buf[n]&mask7) << 28
+	if buf[n]&msb7 == 0 {
 		goto done
 	}
 	n++
-	t |= uint64(d[n]&mask7) << 35
-	if d[n]&msb7 == 0 {
+	t |= uint64(buf[n]&mask7) << 35
+	if buf[n]&msb7 == 0 {
 		goto done
 	}
 	n++
-	t |= uint64(d[n]&mask7) << 42
-	if d[n]&msb7 == 0 {
+	t |= uint64(buf[n]&mask7) << 42
+	if buf[n]&msb7 == 0 {
 		goto done
 	}
 	n++
-	t |= uint64(d[n]&mask7) << 49
-	if d[n]&msb7 == 0 {
+	t |= uint64(buf[n]&mask7) << 49
+	if buf[n]&msb7 == 0 {
 		goto done
 	}
 	n++
-	t |= uint64(d[n]&mask7) << 56
-	if d[n]&msb7 == 0 {
+	t |= uint64(buf[n]&mask7) << 56
+	if buf[n]&msb7 == 0 {
 		goto done
 	}
 	n++
-	t |= uint64(d[n]&mask7) << 63
+	t |= uint64(buf[n]&mask7) << 63
 	goto done
 done:
 	n++
@@ -804,10 +804,10 @@ done:
 	offset = n
 	for i := uint64(0); i < length; i++ {
 		var s uint32
-		s |= uint32(d[offset+0])
-		s |= uint32(d[offset+1]) << 8
-		s |= uint32(d[offset+2]) << 16
-		s |= uint32(d[offset+3]) << 24
+		s |= uint32(buf[offset+0])
+		s |= uint32(buf[offset+1]) << 8
+		s |= uint32(buf[offset+2]) << 16
+		s |= uint32(buf[offset+3]) << 24
 		(*v)[i] = s
 		offset += 4
 	}
@@ -853,57 +853,57 @@ func EncodeUint64Slice(buf []byte, v []uint64) uint64 {
 // DecodeUint64Slice decodes a []uint64 from buf, stores the result in the value pointed to by v
 // and returns the number of bytes read (> 0).
 // If the buffer is not from EncodeUint64Slice, DecodeUint64Slice will panic.
-func DecodeUint64Slice(d []byte, v *[]uint64) uint64 {
+func DecodeUint64Slice(buf []byte, v *[]uint64) uint64 {
 	var length uint64
 	var offset uint64
 	var n uint64
 	var t uint64
-	t = uint64(d[n] & mask7)
-	if d[n]&msb7 == 0 {
+	t = uint64(buf[n] & mask7)
+	if buf[n]&msb7 == 0 {
 		goto done
 	}
 	n++
-	t |= uint64(d[n]&mask7) << 7
-	if d[n]&msb7 == 0 {
+	t |= uint64(buf[n]&mask7) << 7
+	if buf[n]&msb7 == 0 {
 		goto done
 	}
 	n++
-	t |= uint64(d[n]&mask7) << 14
-	if d[n]&msb7 == 0 {
+	t |= uint64(buf[n]&mask7) << 14
+	if buf[n]&msb7 == 0 {
 		goto done
 	}
 	n++
-	t |= uint64(d[n]&mask7) << 21
-	if d[n]&msb7 == 0 {
+	t |= uint64(buf[n]&mask7) << 21
+	if buf[n]&msb7 == 0 {
 		goto done
 	}
 	n++
-	t |= uint64(d[n]&mask7) << 28
-	if d[n]&msb7 == 0 {
+	t |= uint64(buf[n]&mask7) << 28
+	if buf[n]&msb7 == 0 {
 		goto done
 	}
 	n++
-	t |= uint64(d[n]&mask7) << 35
-	if d[n]&msb7 == 0 {
+	t |= uint64(buf[n]&mask7) << 35
+	if buf[n]&msb7 == 0 {
 		goto done
 	}
 	n++
-	t |= uint64(d[n]&mask7) << 42
-	if d[n]&msb7 == 0 {
+	t |= uint64(buf[n]&mask7) << 42
+	if buf[n]&msb7 == 0 {
 		goto done
 	}
 	n++
-	t |= uint64(d[n]&mask7) << 49
-	if d[n]&msb7 == 0 {
+	t |= uint64(buf[n]&mask7) << 49
+	if buf[n]&msb7 == 0 {
 		goto done
 	}
 	n++
-	t |= uint64(d[n]&mask7) << 56
-	if d[n]&msb7 == 0 {
+	t |= uint64(buf[n]&mask7) << 56
+	if buf[n]&msb7 == 0 {
 		goto done
 	}
 	n++
-	t |= uint64(d[n]&mask7) << 63
+	t |= uint64(buf[n]&mask7) << 63
 	goto done
 done:
 	n++
@@ -916,14 +916,14 @@ done:
 	offset = n
 	for i := uint64(0); i < length; i++ {
 		var s uint64
-		s |= uint64(d[offset+0])
-		s |= uint64(d[offset+1]) << 8
-		s |= uint64(d[offset+2]) << 16
-		s |= uint64(d[offset+3]) << 24
-		s |= uint64(d[offset+4]) << 32
-		s |= uint64(d[offset+5]) << 40
-		s |= uint64(d[offset+6]) << 48
-		s |= uint64(d[offset+7]) << 56
+		s |= uint64(buf[offset+0])
+		s |= uint64(buf[offset+1]) << 8
+		s |= uint64(buf[offset+2]) << 16
+		s |= uint64(buf[offset+3]) << 24
+		s |= uint64(buf[offset+4]) << 32
+		s |= uint64(buf[offset+5]) << 40
+		s |= uint64(buf[offset+6]) << 48
+		s |= uint64(buf[offset+7]) << 56
 		(*v)[i] = s
 		offset += 8
 	}
@@ -936,7 +936,7 @@ func SizeofUint64Slice(v []uint64) uint64 {
 	return SizeofVarint(length) + length*8
 }
 
-// EncodeVarintSlice encodes a d []uint64 into buf and returns the number of bytes written.
+// EncodeVarintSlice encodes a buf []uint64 into buf and returns the number of bytes written.
 // If the buffer is too small, EncodeVarintSlice will panic.
 func EncodeVarintSlice(buf []byte, v []uint64) uint64 {
 	var offset uint64
@@ -968,57 +968,57 @@ func EncodeVarintSlice(buf []byte, v []uint64) uint64 {
 // DecodeVarintSlice decodes a []uint64 from buf, stores the result in the value pointed to by v
 // and returns the number of bytes read (> 0).
 // If the buffer is not from EncodeVarintSlice, DecodeVarintSlice will panic.
-func DecodeVarintSlice(d []byte, v *[]uint64) uint64 {
+func DecodeVarintSlice(buf []byte, v *[]uint64) uint64 {
 	var length uint64
 	var offset uint64
 	var n uint64
 	var t uint64
-	t = uint64(d[n] & mask7)
-	if d[n]&msb7 == 0 {
+	t = uint64(buf[n] & mask7)
+	if buf[n]&msb7 == 0 {
 		goto done
 	}
 	n++
-	t |= uint64(d[n]&mask7) << 7
-	if d[n]&msb7 == 0 {
+	t |= uint64(buf[n]&mask7) << 7
+	if buf[n]&msb7 == 0 {
 		goto done
 	}
 	n++
-	t |= uint64(d[n]&mask7) << 14
-	if d[n]&msb7 == 0 {
+	t |= uint64(buf[n]&mask7) << 14
+	if buf[n]&msb7 == 0 {
 		goto done
 	}
 	n++
-	t |= uint64(d[n]&mask7) << 21
-	if d[n]&msb7 == 0 {
+	t |= uint64(buf[n]&mask7) << 21
+	if buf[n]&msb7 == 0 {
 		goto done
 	}
 	n++
-	t |= uint64(d[n]&mask7) << 28
-	if d[n]&msb7 == 0 {
+	t |= uint64(buf[n]&mask7) << 28
+	if buf[n]&msb7 == 0 {
 		goto done
 	}
 	n++
-	t |= uint64(d[n]&mask7) << 35
-	if d[n]&msb7 == 0 {
+	t |= uint64(buf[n]&mask7) << 35
+	if buf[n]&msb7 == 0 {
 		goto done
 	}
 	n++
-	t |= uint64(d[n]&mask7) << 42
-	if d[n]&msb7 == 0 {
+	t |= uint64(buf[n]&mask7) << 42
+	if buf[n]&msb7 == 0 {
 		goto done
 	}
 	n++
-	t |= uint64(d[n]&mask7) << 49
-	if d[n]&msb7 == 0 {
+	t |= uint64(buf[n]&mask7) << 49
+	if buf[n]&msb7 == 0 {
 		goto done
 	}
 	n++
-	t |= uint64(d[n]&mask7) << 56
-	if d[n]&msb7 == 0 {
+	t |= uint64(buf[n]&mask7) << 56
+	if buf[n]&msb7 == 0 {
 		goto done
 	}
 	n++
-	t |= uint64(d[n]&mask7) << 63
+	t |= uint64(buf[n]&mask7) << 63
 	goto done
 done:
 	n++
@@ -1030,55 +1030,55 @@ done:
 	}
 	offset = n
 	for i := uint64(0); i < length; i++ {
-		buf := d[offset:]
+		b := buf[offset:]
 		j := uint64(0)
 		var t uint64
-		t = uint64(buf[j] & mask7)
-		if buf[j]&msb7 == 0 {
+		t = uint64(b[j] & mask7)
+		if b[j]&msb7 == 0 {
 			goto fordone
 		}
 		j++
-		t |= uint64(buf[j]&mask7) << 7
-		if buf[j]&msb7 == 0 {
+		t |= uint64(b[j]&mask7) << 7
+		if b[j]&msb7 == 0 {
 			goto fordone
 		}
 		j++
-		t |= uint64(buf[j]&mask7) << 14
-		if buf[j]&msb7 == 0 {
+		t |= uint64(b[j]&mask7) << 14
+		if b[j]&msb7 == 0 {
 			goto fordone
 		}
 		j++
-		t |= uint64(buf[j]&mask7) << 21
-		if buf[j]&msb7 == 0 {
+		t |= uint64(b[j]&mask7) << 21
+		if b[j]&msb7 == 0 {
 			goto fordone
 		}
 		j++
-		t |= uint64(buf[j]&mask7) << 28
-		if buf[j]&msb7 == 0 {
+		t |= uint64(b[j]&mask7) << 28
+		if b[j]&msb7 == 0 {
 			goto fordone
 		}
 		j++
-		t |= uint64(buf[j]&mask7) << 35
-		if buf[j]&msb7 == 0 {
+		t |= uint64(b[j]&mask7) << 35
+		if b[j]&msb7 == 0 {
 			goto fordone
 		}
 		j++
-		t |= uint64(buf[j]&mask7) << 42
-		if buf[j]&msb7 == 0 {
+		t |= uint64(b[j]&mask7) << 42
+		if b[j]&msb7 == 0 {
 			goto fordone
 		}
 		j++
-		t |= uint64(buf[j]&mask7) << 49
-		if buf[j]&msb7 == 0 {
+		t |= uint64(b[j]&mask7) << 49
+		if b[j]&msb7 == 0 {
 			goto fordone
 		}
 		j++
-		t |= uint64(buf[j]&mask7) << 56
-		if buf[j]&msb7 == 0 {
+		t |= uint64(b[j]&mask7) << 56
+		if b[j]&msb7 == 0 {
 			goto fordone
 		}
 		j++
-		t |= uint64(buf[j]&mask7) << 63
+		t |= uint64(b[j]&mask7) << 63
 		goto fordone
 	fordone:
 		j++
@@ -1127,57 +1127,57 @@ func EncodeFloat32Slice(buf []byte, v []float32) uint64 {
 // DecodeFloat32Slice decodes a []float32 from buf, stores the result in the value pointed to by v
 // and returns the number of bytes read (> 0).
 // If the buffer is not from EncodeFloat32Slice, DecodeFloat32Slice will panic.
-func DecodeFloat32Slice(d []byte, v *[]float32) uint64 {
+func DecodeFloat32Slice(buf []byte, v *[]float32) uint64 {
 	var length uint64
 	var offset uint64
 	var n uint64
 	var t uint64
-	t = uint64(d[n] & mask7)
-	if d[n]&msb7 == 0 {
+	t = uint64(buf[n] & mask7)
+	if buf[n]&msb7 == 0 {
 		goto done
 	}
 	n++
-	t |= uint64(d[n]&mask7) << 7
-	if d[n]&msb7 == 0 {
+	t |= uint64(buf[n]&mask7) << 7
+	if buf[n]&msb7 == 0 {
 		goto done
 	}
 	n++
-	t |= uint64(d[n]&mask7) << 14
-	if d[n]&msb7 == 0 {
+	t |= uint64(buf[n]&mask7) << 14
+	if buf[n]&msb7 == 0 {
 		goto done
 	}
 	n++
-	t |= uint64(d[n]&mask7) << 21
-	if d[n]&msb7 == 0 {
+	t |= uint64(buf[n]&mask7) << 21
+	if buf[n]&msb7 == 0 {
 		goto done
 	}
 	n++
-	t |= uint64(d[n]&mask7) << 28
-	if d[n]&msb7 == 0 {
+	t |= uint64(buf[n]&mask7) << 28
+	if buf[n]&msb7 == 0 {
 		goto done
 	}
 	n++
-	t |= uint64(d[n]&mask7) << 35
-	if d[n]&msb7 == 0 {
+	t |= uint64(buf[n]&mask7) << 35
+	if buf[n]&msb7 == 0 {
 		goto done
 	}
 	n++
-	t |= uint64(d[n]&mask7) << 42
-	if d[n]&msb7 == 0 {
+	t |= uint64(buf[n]&mask7) << 42
+	if buf[n]&msb7 == 0 {
 		goto done
 	}
 	n++
-	t |= uint64(d[n]&mask7) << 49
-	if d[n]&msb7 == 0 {
+	t |= uint64(buf[n]&mask7) << 49
+	if buf[n]&msb7 == 0 {
 		goto done
 	}
 	n++
-	t |= uint64(d[n]&mask7) << 56
-	if d[n]&msb7 == 0 {
+	t |= uint64(buf[n]&mask7) << 56
+	if buf[n]&msb7 == 0 {
 		goto done
 	}
 	n++
-	t |= uint64(d[n]&mask7) << 63
+	t |= uint64(buf[n]&mask7) << 63
 	goto done
 done:
 	n++
@@ -1190,10 +1190,10 @@ done:
 	offset = n
 	for i := uint64(0); i < length; i++ {
 		var f uint32
-		f |= uint32(d[offset+0])
-		f |= uint32(d[offset+1]) << 8
-		f |= uint32(d[offset+2]) << 16
-		f |= uint32(d[offset+3]) << 24
+		f |= uint32(buf[offset+0])
+		f |= uint32(buf[offset+1]) << 8
+		f |= uint32(buf[offset+2]) << 16
+		f |= uint32(buf[offset+3]) << 24
 		(*v)[i] = *(*float32)(unsafe.Pointer(&f))
 		offset += 4
 	}
@@ -1239,57 +1239,57 @@ func EncodeFloat64Slice(buf []byte, v []float64) uint64 {
 // DecodeFloat64Slice decodes a uint64 from buf, stores the result in the value pointed to by v
 // and returns the number of bytes read (> 0).
 // If the buffer is not from EncodeFloat64Slice, DecodeFloat64Slice will panic.
-func DecodeFloat64Slice(d []byte, v *[]float64) uint64 {
+func DecodeFloat64Slice(buf []byte, v *[]float64) uint64 {
 	var length uint64
 	var offset uint64
 	var n uint64
 	var t uint64
-	t = uint64(d[n] & mask7)
-	if d[n]&msb7 == 0 {
+	t = uint64(buf[n] & mask7)
+	if buf[n]&msb7 == 0 {
 		goto done
 	}
 	n++
-	t |= uint64(d[n]&mask7) << 7
-	if d[n]&msb7 == 0 {
+	t |= uint64(buf[n]&mask7) << 7
+	if buf[n]&msb7 == 0 {
 		goto done
 	}
 	n++
-	t |= uint64(d[n]&mask7) << 14
-	if d[n]&msb7 == 0 {
+	t |= uint64(buf[n]&mask7) << 14
+	if buf[n]&msb7 == 0 {
 		goto done
 	}
 	n++
-	t |= uint64(d[n]&mask7) << 21
-	if d[n]&msb7 == 0 {
+	t |= uint64(buf[n]&mask7) << 21
+	if buf[n]&msb7 == 0 {
 		goto done
 	}
 	n++
-	t |= uint64(d[n]&mask7) << 28
-	if d[n]&msb7 == 0 {
+	t |= uint64(buf[n]&mask7) << 28
+	if buf[n]&msb7 == 0 {
 		goto done
 	}
 	n++
-	t |= uint64(d[n]&mask7) << 35
-	if d[n]&msb7 == 0 {
+	t |= uint64(buf[n]&mask7) << 35
+	if buf[n]&msb7 == 0 {
 		goto done
 	}
 	n++
-	t |= uint64(d[n]&mask7) << 42
-	if d[n]&msb7 == 0 {
+	t |= uint64(buf[n]&mask7) << 42
+	if buf[n]&msb7 == 0 {
 		goto done
 	}
 	n++
-	t |= uint64(d[n]&mask7) << 49
-	if d[n]&msb7 == 0 {
+	t |= uint64(buf[n]&mask7) << 49
+	if buf[n]&msb7 == 0 {
 		goto done
 	}
 	n++
-	t |= uint64(d[n]&mask7) << 56
-	if d[n]&msb7 == 0 {
+	t |= uint64(buf[n]&mask7) << 56
+	if buf[n]&msb7 == 0 {
 		goto done
 	}
 	n++
-	t |= uint64(d[n]&mask7) << 63
+	t |= uint64(buf[n]&mask7) << 63
 	goto done
 done:
 	n++
@@ -1302,14 +1302,14 @@ done:
 	offset = n
 	for i := uint64(0); i < length; i++ {
 		var f uint64
-		f |= uint64(d[offset+0])
-		f |= uint64(d[offset+1]) << 8
-		f |= uint64(d[offset+2]) << 16
-		f |= uint64(d[offset+3]) << 24
-		f |= uint64(d[offset+4]) << 32
-		f |= uint64(d[offset+5]) << 40
-		f |= uint64(d[offset+6]) << 48
-		f |= uint64(d[offset+7]) << 56
+		f |= uint64(buf[offset+0])
+		f |= uint64(buf[offset+1]) << 8
+		f |= uint64(buf[offset+2]) << 16
+		f |= uint64(buf[offset+3]) << 24
+		f |= uint64(buf[offset+4]) << 32
+		f |= uint64(buf[offset+5]) << 40
+		f |= uint64(buf[offset+6]) << 48
+		f |= uint64(buf[offset+7]) << 56
 		(*v)[i] = *(*float64)(unsafe.Pointer(&f))
 		offset += 8
 	}
@@ -1351,57 +1351,57 @@ func EncodeBoolSlice(buf []byte, v []bool) uint64 {
 // DecodeBoolSlice decodes a []bool from buf, stores the result in the value pointed to by v
 // and returns the number of bytes read (> 0).
 // If the buffer is not from EncodeBoolSlice, DecodeBoolSlice will panic.
-func DecodeBoolSlice(d []byte, v *[]bool) uint64 {
+func DecodeBoolSlice(buf []byte, v *[]bool) uint64 {
 	var length uint64
 	var offset uint64
 	var n uint64
 	var t uint64
-	t = uint64(d[n] & mask7)
-	if d[n]&msb7 == 0 {
+	t = uint64(buf[n] & mask7)
+	if buf[n]&msb7 == 0 {
 		goto done
 	}
 	n++
-	t |= uint64(d[n]&mask7) << 7
-	if d[n]&msb7 == 0 {
+	t |= uint64(buf[n]&mask7) << 7
+	if buf[n]&msb7 == 0 {
 		goto done
 	}
 	n++
-	t |= uint64(d[n]&mask7) << 14
-	if d[n]&msb7 == 0 {
+	t |= uint64(buf[n]&mask7) << 14
+	if buf[n]&msb7 == 0 {
 		goto done
 	}
 	n++
-	t |= uint64(d[n]&mask7) << 21
-	if d[n]&msb7 == 0 {
+	t |= uint64(buf[n]&mask7) << 21
+	if buf[n]&msb7 == 0 {
 		goto done
 	}
 	n++
-	t |= uint64(d[n]&mask7) << 28
-	if d[n]&msb7 == 0 {
+	t |= uint64(buf[n]&mask7) << 28
+	if buf[n]&msb7 == 0 {
 		goto done
 	}
 	n++
-	t |= uint64(d[n]&mask7) << 35
-	if d[n]&msb7 == 0 {
+	t |= uint64(buf[n]&mask7) << 35
+	if buf[n]&msb7 == 0 {
 		goto done
 	}
 	n++
-	t |= uint64(d[n]&mask7) << 42
-	if d[n]&msb7 == 0 {
+	t |= uint64(buf[n]&mask7) << 42
+	if buf[n]&msb7 == 0 {
 		goto done
 	}
 	n++
-	t |= uint64(d[n]&mask7) << 49
-	if d[n]&msb7 == 0 {
+	t |= uint64(buf[n]&mask7) << 49
+	if buf[n]&msb7 == 0 {
 		goto done
 	}
 	n++
-	t |= uint64(d[n]&mask7) << 56
-	if d[n]&msb7 == 0 {
+	t |= uint64(buf[n]&mask7) << 56
+	if buf[n]&msb7 == 0 {
 		goto done
 	}
 	n++
-	t |= uint64(d[n]&mask7) << 63
+	t |= uint64(buf[n]&mask7) << 63
 	goto done
 done:
 	n++
@@ -1413,7 +1413,7 @@ done:
 	}
 	offset = n
 	for i := uint64(0); i < length; i++ {
-		if d[offset] == 0 {
+		if buf[offset] == 0 {
 			(*v)[i] = false
 		} else {
 			(*v)[i] = true
@@ -1463,58 +1463,58 @@ func EncodeStringSlice(buf []byte, v []string) uint64 {
 // DecodeStringSlice decodes a []string from buf, stores the result in the value pointed to by v
 // and returns the number of bytes read (> 0).
 // If the buffer is not from EncodeStringSlice, DecodeStringSlice will panic.
-func DecodeStringSlice(d []byte, v *[]string) uint64 {
+func DecodeStringSlice(buf []byte, v *[]string) uint64 {
 	var length uint64
 	var l uint64
 	var offset uint64
 	var n uint64
 	var t uint64
-	t = uint64(d[n] & mask7)
-	if d[n]&msb7 == 0 {
+	t = uint64(buf[n] & mask7)
+	if buf[n]&msb7 == 0 {
 		goto done
 	}
 	n++
-	t |= uint64(d[n]&mask7) << 7
-	if d[n]&msb7 == 0 {
+	t |= uint64(buf[n]&mask7) << 7
+	if buf[n]&msb7 == 0 {
 		goto done
 	}
 	n++
-	t |= uint64(d[n]&mask7) << 14
-	if d[n]&msb7 == 0 {
+	t |= uint64(buf[n]&mask7) << 14
+	if buf[n]&msb7 == 0 {
 		goto done
 	}
 	n++
-	t |= uint64(d[n]&mask7) << 21
-	if d[n]&msb7 == 0 {
+	t |= uint64(buf[n]&mask7) << 21
+	if buf[n]&msb7 == 0 {
 		goto done
 	}
 	n++
-	t |= uint64(d[n]&mask7) << 28
-	if d[n]&msb7 == 0 {
+	t |= uint64(buf[n]&mask7) << 28
+	if buf[n]&msb7 == 0 {
 		goto done
 	}
 	n++
-	t |= uint64(d[n]&mask7) << 35
-	if d[n]&msb7 == 0 {
+	t |= uint64(buf[n]&mask7) << 35
+	if buf[n]&msb7 == 0 {
 		goto done
 	}
 	n++
-	t |= uint64(d[n]&mask7) << 42
-	if d[n]&msb7 == 0 {
+	t |= uint64(buf[n]&mask7) << 42
+	if buf[n]&msb7 == 0 {
 		goto done
 	}
 	n++
-	t |= uint64(d[n]&mask7) << 49
-	if d[n]&msb7 == 0 {
+	t |= uint64(buf[n]&mask7) << 49
+	if buf[n]&msb7 == 0 {
 		goto done
 	}
 	n++
-	t |= uint64(d[n]&mask7) << 56
-	if d[n]&msb7 == 0 {
+	t |= uint64(buf[n]&mask7) << 56
+	if buf[n]&msb7 == 0 {
 		goto done
 	}
 	n++
-	t |= uint64(d[n]&mask7) << 63
+	t |= uint64(buf[n]&mask7) << 63
 	goto done
 done:
 	n++
@@ -1526,61 +1526,61 @@ done:
 	}
 	offset = n
 	for i := uint64(0); i < length; i++ {
-		buf := d[offset:]
+		b := buf[offset:]
 		j := uint64(0)
 		var t uint64
-		t = uint64(buf[j] & mask7)
-		if buf[j]&msb7 == 0 {
+		t = uint64(b[j] & mask7)
+		if b[j]&msb7 == 0 {
 			goto fordone
 		}
 		j++
-		t |= uint64(buf[j]&mask7) << 7
-		if buf[j]&msb7 == 0 {
+		t |= uint64(b[j]&mask7) << 7
+		if b[j]&msb7 == 0 {
 			goto fordone
 		}
 		j++
-		t |= uint64(buf[j]&mask7) << 14
-		if buf[j]&msb7 == 0 {
+		t |= uint64(b[j]&mask7) << 14
+		if b[j]&msb7 == 0 {
 			goto fordone
 		}
 		j++
-		t |= uint64(buf[j]&mask7) << 21
-		if buf[j]&msb7 == 0 {
+		t |= uint64(b[j]&mask7) << 21
+		if b[j]&msb7 == 0 {
 			goto fordone
 		}
 		j++
-		t |= uint64(buf[j]&mask7) << 28
-		if buf[j]&msb7 == 0 {
+		t |= uint64(b[j]&mask7) << 28
+		if b[j]&msb7 == 0 {
 			goto fordone
 		}
 		j++
-		t |= uint64(buf[j]&mask7) << 35
-		if buf[j]&msb7 == 0 {
+		t |= uint64(b[j]&mask7) << 35
+		if b[j]&msb7 == 0 {
 			goto fordone
 		}
 		j++
-		t |= uint64(buf[j]&mask7) << 42
-		if buf[j]&msb7 == 0 {
+		t |= uint64(b[j]&mask7) << 42
+		if b[j]&msb7 == 0 {
 			goto fordone
 		}
 		j++
-		t |= uint64(buf[j]&mask7) << 49
-		if buf[j]&msb7 == 0 {
+		t |= uint64(b[j]&mask7) << 49
+		if b[j]&msb7 == 0 {
 			goto fordone
 		}
 		j++
-		t |= uint64(buf[j]&mask7) << 56
-		if buf[j]&msb7 == 0 {
+		t |= uint64(b[j]&mask7) << 56
+		if b[j]&msb7 == 0 {
 			goto fordone
 		}
 		j++
-		t |= uint64(buf[j]&mask7) << 63
+		t |= uint64(b[j]&mask7) << 63
 		goto fordone
 	fordone:
 		j++
 		l++
-		b := d[offset+j : offset+j+t]
-		(*v)[i] = *(*string)(unsafe.Pointer(&b))
+		s := buf[offset+j : offset+j+t]
+		(*v)[i] = *(*string)(unsafe.Pointer(&s))
 		offset += j + t
 	}
 	return offset
@@ -1600,7 +1600,7 @@ func SizeofStringSlice(v []string) uint64 {
 	return size
 }
 
-// EncodeBytesSlice encodes a d [][]byte into buf and returns the number of bytes written.
+// EncodeBytesSlice encodes a buf [][]byte into buf and returns the number of bytes written.
 // If the buffer is too small, EncodeBytesSlice will panic.
 func EncodeBytesSlice(buf []byte, v [][]byte) uint64 {
 	var offset uint64
@@ -1634,58 +1634,58 @@ func EncodeBytesSlice(buf []byte, v [][]byte) uint64 {
 // DecodeBytesSlice decodes a [][]byte from buf, stores the result in the value pointed to by v
 // and returns the number of bytes read (> 0).
 // If the buffer is not from EncodeBytesSlice, DecodeBytesSlice will panic.
-func DecodeBytesSlice(d []byte, v *[][]byte) uint64 {
+func DecodeBytesSlice(buf []byte, v *[][]byte) uint64 {
 	var length uint64
 	var l uint64
 	var offset uint64
 	var n uint64
 	var t uint64
-	t = uint64(d[n] & mask7)
-	if d[n]&msb7 == 0 {
+	t = uint64(buf[n] & mask7)
+	if buf[n]&msb7 == 0 {
 		goto done
 	}
 	n++
-	t |= uint64(d[n]&mask7) << 7
-	if d[n]&msb7 == 0 {
+	t |= uint64(buf[n]&mask7) << 7
+	if buf[n]&msb7 == 0 {
 		goto done
 	}
 	n++
-	t |= uint64(d[n]&mask7) << 14
-	if d[n]&msb7 == 0 {
+	t |= uint64(buf[n]&mask7) << 14
+	if buf[n]&msb7 == 0 {
 		goto done
 	}
 	n++
-	t |= uint64(d[n]&mask7) << 21
-	if d[n]&msb7 == 0 {
+	t |= uint64(buf[n]&mask7) << 21
+	if buf[n]&msb7 == 0 {
 		goto done
 	}
 	n++
-	t |= uint64(d[n]&mask7) << 28
-	if d[n]&msb7 == 0 {
+	t |= uint64(buf[n]&mask7) << 28
+	if buf[n]&msb7 == 0 {
 		goto done
 	}
 	n++
-	t |= uint64(d[n]&mask7) << 35
-	if d[n]&msb7 == 0 {
+	t |= uint64(buf[n]&mask7) << 35
+	if buf[n]&msb7 == 0 {
 		goto done
 	}
 	n++
-	t |= uint64(d[n]&mask7) << 42
-	if d[n]&msb7 == 0 {
+	t |= uint64(buf[n]&mask7) << 42
+	if buf[n]&msb7 == 0 {
 		goto done
 	}
 	n++
-	t |= uint64(d[n]&mask7) << 49
-	if d[n]&msb7 == 0 {
+	t |= uint64(buf[n]&mask7) << 49
+	if buf[n]&msb7 == 0 {
 		goto done
 	}
 	n++
-	t |= uint64(d[n]&mask7) << 56
-	if d[n]&msb7 == 0 {
+	t |= uint64(buf[n]&mask7) << 56
+	if buf[n]&msb7 == 0 {
 		goto done
 	}
 	n++
-	t |= uint64(d[n]&mask7) << 63
+	t |= uint64(buf[n]&mask7) << 63
 	goto done
 done:
 	n++
@@ -1697,61 +1697,61 @@ done:
 	}
 	offset = n
 	for i := uint64(0); i < length; i++ {
-		buf := d[offset:]
+		b := buf[offset:]
 		j := uint64(0)
 		var t uint64
-		t = uint64(buf[j] & mask7)
-		if buf[j]&msb7 == 0 {
+		t = uint64(b[j] & mask7)
+		if b[j]&msb7 == 0 {
 			goto fordone
 		}
 		j++
-		t |= uint64(buf[j]&mask7) << 7
-		if buf[j]&msb7 == 0 {
+		t |= uint64(b[j]&mask7) << 7
+		if b[j]&msb7 == 0 {
 			goto fordone
 		}
 		j++
-		t |= uint64(buf[j]&mask7) << 14
-		if buf[j]&msb7 == 0 {
+		t |= uint64(b[j]&mask7) << 14
+		if b[j]&msb7 == 0 {
 			goto fordone
 		}
 		j++
-		t |= uint64(buf[j]&mask7) << 21
-		if buf[j]&msb7 == 0 {
+		t |= uint64(b[j]&mask7) << 21
+		if b[j]&msb7 == 0 {
 			goto fordone
 		}
 		j++
-		t |= uint64(buf[j]&mask7) << 28
-		if buf[j]&msb7 == 0 {
+		t |= uint64(b[j]&mask7) << 28
+		if b[j]&msb7 == 0 {
 			goto fordone
 		}
 		j++
-		t |= uint64(buf[j]&mask7) << 35
-		if buf[j]&msb7 == 0 {
+		t |= uint64(b[j]&mask7) << 35
+		if b[j]&msb7 == 0 {
 			goto fordone
 		}
 		j++
-		t |= uint64(buf[j]&mask7) << 42
-		if buf[j]&msb7 == 0 {
+		t |= uint64(b[j]&mask7) << 42
+		if b[j]&msb7 == 0 {
 			goto fordone
 		}
 		j++
-		t |= uint64(buf[j]&mask7) << 49
-		if buf[j]&msb7 == 0 {
+		t |= uint64(b[j]&mask7) << 49
+		if b[j]&msb7 == 0 {
 			goto fordone
 		}
 		j++
-		t |= uint64(buf[j]&mask7) << 56
-		if buf[j]&msb7 == 0 {
+		t |= uint64(b[j]&mask7) << 56
+		if b[j]&msb7 == 0 {
 			goto fordone
 		}
 		j++
-		t |= uint64(buf[j]&mask7) << 63
+		t |= uint64(b[j]&mask7) << 63
 		goto fordone
 	fordone:
 		j++
 		l++
-		b := d[offset+j : offset+j+t]
-		(*v)[i] = b
+		s := buf[offset+j : offset+j+t]
+		(*v)[i] = s
 		offset += j + t
 	}
 	return offset
