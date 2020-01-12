@@ -1,3 +1,7 @@
+// Copyright (c) 2019 Meng Huang (mhboy@outlook.com)
+// This package is licensed under a MIT license that can be found in the LICENSE file.
+
+// Package code implements encoding and decoding.
 package code
 
 import (
@@ -359,303 +363,303 @@ func BenchmarkCodeBytes(b *testing.B) {
 	}
 }
 
-func TestCodeSliceUint8(t *testing.T) {
+func TestCodeUint8Slice(t *testing.T) {
 	var buf = make([]byte, 64)
 	var v []uint8 = []uint8{1}
 	var n uint64
-	n = EncodeSliceUint8(buf, v)
+	n = EncodeUint8Slice(buf, v)
 	var d = make([]uint8, 2)
-	n = DecodeSliceUint8(buf[:n], &d)
+	n = DecodeUint8Slice(buf[:n], &d)
 	if v[0] != d[0] {
 		t.Errorf("error %d != %d", v[0], d[0])
 	}
-	if n != SizeofSliceUint8(v) {
+	if n != SizeofUint8Slice(v) {
 		t.Errorf("error %d != %d", n, len(buf[:n]))
 	}
 }
 
-func BenchmarkCodeSliceUint8(b *testing.B) {
+func BenchmarkCodeUint8Slice(b *testing.B) {
 	var buf = make([]byte, 64)
 	var v []uint8 = []uint8{1}
 	var n uint64
-	n = EncodeSliceUint8(buf, v)
+	n = EncodeUint8Slice(buf, v)
 	var d = make([]uint8, 1)
-	DecodeSliceUint8(buf[:n], &d)
+	DecodeUint8Slice(buf[:n], &d)
 	b.SetBytes(int64(len(buf[:n])))
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
-		n = EncodeSliceUint8(buf, v)
-		DecodeSliceUint8(buf[:n], &d)
+		n = EncodeUint8Slice(buf, v)
+		DecodeUint8Slice(buf[:n], &d)
 	}
 }
 
-func TestCodeSliceUint16(t *testing.T) {
+func TestCodeUint16Slice(t *testing.T) {
 	var buf = make([]byte, 64)
 	var v []uint16 = []uint16{1}
 	var n uint64
-	n = EncodeSliceUint16(buf, v)
+	n = EncodeUint16Slice(buf, v)
 	var d = make([]uint16, 2)
-	n = DecodeSliceUint16(buf[:n], &d)
+	n = DecodeUint16Slice(buf[:n], &d)
 	if v[0] != d[0] {
 		t.Errorf("error %d != %d", v[0], d[0])
 	}
-	if n != SizeofSliceUint16(v) {
+	if n != SizeofUint16Slice(v) {
 		t.Errorf("error %d != %d", n, len(buf[:n]))
 	}
 }
 
-func BenchmarkCodeSliceUint16(b *testing.B) {
+func BenchmarkCodeUint16Slice(b *testing.B) {
 	var buf = make([]byte, 64)
 	var v []uint16 = []uint16{1}
 	var n uint64
-	n = EncodeSliceUint16(buf, v)
+	n = EncodeUint16Slice(buf, v)
 	var d = make([]uint16, 1)
-	DecodeSliceUint16(buf[:n], &d)
+	DecodeUint16Slice(buf[:n], &d)
 	b.SetBytes(int64(len(buf[:n])))
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
-		n = EncodeSliceUint16(buf, v)
-		DecodeSliceUint16(buf[:n], &d)
+		n = EncodeUint16Slice(buf, v)
+		DecodeUint16Slice(buf[:n], &d)
 	}
 }
 
-func TestCodeSliceUint32(t *testing.T) {
+func TestCodeUint32Slice(t *testing.T) {
 	var buf = make([]byte, 64)
 	var v []uint32 = []uint32{1}
 	var n uint64
-	n = EncodeSliceUint32(buf, v)
+	n = EncodeUint32Slice(buf, v)
 	var d = make([]uint32, 2)
-	n = DecodeSliceUint32(buf[:n], &d)
+	n = DecodeUint32Slice(buf[:n], &d)
 	if v[0] != d[0] {
 		t.Errorf("error %d != %d", v[0], d[0])
 	}
-	if n != SizeofSliceUint32(v) {
+	if n != SizeofUint32Slice(v) {
 		t.Errorf("error %d != %d", n, len(buf[:n]))
 	}
 }
 
-func BenchmarkCodeSliceUint32(b *testing.B) {
+func BenchmarkCodeUint32Slice(b *testing.B) {
 	var buf = make([]byte, 64)
 	var v []uint32 = []uint32{1}
 	var n uint64
-	n = EncodeSliceUint32(buf, v)
+	n = EncodeUint32Slice(buf, v)
 	var d = make([]uint32, 1)
-	DecodeSliceUint32(buf[:n], &d)
+	DecodeUint32Slice(buf[:n], &d)
 	b.SetBytes(int64(len(buf[:n])))
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
-		n = EncodeSliceUint32(buf, v)
-		DecodeSliceUint32(buf[:n], &d)
+		n = EncodeUint32Slice(buf, v)
+		DecodeUint32Slice(buf[:n], &d)
 	}
 }
 
-func TestCodeSliceUint64(t *testing.T) {
+func TestCodeUint64Slice(t *testing.T) {
 	var buf = make([]byte, 64)
 	var v []uint64 = []uint64{1}
 	var n uint64
-	n = EncodeSliceUint64(buf, v)
+	n = EncodeUint64Slice(buf, v)
 	var d = make([]uint64, 2)
-	n = DecodeSliceUint64(buf[:n], &d)
+	n = DecodeUint64Slice(buf[:n], &d)
 	if v[0] != d[0] {
 		t.Errorf("error %d != %d", v[0], d[0])
 	}
-	if n != SizeofSliceUint64(v) {
+	if n != SizeofUint64Slice(v) {
 		t.Errorf("error %d != %d", n, len(buf[:n]))
 	}
 }
 
-func BenchmarkCodeSliceUint64(b *testing.B) {
+func BenchmarkCodeUint64Slice(b *testing.B) {
 	var buf = make([]byte, 64)
 	var v []uint64 = []uint64{1}
 	var n uint64
-	n = EncodeSliceUint64(buf, v)
+	n = EncodeUint64Slice(buf, v)
 	var d = make([]uint64, 1)
-	DecodeSliceUint64(buf[:n], &d)
+	DecodeUint64Slice(buf[:n], &d)
 	b.SetBytes(int64(len(buf[:n])))
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
-		n = EncodeSliceUint64(buf, v)
-		DecodeSliceUint64(buf[:n], &d)
+		n = EncodeUint64Slice(buf, v)
+		DecodeUint64Slice(buf[:n], &d)
 	}
 }
 
-func TestCodeSliceVarint(t *testing.T) {
+func TestCodeVarintSlice(t *testing.T) {
 	var buf = make([]byte, 64)
 	var v []uint64 = []uint64{1}
 	var n uint64
-	n = EncodeSliceVarint(buf, v)
+	n = EncodeVarintSlice(buf, v)
 	var d = make([]uint64, 2)
-	n = DecodeSliceVarint(buf[:n], &d)
+	n = DecodeVarintSlice(buf[:n], &d)
 	if v[0] != d[0] {
 		t.Errorf("error %d != %d", v[0], d[0])
 	}
-	if n != SizeofSliceVarint(v) {
+	if n != SizeofVarintSlice(v) {
 		t.Errorf("error %d != %d", n, len(buf[:n]))
 	}
 }
 
-func BenchmarkCodeSliceVarint(b *testing.B) {
+func BenchmarkCodeVarintSlice(b *testing.B) {
 	var buf = make([]byte, 64)
 	var v []uint64 = []uint64{1}
 	var n uint64
-	n = EncodeSliceVarint(buf, v)
+	n = EncodeVarintSlice(buf, v)
 	var d = make([]uint64, 1)
-	DecodeSliceVarint(buf[:n], &d)
+	DecodeVarintSlice(buf[:n], &d)
 	b.SetBytes(int64(len(buf[:n])))
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
-		n = EncodeSliceVarint(buf, v)
-		DecodeSliceVarint(buf[:n], &d)
+		n = EncodeVarintSlice(buf, v)
+		DecodeVarintSlice(buf[:n], &d)
 	}
 }
 
-func TestCodeSliceFloat32(t *testing.T) {
+func TestCodeFloat32Slice(t *testing.T) {
 	var buf = make([]byte, 64)
 	var v []float32 = []float32{3.14}
 	var n uint64
-	n = EncodeSliceFloat32(buf, v)
+	n = EncodeFloat32Slice(buf, v)
 	var d = make([]float32, 2)
-	n = DecodeSliceFloat32(buf[:n], &d)
+	n = DecodeFloat32Slice(buf[:n], &d)
 	if v[0] != d[0] {
 		t.Errorf("error %.2f != %.2f", v[0], d[0])
 	}
-	if n != SizeofSliceFloat32(v) {
+	if n != SizeofFloat32Slice(v) {
 		t.Errorf("error %d != %d", n, len(buf[:n]))
 	}
 }
 
-func BenchmarkCodeSliceFloat32(b *testing.B) {
+func BenchmarkCodeFloat32Slice(b *testing.B) {
 	var buf = make([]byte, 64)
 	var v []float32 = []float32{3.14}
 	var n uint64
-	n = EncodeSliceFloat32(buf, v)
+	n = EncodeFloat32Slice(buf, v)
 	var d = make([]float32, 1)
-	DecodeSliceFloat32(buf[:n], &d)
+	DecodeFloat32Slice(buf[:n], &d)
 	b.SetBytes(int64(len(buf[:n])))
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
-		n = EncodeSliceFloat32(buf, v)
-		DecodeSliceFloat32(buf[:n], &d)
+		n = EncodeFloat32Slice(buf, v)
+		DecodeFloat32Slice(buf[:n], &d)
 	}
 }
 
-func TestCodeSliceFloat64(t *testing.T) {
+func TestCodeFloat64Slice(t *testing.T) {
 	var buf = make([]byte, 64)
 	var v []float64 = []float64{3.14}
 	var n uint64
-	n = EncodeSliceFloat64(buf, v)
+	n = EncodeFloat64Slice(buf, v)
 	var d = make([]float64, 2)
-	n = DecodeSliceFloat64(buf[:n], &d)
+	n = DecodeFloat64Slice(buf[:n], &d)
 	if v[0] != d[0] {
 		t.Errorf("error %.2f != %.2f", v[0], d[0])
 	}
-	if n != SizeofSliceFloat64(v) {
+	if n != SizeofFloat64Slice(v) {
 		t.Errorf("error %d != %d", n, len(buf[:n]))
 	}
 }
 
-func BenchmarkCodeSliceFloat64(b *testing.B) {
+func BenchmarkCodeFloat64Slice(b *testing.B) {
 	var buf = make([]byte, 64)
 	var v []float64 = []float64{3.14}
 	var n uint64
-	n = EncodeSliceFloat64(buf, v)
+	n = EncodeFloat64Slice(buf, v)
 	var d = make([]float64, 1)
-	DecodeSliceFloat64(buf[:n], &d)
+	DecodeFloat64Slice(buf[:n], &d)
 	b.SetBytes(int64(len(buf[:n])))
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
-		n = EncodeSliceFloat64(buf, v)
-		DecodeSliceFloat64(buf[:n], &d)
+		n = EncodeFloat64Slice(buf, v)
+		DecodeFloat64Slice(buf[:n], &d)
 	}
 }
 
-func TestCodeSliceBool(t *testing.T) {
+func TestCodeBoolSlice(t *testing.T) {
 	var buf = make([]byte, 64)
 	var v []bool = []bool{true, false}
 	var n uint64
-	n = EncodeSliceBool(buf, v)
+	n = EncodeBoolSlice(buf, v)
 	var d = make([]bool, 2)
-	n = DecodeSliceBool(buf[:n], &d)
+	n = DecodeBoolSlice(buf[:n], &d)
 	if v[0] != d[0] {
 		t.Errorf("error %t != %t", v[0], d[0])
 	}
-	if n != SizeofSliceBool(v) {
+	if n != SizeofBoolSlice(v) {
 		t.Errorf("error %d != %d", n, len(buf[:n]))
 	}
 }
 
-func BenchmarkCodeSliceBool(b *testing.B) {
+func BenchmarkCodeBoolSlice(b *testing.B) {
 	var buf = make([]byte, 64)
 	var v []bool = []bool{true}
 	var n uint64
-	n = EncodeSliceBool(buf, v)
+	n = EncodeBoolSlice(buf, v)
 	var d = make([]bool, 1)
-	DecodeSliceBool(buf[:n], &d)
+	DecodeBoolSlice(buf[:n], &d)
 	b.SetBytes(int64(len(buf[:n])))
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
-		n = EncodeSliceBool(buf, v)
-		DecodeSliceBool(buf[:n], &d)
+		n = EncodeBoolSlice(buf, v)
+		DecodeBoolSlice(buf[:n], &d)
 	}
 }
 
-func TestCodeSliceString(t *testing.T) {
+func TestCodeStringSlice(t *testing.T) {
 	var buf = make([]byte, 64)
 	var v []string = []string{"h", "w"}
 	var n uint64
-	n = EncodeSliceString(buf, v)
+	n = EncodeStringSlice(buf, v)
 	var v2 []string = make([]string, 2)
-	n = DecodeSliceString(buf[:n], &v2)
+	n = DecodeStringSlice(buf[:n], &v2)
 	if v[0][0] != v2[0][0] {
 		t.Errorf("error %d != %d", v[0][0], v2[0][0])
 	}
-	if n != SizeofSliceString(v) {
+	if n != SizeofStringSlice(v) {
 		t.Errorf("error %d != %d", n, len(buf[:n]))
 	}
 }
 
-func BenchmarkCodeSliceString(b *testing.B) {
+func BenchmarkCodeStringSlice(b *testing.B) {
 	var buf = make([]byte, 64)
 	var v []string = []string{"h", "w"}
 	var n uint64
-	n = EncodeSliceString(buf, v)
+	n = EncodeStringSlice(buf, v)
 	var v2 []string = make([]string, 2)
-	DecodeSliceString(buf[:n], &v2)
+	DecodeStringSlice(buf[:n], &v2)
 	b.SetBytes(int64(len(buf[:n])))
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
-		n = EncodeSliceString(buf, v)
-		DecodeSliceString(buf[:n], &v2)
+		n = EncodeStringSlice(buf, v)
+		DecodeStringSlice(buf[:n], &v2)
 	}
 }
 
-func TestCodeSliceBytes(t *testing.T) {
+func TestCodeBytesSlice(t *testing.T) {
 	var buf = make([]byte, 64)
 	var v [][]byte = [][]byte{{1}, {2}}
 	var n uint64
-	n = EncodeSliceBytes(buf, v)
+	n = EncodeBytesSlice(buf, v)
 	var v2 [][]byte = make([][]byte, 2)
-	n = DecodeSliceBytes(buf[:n], &v2)
+	n = DecodeBytesSlice(buf[:n], &v2)
 	if v[0][0] != v2[0][0] {
 		t.Errorf("error %d != %d", v[0][0], v2[0][0])
 	}
-	if n != SizeofSliceBytes(v) {
+	if n != SizeofBytesSlice(v) {
 		t.Errorf("error %d != %d", n, len(buf[:n]))
 	}
 }
 
-func BenchmarkCodeSliceBytes(b *testing.B) {
+func BenchmarkCodeBytesSlice(b *testing.B) {
 	var buf = make([]byte, 64)
 	var v [][]byte = [][]byte{{1}, {2}}
 	var n uint64
-	n = EncodeSliceBytes(buf, v)
+	n = EncodeBytesSlice(buf, v)
 	var v2 [][]byte = make([][]byte, 2)
-	DecodeSliceBytes(buf[:n], &v2)
+	DecodeBytesSlice(buf[:n], &v2)
 	b.SetBytes(int64(len(buf[:n])))
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
-		n = EncodeSliceBytes(buf, v)
-		DecodeSliceBytes(buf[:n], &v2)
+		n = EncodeBytesSlice(buf, v)
+		DecodeBytesSlice(buf[:n], &v2)
 	}
 }
 
@@ -732,82 +736,82 @@ func BenchmarkSizeofBytes(b *testing.B) {
 	}
 }
 
-func BenchmarkSizeofSliceUint8(b *testing.B) {
+func BenchmarkSizeofUint8Slice(b *testing.B) {
 	var v []uint8 = []uint8{1}
 	b.SetBytes(int64(1))
 	for i := 0; i < b.N; i++ {
-		SizeofSliceUint8(v)
+		SizeofUint8Slice(v)
 	}
 }
 
-func BenchmarkSizeofSliceUint16(b *testing.B) {
+func BenchmarkSizeofUint16Slice(b *testing.B) {
 	var v []uint16 = []uint16{1}
 	b.SetBytes(int64(1))
 	for i := 0; i < b.N; i++ {
-		SizeofSliceUint16(v)
+		SizeofUint16Slice(v)
 	}
 }
 
-func BenchmarkSizeofSliceUint32(b *testing.B) {
+func BenchmarkSizeofUint32Slice(b *testing.B) {
 	var v []uint32 = []uint32{1}
 	b.SetBytes(int64(1))
 	for i := 0; i < b.N; i++ {
-		SizeofSliceUint32(v)
+		SizeofUint32Slice(v)
 	}
 }
 
-func BenchmarkSizeofSliceUint64(b *testing.B) {
+func BenchmarkSizeofUint64Slice(b *testing.B) {
 	var v []uint64 = []uint64{1}
 	b.SetBytes(int64(1))
 	for i := 0; i < b.N; i++ {
-		SizeofSliceUint64(v)
+		SizeofUint64Slice(v)
 	}
 }
 
-func BenchmarkSizeofSliceVarint(b *testing.B) {
+func BenchmarkSizeofVarintSlice(b *testing.B) {
 	var v []uint64 = []uint64{1}
 	b.SetBytes(int64(1))
 	for i := 0; i < b.N; i++ {
-		SizeofSliceVarint(v)
+		SizeofVarintSlice(v)
 	}
 }
 
-func BenchmarkSizeofSliceFloat32(b *testing.B) {
+func BenchmarkSizeofFloat32Slice(b *testing.B) {
 	var v []float32 = []float32{3.14}
 	b.SetBytes(int64(4))
 	for i := 0; i < b.N; i++ {
-		SizeofSliceFloat32(v)
+		SizeofFloat32Slice(v)
 	}
 }
 
-func BenchmarkSizeofSliceFloat64(b *testing.B) {
+func BenchmarkSizeofFloat64Slice(b *testing.B) {
 	var v []float64 = []float64{3.14}
 	b.SetBytes(int64(8))
 	for i := 0; i < b.N; i++ {
-		SizeofSliceFloat64(v)
+		SizeofFloat64Slice(v)
 	}
 }
 
-func BenchmarkSizeofSliceBool(b *testing.B) {
+func BenchmarkSizeofBoolSlice(b *testing.B) {
 	var v []bool = []bool{true}
 	b.SetBytes(int64(1))
 	for i := 0; i < b.N; i++ {
-		SizeofSliceBool(v)
+		SizeofBoolSlice(v)
 	}
 }
 
-func BenchmarkSizeofSliceString(b *testing.B) {
+func BenchmarkSizeofStringSlice(b *testing.B) {
 	var v []string = []string{"h", "w"}
 	b.SetBytes(int64(2))
 	for i := 0; i < b.N; i++ {
-		SizeofSliceString(v)
+		SizeofStringSlice(v)
 	}
 }
 
-func BenchmarkSizeofSliceBytes(b *testing.B) {
+func BenchmarkSizeofBytesSlice(b *testing.B) {
 	var v [][]byte = [][]byte{{1}, {2}}
 	b.SetBytes(int64(2))
 	for i := 0; i < b.N; i++ {
-		SizeofSliceBytes(v)
+		SizeofBytesSlice(v)
 	}
 }

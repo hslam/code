@@ -1,3 +1,7 @@
+// Copyright (c) 2019 Meng Huang (mhboy@outlook.com)
+// This package is licensed under a MIT license that can be found in the LICENSE file.
+
+// Package code implements encoding and decoding.
 package code
 
 import (
@@ -502,9 +506,9 @@ func SizeofBytes(v []byte) uint64 {
 	return SizeofVarint(length) + length
 }
 
-// EncodeSliceUint8 encodes a []uint8 into buf and returns the number of bytes written.
-// If the buffer is too small, EncodeSliceUint8 will panic.
-func EncodeSliceUint8(buf []byte, v []uint8) uint64 {
+// EncodeUint8Slice encodes a []uint8 into buf and returns the number of bytes written.
+// If the buffer is too small, EncodeUint8Slice will panic.
+func EncodeUint8Slice(buf []byte, v []uint8) uint64 {
 	var offset uint64
 	var size uint64
 	length := uint64(len(v))
@@ -525,10 +529,10 @@ func EncodeSliceUint8(buf []byte, v []uint8) uint64 {
 	return size
 }
 
-// DecodeSliceUint8 decodes a []uint8 from buf, stores the result in the value pointed to by v
+// DecodeUint8Slice decodes a []uint8 from buf, stores the result in the value pointed to by v
 // and returns the number of bytes read (> 0).
-// If the buffer is not from EncodeSliceUint8, DecodeSliceUint8 will panic.
-func DecodeSliceUint8(d []byte, v *[]uint8) uint64 {
+// If the buffer is not from EncodeUint8Slice, DecodeUint8Slice will panic.
+func DecodeUint8Slice(d []byte, v *[]uint8) uint64 {
 	var length uint64
 	var offset uint64
 	var n uint64
@@ -598,15 +602,15 @@ done:
 	return offset
 }
 
-// SizeofSliceUint8 takes a []uint8 and returns the number of bytes.
-func SizeofSliceUint8(v []uint8) uint64 {
+// SizeofUint8Slice takes a []uint8 and returns the number of bytes.
+func SizeofUint8Slice(v []uint8) uint64 {
 	var length uint64 = uint64(len(v))
 	return SizeofVarint(length) + length
 }
 
-// EncodeSliceUint16 encodes a []uint16 into buf and returns the number of bytes written.
-// If the buffer is too small, EncodeSliceUint16 will panic.
-func EncodeSliceUint16(buf []byte, v []uint16) uint64 {
+// EncodeUint16Slice encodes a []uint16 into buf and returns the number of bytes written.
+// If the buffer is too small, EncodeUint16Slice will panic.
+func EncodeUint16Slice(buf []byte, v []uint16) uint64 {
 	var offset uint64
 	var size uint64
 	length := uint64(len(v))
@@ -628,10 +632,10 @@ func EncodeSliceUint16(buf []byte, v []uint16) uint64 {
 	return size
 }
 
-// DecodeSliceUint16 decodes a uint64 from buf, stores the result in the value pointed to by v
+// DecodeUint16Slice decodes a uint64 from buf, stores the result in the value pointed to by v
 // and returns the number of bytes read (> 0).
-// If the buffer is not from EncodeSliceUint16, DecodeSliceUint16 will panic.
-func DecodeSliceUint16(d []byte, v *[]uint16) uint64 {
+// If the buffer is not from EncodeUint16Slice, DecodeUint16Slice will panic.
+func DecodeUint16Slice(d []byte, v *[]uint16) uint64 {
 	var length uint64
 	var offset uint64
 	var n uint64
@@ -702,15 +706,15 @@ done:
 	return offset
 }
 
-// SizeofSliceUint16 takes a []uint16 and returns the number of bytes.
-func SizeofSliceUint16(v []uint16) uint64 {
+// SizeofUint16Slice takes a []uint16 and returns the number of bytes.
+func SizeofUint16Slice(v []uint16) uint64 {
 	var length uint64 = uint64(len(v))
 	return SizeofVarint(length) + length*2
 }
 
-// EncodeSliceUint32 encodes a []uint32 into buf and returns the number of bytes written.
-// If the buffer is too small, EncodeSliceUint32 will panic.
-func EncodeSliceUint32(buf []byte, v []uint32) uint64 {
+// EncodeUint32Slice encodes a []uint32 into buf and returns the number of bytes written.
+// If the buffer is too small, EncodeUint32Slice will panic.
+func EncodeUint32Slice(buf []byte, v []uint32) uint64 {
 	var offset uint64
 	var size uint64
 	length := uint64(len(v))
@@ -734,10 +738,10 @@ func EncodeSliceUint32(buf []byte, v []uint32) uint64 {
 	return size
 }
 
-// DecodeSliceUint32 decodes a []uint32 from buf, stores the result in the value pointed to by v
+// DecodeUint32Slice decodes a []uint32 from buf, stores the result in the value pointed to by v
 // and returns the number of bytes read (> 0).
-// If the buffer is not from EncodeSliceUint32, DecodeSliceUint32 will panic.
-func DecodeSliceUint32(d []byte, v *[]uint32) uint64 {
+// If the buffer is not from EncodeUint32Slice, DecodeUint32Slice will panic.
+func DecodeUint32Slice(d []byte, v *[]uint32) uint64 {
 	var length uint64
 	var offset uint64
 	var n uint64
@@ -810,15 +814,15 @@ done:
 	return offset
 }
 
-// SizeofSliceUint32 takes a []uint32 and returns the number of bytes.
-func SizeofSliceUint32(v []uint32) uint64 {
+// SizeofUint32Slice takes a []uint32 and returns the number of bytes.
+func SizeofUint32Slice(v []uint32) uint64 {
 	var length uint64 = uint64(len(v))
 	return SizeofVarint(length) + length*4
 }
 
-// EncodeSliceUint64 encodes a []uint64 into buf and returns the number of bytes written.
-// If the buffer is too small, EncodeSliceUint64 will panic.
-func EncodeSliceUint64(buf []byte, v []uint64) uint64 {
+// EncodeUint64Slice encodes a []uint64 into buf and returns the number of bytes written.
+// If the buffer is too small, EncodeUint64Slice will panic.
+func EncodeUint64Slice(buf []byte, v []uint64) uint64 {
 	var offset uint64
 	var size uint64
 	length := uint64(len(v))
@@ -846,10 +850,10 @@ func EncodeSliceUint64(buf []byte, v []uint64) uint64 {
 	return size
 }
 
-// DecodeSliceUint64 decodes a []uint64 from buf, stores the result in the value pointed to by v
+// DecodeUint64Slice decodes a []uint64 from buf, stores the result in the value pointed to by v
 // and returns the number of bytes read (> 0).
-// If the buffer is not from EncodeSliceUint64, DecodeSliceUint64 will panic.
-func DecodeSliceUint64(d []byte, v *[]uint64) uint64 {
+// If the buffer is not from EncodeUint64Slice, DecodeUint64Slice will panic.
+func DecodeUint64Slice(d []byte, v *[]uint64) uint64 {
 	var length uint64
 	var offset uint64
 	var n uint64
@@ -926,15 +930,15 @@ done:
 	return offset
 }
 
-// SizeofSliceUint64 takes a []uint64 and returns the number of bytes.
-func SizeofSliceUint64(v []uint64) uint64 {
+// SizeofUint64Slice takes a []uint64 and returns the number of bytes.
+func SizeofUint64Slice(v []uint64) uint64 {
 	var length uint64 = uint64(len(v))
 	return SizeofVarint(length) + length*8
 }
 
-// EncodeSliceVarint encodes a d []uint64 into buf and returns the number of bytes written.
-// If the buffer is too small, EncodeSliceVarint will panic.
-func EncodeSliceVarint(buf []byte, v []uint64) uint64 {
+// EncodeVarintSlice encodes a d []uint64 into buf and returns the number of bytes written.
+// If the buffer is too small, EncodeVarintSlice will panic.
+func EncodeVarintSlice(buf []byte, v []uint64) uint64 {
 	var offset uint64
 	var size uint64
 	length := uint64(len(v))
@@ -961,10 +965,10 @@ func EncodeSliceVarint(buf []byte, v []uint64) uint64 {
 	return size
 }
 
-// DecodeSliceVarint decodes a []uint64 from buf, stores the result in the value pointed to by v
+// DecodeVarintSlice decodes a []uint64 from buf, stores the result in the value pointed to by v
 // and returns the number of bytes read (> 0).
-// If the buffer is not from EncodeSliceVarint, DecodeSliceVarint will panic.
-func DecodeSliceVarint(d []byte, v *[]uint64) uint64 {
+// If the buffer is not from EncodeVarintSlice, DecodeVarintSlice will panic.
+func DecodeVarintSlice(d []byte, v *[]uint64) uint64 {
 	var length uint64
 	var offset uint64
 	var n uint64
@@ -1084,8 +1088,8 @@ done:
 	return offset
 }
 
-// SizeofSliceVarint takes a []uint64 and returns the number of bytes.
-func SizeofSliceVarint(v []uint64) uint64 {
+// SizeofVarintSlice takes a []uint64 and returns the number of bytes.
+func SizeofVarintSlice(v []uint64) uint64 {
 	var size uint64
 	size = SizeofVarint(uint64(len(v)))
 	for _, s := range v {
@@ -1094,9 +1098,9 @@ func SizeofSliceVarint(v []uint64) uint64 {
 	return size
 }
 
-// EncodeSliceFloat32 encodes a []float32 into buf and returns the number of bytes written.
-// If the buffer is too small, EncodeSliceFloat32 will panic.
-func EncodeSliceFloat32(buf []byte, v []float32) uint64 {
+// EncodeFloat32Slice encodes a []float32 into buf and returns the number of bytes written.
+// If the buffer is too small, EncodeFloat32Slice will panic.
+func EncodeFloat32Slice(buf []byte, v []float32) uint64 {
 	var offset uint64
 	var size uint64
 	length := uint64(len(v))
@@ -1120,10 +1124,10 @@ func EncodeSliceFloat32(buf []byte, v []float32) uint64 {
 	return size
 }
 
-// DecodeSliceFloat32 decodes a []float32 from buf, stores the result in the value pointed to by v
+// DecodeFloat32Slice decodes a []float32 from buf, stores the result in the value pointed to by v
 // and returns the number of bytes read (> 0).
-// If the buffer is not from EncodeSliceFloat32, DecodeSliceFloat32 will panic.
-func DecodeSliceFloat32(d []byte, v *[]float32) uint64 {
+// If the buffer is not from EncodeFloat32Slice, DecodeFloat32Slice will panic.
+func DecodeFloat32Slice(d []byte, v *[]float32) uint64 {
 	var length uint64
 	var offset uint64
 	var n uint64
@@ -1196,15 +1200,15 @@ done:
 	return offset
 }
 
-// SizeofSliceFloat32 takes a []float32 and returns the number of bytes.
-func SizeofSliceFloat32(v []float32) uint64 {
+// SizeofFloat32Slice takes a []float32 and returns the number of bytes.
+func SizeofFloat32Slice(v []float32) uint64 {
 	var length uint64 = uint64(len(v))
 	return SizeofVarint(length) + length*4
 }
 
-// EncodeSliceFloat64 encodes a []float64 into buf and returns the number of bytes written.
-// If the buffer is too small, EncodeSliceFloat64 will panic.
-func EncodeSliceFloat64(buf []byte, v []float64) uint64 {
+// EncodeFloat64Slice encodes a []float64 into buf and returns the number of bytes written.
+// If the buffer is too small, EncodeFloat64Slice will panic.
+func EncodeFloat64Slice(buf []byte, v []float64) uint64 {
 	var offset uint64
 	var size uint64
 	length := uint64(len(v))
@@ -1232,10 +1236,10 @@ func EncodeSliceFloat64(buf []byte, v []float64) uint64 {
 	return size
 }
 
-// DecodeSliceFloat64 decodes a uint64 from buf, stores the result in the value pointed to by v
+// DecodeFloat64Slice decodes a uint64 from buf, stores the result in the value pointed to by v
 // and returns the number of bytes read (> 0).
-// If the buffer is not from EncodeSliceFloat64, DecodeSliceFloat64 will panic.
-func DecodeSliceFloat64(d []byte, v *[]float64) uint64 {
+// If the buffer is not from EncodeFloat64Slice, DecodeFloat64Slice will panic.
+func DecodeFloat64Slice(d []byte, v *[]float64) uint64 {
 	var length uint64
 	var offset uint64
 	var n uint64
@@ -1312,15 +1316,15 @@ done:
 	return offset
 }
 
-// SizeofSliceFloat64 takes a []float64 and returns the number of bytes.
-func SizeofSliceFloat64(v []float64) uint64 {
+// SizeofFloat64Slice takes a []float64 and returns the number of bytes.
+func SizeofFloat64Slice(v []float64) uint64 {
 	var length uint64 = uint64(len(v))
 	return SizeofVarint(length) + length*8
 }
 
-// EncodeSliceBool encodes a []bool into buf and returns the number of bytes written.
-// If the buffer is too small, EncodeSliceBool will panic.
-func EncodeSliceBool(buf []byte, v []bool) uint64 {
+// EncodeBoolSlice encodes a []bool into buf and returns the number of bytes written.
+// If the buffer is too small, EncodeBoolSlice will panic.
+func EncodeBoolSlice(buf []byte, v []bool) uint64 {
 	var offset uint64
 	var size uint64
 	length := uint64(len(v))
@@ -1344,10 +1348,10 @@ func EncodeSliceBool(buf []byte, v []bool) uint64 {
 	return size
 }
 
-// DecodeSliceBool decodes a []bool from buf, stores the result in the value pointed to by v
+// DecodeBoolSlice decodes a []bool from buf, stores the result in the value pointed to by v
 // and returns the number of bytes read (> 0).
-// If the buffer is not from EncodeSliceBool, DecodeSliceBool will panic.
-func DecodeSliceBool(d []byte, v *[]bool) uint64 {
+// If the buffer is not from EncodeBoolSlice, DecodeBoolSlice will panic.
+func DecodeBoolSlice(d []byte, v *[]bool) uint64 {
 	var length uint64
 	var offset uint64
 	var n uint64
@@ -1419,15 +1423,15 @@ done:
 	return offset
 }
 
-// SizeofSliceBool takes a []bool and returns the number of bytes.
-func SizeofSliceBool(v []bool) uint64 {
+// SizeofBoolSlice takes a []bool and returns the number of bytes.
+func SizeofBoolSlice(v []bool) uint64 {
 	length := uint64(len(v))
 	return SizeofVarint(length) + length
 }
 
-// EncodeSliceString encodes a []string into buf and returns the number of bytes written.
-// If the buffer is too small, EncodeSliceString will panic.
-func EncodeSliceString(buf []byte, v []string) uint64 {
+// EncodeStringSlice encodes a []string into buf and returns the number of bytes written.
+// If the buffer is too small, EncodeStringSlice will panic.
+func EncodeStringSlice(buf []byte, v []string) uint64 {
 	var offset uint64
 	var size uint64
 	length := uint64(len(v))
@@ -1456,10 +1460,10 @@ func EncodeSliceString(buf []byte, v []string) uint64 {
 	return size
 }
 
-// DecodeSliceString decodes a []string from buf, stores the result in the value pointed to by v
+// DecodeStringSlice decodes a []string from buf, stores the result in the value pointed to by v
 // and returns the number of bytes read (> 0).
-// If the buffer is not from EncodeSliceString, DecodeSliceString will panic.
-func DecodeSliceString(d []byte, v *[]string) uint64 {
+// If the buffer is not from EncodeStringSlice, DecodeStringSlice will panic.
+func DecodeStringSlice(d []byte, v *[]string) uint64 {
 	var length uint64
 	var l uint64
 	var offset uint64
@@ -1582,8 +1586,8 @@ done:
 	return offset
 }
 
-// SizeofSliceString takes a []string and returns the number of bytes.
-func SizeofSliceString(v []string) uint64 {
+// SizeofStringSlice takes a []string and returns the number of bytes.
+func SizeofStringSlice(v []string) uint64 {
 	var size uint64
 	length := uint64(len(v))
 	sizeof := SizeofVarint(length)
@@ -1596,9 +1600,9 @@ func SizeofSliceString(v []string) uint64 {
 	return size
 }
 
-// EncodeSliceBytes encodes a d [][]byte into buf and returns the number of bytes written.
-// If the buffer is too small, EncodeSliceBytes will panic.
-func EncodeSliceBytes(buf []byte, v [][]byte) uint64 {
+// EncodeBytesSlice encodes a d [][]byte into buf and returns the number of bytes written.
+// If the buffer is too small, EncodeBytesSlice will panic.
+func EncodeBytesSlice(buf []byte, v [][]byte) uint64 {
 	var offset uint64
 	var size uint64
 	length := uint64(len(v))
@@ -1627,10 +1631,10 @@ func EncodeSliceBytes(buf []byte, v [][]byte) uint64 {
 	return size
 }
 
-// DecodeSliceBytes decodes a [][]byte from buf, stores the result in the value pointed to by v
+// DecodeBytesSlice decodes a [][]byte from buf, stores the result in the value pointed to by v
 // and returns the number of bytes read (> 0).
-// If the buffer is not from EncodeSliceBytes, DecodeSliceBytes will panic.
-func DecodeSliceBytes(d []byte, v *[][]byte) uint64 {
+// If the buffer is not from EncodeBytesSlice, DecodeBytesSlice will panic.
+func DecodeBytesSlice(d []byte, v *[][]byte) uint64 {
 	var length uint64
 	var l uint64
 	var offset uint64
@@ -1753,8 +1757,8 @@ done:
 	return offset
 }
 
-// SizeofSliceBytes takes a [][]byte and returns the number of bytes.
-func SizeofSliceBytes(v [][]byte) uint64 {
+// SizeofBytesSlice takes a [][]byte and returns the number of bytes.
+func SizeofBytesSlice(v [][]byte) uint64 {
 	var size uint64
 	length := uint64(len(v))
 	sizeof := SizeofVarint(length)
