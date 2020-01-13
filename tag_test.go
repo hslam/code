@@ -12,7 +12,7 @@ func TestTag(t *testing.T) {
 	var fieldNumber = 7
 	var wireType = Varint
 	var n uint64
-	b := []byte{7<<3 | 0} // field 7, wire type 6
+	b := []byte{7<<3 | 0} // field 7, wire type 0
 	tag := MakeTag(fieldNumber, wireType)
 	buf := make([]byte, MaxVarintBytes(tag))
 	n = EncodeVarint(buf, tag)
