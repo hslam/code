@@ -815,3 +815,156 @@ func BenchmarkSizeofBytesSlice(b *testing.B) {
 		SizeofBytesSlice(v)
 	}
 }
+
+func BenchmarkMaxUint8Bytes(b *testing.B) {
+	b.SetBytes(int64(1))
+	for i := 0; i < b.N; i++ {
+		MaxUint8Bytes(1)
+	}
+}
+
+func BenchmarkMaxUint16Bytes(b *testing.B) {
+	b.SetBytes(int64(2))
+	for i := 0; i < b.N; i++ {
+		MaxUint16Bytes(1)
+	}
+}
+
+func BenchmarkMaxUint32Bytes(b *testing.B) {
+	b.SetBytes(int64(4))
+	for i := 0; i < b.N; i++ {
+		MaxUint32Bytes(1)
+	}
+}
+
+func BenchmarkMaxUint64Bytes(b *testing.B) {
+	b.SetBytes(int64(8))
+	for i := 0; i < b.N; i++ {
+		MaxUint64Bytes(1)
+	}
+}
+
+func BenchmarkMaxVarintBytes(b *testing.B) {
+	b.SetBytes(int64(2))
+	var v uint64 = 128
+	for i := 0; i < b.N; i++ {
+		MaxVarintBytes(v)
+	}
+}
+
+func BenchmarkMaxFloat32Bytes(b *testing.B) {
+	b.SetBytes(int64(4))
+	for i := 0; i < b.N; i++ {
+		MaxFloat32Bytes(3.14)
+	}
+}
+
+func BenchmarkMaxFloat64Bytes(b *testing.B) {
+	b.SetBytes(int64(8))
+	for i := 0; i < b.N; i++ {
+		MaxFloat64Bytes(3.14)
+	}
+}
+
+func BenchmarkMaxBoolBytes(b *testing.B) {
+	b.SetBytes(int64(1))
+	for i := 0; i < b.N; i++ {
+		MaxBoolBytes(true)
+	}
+}
+
+func BenchmarkMaxStringBytes(b *testing.B) {
+	var v string = "h"
+	b.SetBytes(int64(1))
+	for i := 0; i < b.N; i++ {
+		MaxStringBytes(v)
+	}
+}
+
+func BenchmarkMaxBytesBytes(b *testing.B) {
+	var v []byte = []byte{1}
+	b.SetBytes(int64(1))
+	for i := 0; i < b.N; i++ {
+		MaxBytesBytes(v)
+	}
+}
+
+func BenchmarkMaxUint8SliceBytes(b *testing.B) {
+	var v []uint8 = []uint8{1}
+	b.SetBytes(int64(1))
+	for i := 0; i < b.N; i++ {
+		MaxUint8SliceBytes(v)
+	}
+}
+
+func BenchmarkMaxUint16SliceBytes(b *testing.B) {
+	var v []uint16 = []uint16{1}
+	b.SetBytes(int64(1))
+	for i := 0; i < b.N; i++ {
+		MaxUint16SliceBytes(v)
+	}
+}
+
+func BenchmarkMaxUint32SliceBytes(b *testing.B) {
+	var v []uint32 = []uint32{1}
+	b.SetBytes(int64(1))
+	for i := 0; i < b.N; i++ {
+		MaxUint32SliceBytes(v)
+	}
+}
+
+func BenchmarkMaxUint64SliceBytes(b *testing.B) {
+	var v []uint64 = []uint64{1}
+	b.SetBytes(int64(1))
+	for i := 0; i < b.N; i++ {
+		MaxUint64SliceBytes(v)
+	}
+}
+
+func BenchmarkMaxVarintSliceBytes(b *testing.B) {
+	var v []uint64 = []uint64{1}
+	b.SetBytes(int64(1))
+	for i := 0; i < b.N; i++ {
+		MaxVarintSliceBytes(v)
+	}
+}
+
+func BenchmarkMaxFloat32SliceBytes(b *testing.B) {
+	var v []float32 = []float32{3.14}
+	b.SetBytes(int64(4))
+	for i := 0; i < b.N; i++ {
+		MaxFloat32SliceBytes(v)
+	}
+}
+
+func BenchmarkMaxFloat64SliceBytes(b *testing.B) {
+	var v []float64 = []float64{3.14}
+	b.SetBytes(int64(8))
+	for i := 0; i < b.N; i++ {
+		MaxFloat64SliceBytes(v)
+	}
+}
+
+func BenchmarkMaxBoolSliceBytes(b *testing.B) {
+	var v []bool = []bool{true}
+	b.SetBytes(int64(1))
+	for i := 0; i < b.N; i++ {
+		MaxBoolSliceBytes(v)
+	}
+}
+
+func BenchmarkMaxStringSliceBytes(b *testing.B) {
+	var v []string = []string{"h", "w"}
+	b.SetBytes(int64(2))
+	for i := 0; i < b.N; i++ {
+		MaxStringSliceBytes(v)
+	}
+}
+
+func BenchmarkMaxBytesSliceBytes(b *testing.B) {
+	var v [][]byte = [][]byte{{1}, {2}}
+	b.SetBytes(int64(2))
+	for i := 0; i < b.N; i++ {
+		MaxBytesSliceBytes(v)
+	}
+}

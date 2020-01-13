@@ -74,8 +74,8 @@ func main() {
 
 //Uint8 Example
 func Uint8() {
-	var buf = make([]byte, 1)
 	var i uint8 = 128
+	var buf = make([]byte, code.MaxUint8Bytes(i))
 	var n uint64
 	size := code.SizeofUint8(i)
 	fmt.Printf("SizeofUint8:%d sizeof:%d\n", i, size)
@@ -88,8 +88,8 @@ func Uint8() {
 
 //Uint16 Example
 func Uint16() {
-	var buf = make([]byte, 2)
 	var i uint16 = 128
+	var buf = make([]byte, code.MaxUint16Bytes(i))
 	var n uint64
 	size := code.SizeofUint16(i)
 	fmt.Printf("SizeofUint16:%d sizeof:%d\n", i, size)
@@ -102,8 +102,8 @@ func Uint16() {
 
 //Uint32 Example
 func Uint32() {
-	var buf = make([]byte, 4)
 	var i uint32 = 128
+	var buf = make([]byte, code.MaxUint32Bytes(i))
 	var n uint64
 	size := code.SizeofUint32(i)
 	fmt.Printf("SizeofUint32:%d sizeof:%d\n", i, size)
@@ -116,8 +116,8 @@ func Uint32() {
 
 //Uint64 Example
 func Uint64() {
-	var buf = make([]byte, 8)
 	var i uint64 = 128
+	var buf = make([]byte, code.MaxUint64Bytes(i))
 	var n uint64
 	size := code.SizeofUint64(i)
 	fmt.Printf("SizeofUint64:%d sizeof:%d\n", i, size)
@@ -130,8 +130,8 @@ func Uint64() {
 
 //Varint Example
 func Varint() {
-	var buf = make([]byte, 10)
 	var i uint64 = 128
+	var buf = make([]byte, code.MaxVarintBytes(i))
 	var n uint64
 	size := code.SizeofVarint(i)
 	fmt.Printf("SizeofVarint:%d sizeof:%d\n", i, size)
@@ -144,8 +144,8 @@ func Varint() {
 
 //Float32 Example
 func Float32() {
-	var buf = make([]byte, 4)
 	var i float32 = 3.14
+	var buf = make([]byte, code.MaxFloat32Bytes(i))
 	var n uint64
 	size := code.SizeofFloat32(i)
 	fmt.Printf("SizeofFloat32:%.2f sizeof:%d\n", i, size)
@@ -158,8 +158,8 @@ func Float32() {
 
 //Float64 Example
 func Float64() {
-	var buf = make([]byte, 8)
 	var i float64 = 3.1415926
+	var buf = make([]byte, code.MaxFloat64Bytes(i))
 	var n uint64
 	size := code.SizeofFloat64(i)
 	fmt.Printf("SizeofFloat64:%.7f sizeof:%d\n", i, size)
@@ -172,8 +172,8 @@ func Float64() {
 
 //Bool Example
 func Bool() {
-	var buf = make([]byte, 1)
 	var i bool = true
+	var buf = make([]byte, code.MaxBoolBytes(i))
 	var n uint64
 	size := code.SizeofBool(i)
 	fmt.Printf("SizeofBool:%t sizeof:%d\n", i, size)
@@ -186,8 +186,8 @@ func Bool() {
 
 //String Example
 func String() {
-	var buf = make([]byte, 16)
 	var i string = "Hello"
+	var buf = make([]byte, code.MaxStringBytes(i))
 	var n uint64
 	size := code.SizeofString(i)
 	fmt.Printf("SizeofString:%s sizeof:%d\n", i, size)
@@ -200,8 +200,8 @@ func String() {
 
 //Bytes Example
 func Bytes() {
-	var buf = make([]byte, 16)
 	var i []byte = []byte{1, 2}
+	var buf = make([]byte, code.MaxBytesBytes(i))
 	var n uint64
 	size := code.SizeofBytes(i)
 	fmt.Printf("SizeofBytes:%v sizeof:%d\n", i, size)
@@ -214,8 +214,8 @@ func Bytes() {
 
 //Uint8Slice Example
 func Uint8Slice() {
-	var buf = make([]byte, 64)
 	var i []uint8 = []uint8{128, 255}
+	var buf = make([]byte, code.MaxUint8SliceBytes(i))
 	var n uint64
 	size := code.SizeofUint8Slice(i)
 	fmt.Printf("SizeofUint8Slice:%v sizeof:%d\n", i, size)
@@ -228,8 +228,8 @@ func Uint8Slice() {
 
 //Uint16Slice Example
 func Uint16Slice() {
-	var buf = make([]byte, 64)
 	var i []uint16 = []uint16{128, 256}
+	var buf = make([]byte, code.MaxUint16SliceBytes(i))
 	var n uint64
 	size := code.SizeofUint16Slice(i)
 	fmt.Printf("SizeofUint16Slice:%v sizeof:%d\n", i, size)
@@ -242,8 +242,8 @@ func Uint16Slice() {
 
 //Uint32Slice Example
 func Uint32Slice() {
-	var buf = make([]byte, 64)
 	var i []uint32 = []uint32{128, 256}
+	var buf = make([]byte, code.MaxUint32SliceBytes(i))
 	var n uint64
 	size := code.SizeofUint32Slice(i)
 	fmt.Printf("SizeofUint32Slice:%v sizeof:%d\n", i, size)
@@ -256,8 +256,8 @@ func Uint32Slice() {
 
 //Uint64Slice Example
 func Uint64Slice() {
-	var buf = make([]byte, 64)
 	var i []uint64 = []uint64{128, 256}
+	var buf = make([]byte, code.MaxUint64SliceBytes(i))
 	var n uint64
 	size := code.SizeofUint64Slice(i)
 	fmt.Printf("SizeofUint64Slice:%v sizeof:%d\n", i, size)
@@ -270,8 +270,8 @@ func Uint64Slice() {
 
 //VarintSlice Example
 func VarintSlice() {
-	var buf = make([]byte, 64)
 	var i []uint64 = []uint64{128, 256}
+	var buf = make([]byte, code.MaxVarintSliceBytes(i))
 	var n uint64
 	size := code.SizeofVarintSlice(i)
 	fmt.Printf("SizeofVarintSlice:%v sizeof:%d\n", i, size)
@@ -284,8 +284,8 @@ func VarintSlice() {
 
 //Float32Slice Example
 func Float32Slice() {
-	var buf = make([]byte, 64)
 	var i []float32 = []float32{3.14}
+	var buf = make([]byte, code.MaxFloat32SliceBytes(i))
 	var n uint64
 	size := code.SizeofFloat32Slice(i)
 	fmt.Printf("SizeofFloat32Slice:%v sizeof:%d\n", i, size)
@@ -298,8 +298,8 @@ func Float32Slice() {
 
 //Float64Slice Example
 func Float64Slice() {
-	var buf = make([]byte, 64)
 	var i []float64 = []float64{3.1415926}
+	var buf = make([]byte, code.MaxFloat64SliceBytes(i))
 	var n uint64
 	size := code.SizeofFloat64Slice(i)
 	fmt.Printf("SizeofFloat64Slice:%v sizeof:%d\n", i, size)
@@ -312,8 +312,8 @@ func Float64Slice() {
 
 //BoolSlice Example
 func BoolSlice() {
-	var buf = make([]byte, 64)
 	var i []bool = []bool{true, false}
+	var buf = make([]byte, code.MaxBoolSliceBytes(i))
 	var n uint64
 	size := code.SizeofBoolSlice(i)
 	fmt.Printf("SizeofBoolSlice:%v sizeof:%d\n", i, size)
@@ -326,8 +326,8 @@ func BoolSlice() {
 
 //StringSlice Example
 func StringSlice() {
-	var buf = make([]byte, 64)
 	var i []string = []string{"Hello", "World"}
+	var buf = make([]byte, code.MaxStringSliceBytes(i))
 	var n uint64
 	size := code.SizeofStringSlice(i)
 	fmt.Printf("SizeofStringSlice:%v sizeof:%d\n", i, size)
@@ -340,8 +340,8 @@ func StringSlice() {
 
 //BytesSlice Example
 func BytesSlice() {
-	var buf = make([]byte, 64)
 	var i [][]byte = [][]byte{{1, 2}, {3}}
+	var buf = make([]byte, code.MaxBytesSliceBytes(i))
 	var n uint64
 	size := code.SizeofBytesSlice(i)
 	fmt.Printf("SizeofBytesSlice:%v sizeof:%d\n", i, size)
@@ -423,50 +423,70 @@ go test -v -run="none" -bench=. -benchtime=30s
 goos: darwin
 goarch: amd64
 pkg: github.com/hslam/code
-BenchmarkCheckBuffer-4          	1000000000	         0.312 ns/op	819937.90 MB/s
-BenchmarkCodeUint8-4            	1000000000	         0.312 ns/op	3208.75 MB/s
-BenchmarkCodeUint16-4           	1000000000	         0.329 ns/op	6076.44 MB/s
-BenchmarkCodeUint32-4           	1000000000	         0.342 ns/op	11688.81 MB/s
-BenchmarkCodeUint64-4           	1000000000	         0.311 ns/op	25712.79 MB/s
-BenchmarkCodeVarint-4           	1000000000	         7.21 ns/op	 277.23 MB/s
-BenchmarkBinaryVarint-4         	1000000000	        10.1 ns/op	 197.22 MB/s
-BenchmarkCodeFloat32-4          	1000000000	         0.311 ns/op	12881.38 MB/s
-BenchmarkCodeFloat64-4          	1000000000	         0.924 ns/op	8658.87 MB/s
-BenchmarkCodeBool-4             	1000000000	         0.330 ns/op	3031.09 MB/s
-BenchmarkCodeString-4           	1000000000	        11.0 ns/op	 181.55 MB/s
-BenchmarkCodeBytes-4            	1000000000	        10.9 ns/op	 183.31 MB/s
-BenchmarkCodeUint8Slice-4       	1000000000	         9.49 ns/op	 210.84 MB/s
-BenchmarkCodeUint16Slice-4      	1000000000	         9.95 ns/op	 301.51 MB/s
-BenchmarkCodeUint32Slice-4      	1000000000	        10.7 ns/op	 467.08 MB/s
-BenchmarkCodeUint64Slice-4      	1000000000	        15.0 ns/op	 601.80 MB/s
-BenchmarkCodeVarintSlice-4      	1000000000	        11.4 ns/op	 175.34 MB/s
-BenchmarkCodeFloat32Slice-4     	1000000000	        12.5 ns/op	 400.30 MB/s
-BenchmarkCodeFloat64Slice-4     	1000000000	        16.1 ns/op	 560.15 MB/s
-BenchmarkCodeBoolSlice-4        	1000000000	        10.1 ns/op	 198.89 MB/s
-BenchmarkCodeStringSlice-4      	1000000000	        27.1 ns/op	 184.26 MB/s
-BenchmarkCodeBytesSlice-4       	1000000000	        29.9 ns/op	 167.44 MB/s
-BenchmarkSizeofUint8-4          	1000000000	         0.311 ns/op	3212.92 MB/s
-BenchmarkSizeofUint16-4         	1000000000	         0.311 ns/op	6424.97 MB/s
-BenchmarkSizeofUint32-4         	1000000000	         0.309 ns/op	12927.46 MB/s
-BenchmarkSizeofUint64-4         	1000000000	         0.310 ns/op	25835.71 MB/s
-BenchmarkSizeofVarint-4         	1000000000	         0.311 ns/op	6440.99 MB/s
-BenchmarkSizeofFloat32-4        	1000000000	         0.310 ns/op	12904.85 MB/s
-BenchmarkSizeofFloat64-4        	1000000000	         0.311 ns/op	25716.63 MB/s
-BenchmarkSizeofBool-4           	1000000000	         0.310 ns/op	3228.32 MB/s
-BenchmarkSizeofString-4         	1000000000	         0.311 ns/op	3215.73 MB/s
-BenchmarkSizeofBytes-4          	1000000000	         0.337 ns/op	2968.08 MB/s
-BenchmarkSizeofUint8Slice-4     	1000000000	         0.331 ns/op	3021.86 MB/s
-BenchmarkSizeofUint16Slice-4    	1000000000	         0.312 ns/op	3210.18 MB/s
-BenchmarkSizeofUint32Slice-4    	1000000000	         0.311 ns/op	3215.84 MB/s
-BenchmarkSizeofUint64Slice-4    	1000000000	         0.311 ns/op	3211.50 MB/s
-BenchmarkSizeofVarintSlice-4    	1000000000	         3.39 ns/op	 294.86 MB/s
-BenchmarkSizeofFloat32Slice-4   	1000000000	         0.311 ns/op	12847.91 MB/s
-BenchmarkSizeofFloat64Slice-4   	1000000000	         0.312 ns/op	25663.19 MB/s
-BenchmarkSizeofBoolSlice-4      	1000000000	         0.311 ns/op	3218.15 MB/s
-BenchmarkSizeofStringSlice-4    	1000000000	         3.40 ns/op	 588.11 MB/s
-BenchmarkSizeofBytesSlice-4     	1000000000	         3.39 ns/op	 589.49 MB/s
+BenchmarkCheckBuffer-4            	1000000000	         0.312 ns/op	821602.56 MB/s
+BenchmarkCodeUint8-4              	1000000000	         0.315 ns/op	3175.50 MB/s
+BenchmarkCodeUint16-4             	1000000000	         0.314 ns/op	6362.94 MB/s
+BenchmarkCodeUint32-4             	1000000000	         0.314 ns/op	12728.69 MB/s
+BenchmarkCodeUint64-4             	1000000000	         0.315 ns/op	25363.20 MB/s
+BenchmarkCodeVarint-4             	1000000000	         7.19 ns/op	 278.19 MB/s
+BenchmarkBinaryVarint-4           	1000000000	        10.2 ns/op	 196.61 MB/s
+BenchmarkCodeFloat32-4            	1000000000	         0.310 ns/op	12897.47 MB/s
+BenchmarkCodeFloat64-4            	1000000000	         0.929 ns/op	8614.93 MB/s
+BenchmarkCodeBool-4               	1000000000	         0.310 ns/op	3226.14 MB/s
+BenchmarkCodeString-4             	1000000000	        10.6 ns/op	 189.13 MB/s
+BenchmarkCodeBytes-4              	1000000000	        10.9 ns/op	 184.24 MB/s
+BenchmarkCodeUint8Slice-4         	1000000000	         9.31 ns/op	 214.91 MB/s
+BenchmarkCodeUint16Slice-4        	1000000000	         9.84 ns/op	 304.78 MB/s
+BenchmarkCodeUint32Slice-4        	1000000000	        10.4 ns/op	 479.45 MB/s
+BenchmarkCodeUint64Slice-4        	1000000000	        14.6 ns/op	 618.02 MB/s
+BenchmarkCodeVarintSlice-4        	1000000000	        11.7 ns/op	 170.75 MB/s
+BenchmarkCodeFloat32Slice-4       	1000000000	        12.4 ns/op	 403.67 MB/s
+BenchmarkCodeFloat64Slice-4       	1000000000	        15.8 ns/op	 570.99 MB/s
+BenchmarkCodeBoolSlice-4          	1000000000	        10.1 ns/op	 197.94 MB/s
+BenchmarkCodeStringSlice-4        	1000000000	        27.3 ns/op	 183.10 MB/s
+BenchmarkCodeBytesSlice-4         	1000000000	        28.5 ns/op	 175.39 MB/s
+BenchmarkSizeofUint8-4            	1000000000	         0.311 ns/op	3217.10 MB/s
+BenchmarkSizeofUint16-4           	1000000000	         0.311 ns/op	6423.11 MB/s
+BenchmarkSizeofUint32-4           	1000000000	         0.311 ns/op	12856.58 MB/s
+BenchmarkSizeofUint64-4           	1000000000	         0.310 ns/op	25817.11 MB/s
+BenchmarkSizeofVarint-4           	1000000000	         0.310 ns/op	6443.09 MB/s
+BenchmarkSizeofFloat32-4          	1000000000	         0.310 ns/op	12883.95 MB/s
+BenchmarkSizeofFloat64-4          	1000000000	         0.310 ns/op	25799.14 MB/s
+BenchmarkSizeofBool-4             	1000000000	         0.313 ns/op	3197.15 MB/s
+BenchmarkSizeofString-4           	1000000000	         0.311 ns/op	3217.75 MB/s
+BenchmarkSizeofBytes-4            	1000000000	         0.310 ns/op	3228.67 MB/s
+BenchmarkSizeofUint8Slice-4       	1000000000	         0.311 ns/op	3216.98 MB/s
+BenchmarkSizeofUint16Slice-4      	1000000000	         0.310 ns/op	3225.08 MB/s
+BenchmarkSizeofUint32Slice-4      	1000000000	         0.309 ns/op	3233.21 MB/s
+BenchmarkSizeofUint64Slice-4      	1000000000	         0.311 ns/op	3218.81 MB/s
+BenchmarkSizeofVarintSlice-4      	1000000000	         3.35 ns/op	 298.95 MB/s
+BenchmarkSizeofFloat32Slice-4     	1000000000	         0.314 ns/op	12719.18 MB/s
+BenchmarkSizeofFloat64Slice-4     	1000000000	         0.311 ns/op	25733.92 MB/s
+BenchmarkSizeofBoolSlice-4        	1000000000	         0.310 ns/op	3223.02 MB/s
+BenchmarkSizeofStringSlice-4      	1000000000	         3.39 ns/op	 589.78 MB/s
+BenchmarkSizeofBytesSlice-4       	1000000000	         3.39 ns/op	 589.18 MB/s
+BenchmarkMaxUint8Bytes-4          	1000000000	         0.309 ns/op	3236.17 MB/s
+BenchmarkMaxUint16Bytes-4         	1000000000	         0.310 ns/op	6453.49 MB/s
+BenchmarkMaxUint32Bytes-4         	1000000000	         0.320 ns/op	12499.89 MB/s
+BenchmarkMaxUint64Bytes-4         	1000000000	         0.312 ns/op	25646.73 MB/s
+BenchmarkMaxVarintBytes-4         	1000000000	         0.312 ns/op	6417.12 MB/s
+BenchmarkMaxFloat32Bytes-4        	1000000000	         0.311 ns/op	12866.45 MB/s
+BenchmarkMaxFloat64Bytes-4        	1000000000	         0.310 ns/op	25817.74 MB/s
+BenchmarkMaxBoolBytes-4           	1000000000	         0.309 ns/op	3233.58 MB/s
+BenchmarkMaxStringBytes-4         	1000000000	         0.310 ns/op	3223.58 MB/s
+BenchmarkMaxBytesBytes-4          	1000000000	         0.310 ns/op	3229.68 MB/s
+BenchmarkMaxUint8SliceBytes-4     	1000000000	         0.311 ns/op	3213.32 MB/s
+BenchmarkMaxUint16SliceBytes-4    	1000000000	         0.310 ns/op	3228.60 MB/s
+BenchmarkMaxUint32SliceBytes-4    	1000000000	         0.309 ns/op	3232.47 MB/s
+BenchmarkMaxUint64SliceBytes-4    	1000000000	         0.311 ns/op	3218.75 MB/s
+BenchmarkMaxVarintSliceBytes-4    	1000000000	         0.310 ns/op	3229.07 MB/s
+BenchmarkMaxFloat32SliceBytes-4   	1000000000	         0.309 ns/op	12935.07 MB/s
+BenchmarkMaxFloat64SliceBytes-4   	1000000000	         0.313 ns/op	25542.50 MB/s
+BenchmarkMaxBoolSliceBytes-4      	1000000000	         0.332 ns/op	3011.99 MB/s
+BenchmarkMaxStringSliceBytes-4    	1000000000	         2.50 ns/op	 799.33 MB/s
+BenchmarkMaxBytesSliceBytes-4     	1000000000	         2.89 ns/op	 691.17 MB/s
 PASS
-ok  	github.com/hslam/code	232.615s
+ok  	github.com/hslam/code	241.385s
 ```
 
 ### Licence

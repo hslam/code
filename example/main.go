@@ -30,8 +30,8 @@ func main() {
 
 //Uint8 Example
 func Uint8() {
-	var buf = make([]byte, 1)
 	var i uint8 = 128
+	var buf = make([]byte, code.MaxUint8Bytes(i))
 	var n uint64
 	size := code.SizeofUint8(i)
 	fmt.Printf("SizeofUint8:%d sizeof:%d\n", i, size)
@@ -44,8 +44,8 @@ func Uint8() {
 
 //Uint16 Example
 func Uint16() {
-	var buf = make([]byte, 2)
 	var i uint16 = 128
+	var buf = make([]byte, code.MaxUint16Bytes(i))
 	var n uint64
 	size := code.SizeofUint16(i)
 	fmt.Printf("SizeofUint16:%d sizeof:%d\n", i, size)
@@ -58,8 +58,8 @@ func Uint16() {
 
 //Uint32 Example
 func Uint32() {
-	var buf = make([]byte, 4)
 	var i uint32 = 128
+	var buf = make([]byte, code.MaxUint32Bytes(i))
 	var n uint64
 	size := code.SizeofUint32(i)
 	fmt.Printf("SizeofUint32:%d sizeof:%d\n", i, size)
@@ -72,8 +72,8 @@ func Uint32() {
 
 //Uint64 Example
 func Uint64() {
-	var buf = make([]byte, 8)
 	var i uint64 = 128
+	var buf = make([]byte, code.MaxUint64Bytes(i))
 	var n uint64
 	size := code.SizeofUint64(i)
 	fmt.Printf("SizeofUint64:%d sizeof:%d\n", i, size)
@@ -86,8 +86,8 @@ func Uint64() {
 
 //Varint Example
 func Varint() {
-	var buf = make([]byte, 10)
 	var i uint64 = 128
+	var buf = make([]byte, code.MaxVarintBytes(i))
 	var n uint64
 	size := code.SizeofVarint(i)
 	fmt.Printf("SizeofVarint:%d sizeof:%d\n", i, size)
@@ -100,8 +100,8 @@ func Varint() {
 
 //Float32 Example
 func Float32() {
-	var buf = make([]byte, 4)
 	var i float32 = 3.14
+	var buf = make([]byte, code.MaxFloat32Bytes(i))
 	var n uint64
 	size := code.SizeofFloat32(i)
 	fmt.Printf("SizeofFloat32:%.2f sizeof:%d\n", i, size)
@@ -114,8 +114,8 @@ func Float32() {
 
 //Float64 Example
 func Float64() {
-	var buf = make([]byte, 8)
 	var i float64 = 3.1415926
+	var buf = make([]byte, code.MaxFloat64Bytes(i))
 	var n uint64
 	size := code.SizeofFloat64(i)
 	fmt.Printf("SizeofFloat64:%.7f sizeof:%d\n", i, size)
@@ -128,8 +128,8 @@ func Float64() {
 
 //Bool Example
 func Bool() {
-	var buf = make([]byte, 1)
 	var i bool = true
+	var buf = make([]byte, code.MaxBoolBytes(i))
 	var n uint64
 	size := code.SizeofBool(i)
 	fmt.Printf("SizeofBool:%t sizeof:%d\n", i, size)
@@ -142,8 +142,8 @@ func Bool() {
 
 //String Example
 func String() {
-	var buf = make([]byte, 16)
 	var i string = "Hello"
+	var buf = make([]byte, code.MaxStringBytes(i))
 	var n uint64
 	size := code.SizeofString(i)
 	fmt.Printf("SizeofString:%s sizeof:%d\n", i, size)
@@ -156,8 +156,8 @@ func String() {
 
 //Bytes Example
 func Bytes() {
-	var buf = make([]byte, 16)
 	var i []byte = []byte{1, 2}
+	var buf = make([]byte, code.MaxBytesBytes(i))
 	var n uint64
 	size := code.SizeofBytes(i)
 	fmt.Printf("SizeofBytes:%v sizeof:%d\n", i, size)
@@ -170,8 +170,8 @@ func Bytes() {
 
 //Uint8Slice Example
 func Uint8Slice() {
-	var buf = make([]byte, 64)
 	var i []uint8 = []uint8{128, 255}
+	var buf = make([]byte, code.MaxUint8SliceBytes(i))
 	var n uint64
 	size := code.SizeofUint8Slice(i)
 	fmt.Printf("SizeofUint8Slice:%v sizeof:%d\n", i, size)
@@ -184,8 +184,8 @@ func Uint8Slice() {
 
 //Uint16Slice Example
 func Uint16Slice() {
-	var buf = make([]byte, 64)
 	var i []uint16 = []uint16{128, 256}
+	var buf = make([]byte, code.MaxUint16SliceBytes(i))
 	var n uint64
 	size := code.SizeofUint16Slice(i)
 	fmt.Printf("SizeofUint16Slice:%v sizeof:%d\n", i, size)
@@ -198,8 +198,8 @@ func Uint16Slice() {
 
 //Uint32Slice Example
 func Uint32Slice() {
-	var buf = make([]byte, 64)
 	var i []uint32 = []uint32{128, 256}
+	var buf = make([]byte, code.MaxUint32SliceBytes(i))
 	var n uint64
 	size := code.SizeofUint32Slice(i)
 	fmt.Printf("SizeofUint32Slice:%v sizeof:%d\n", i, size)
@@ -212,8 +212,8 @@ func Uint32Slice() {
 
 //Uint64Slice Example
 func Uint64Slice() {
-	var buf = make([]byte, 64)
 	var i []uint64 = []uint64{128, 256}
+	var buf = make([]byte, code.MaxUint64SliceBytes(i))
 	var n uint64
 	size := code.SizeofUint64Slice(i)
 	fmt.Printf("SizeofUint64Slice:%v sizeof:%d\n", i, size)
@@ -226,8 +226,8 @@ func Uint64Slice() {
 
 //VarintSlice Example
 func VarintSlice() {
-	var buf = make([]byte, 64)
 	var i []uint64 = []uint64{128, 256}
+	var buf = make([]byte, code.MaxVarintSliceBytes(i))
 	var n uint64
 	size := code.SizeofVarintSlice(i)
 	fmt.Printf("SizeofVarintSlice:%v sizeof:%d\n", i, size)
@@ -240,8 +240,8 @@ func VarintSlice() {
 
 //Float32Slice Example
 func Float32Slice() {
-	var buf = make([]byte, 64)
 	var i []float32 = []float32{3.14}
+	var buf = make([]byte, code.MaxFloat32SliceBytes(i))
 	var n uint64
 	size := code.SizeofFloat32Slice(i)
 	fmt.Printf("SizeofFloat32Slice:%v sizeof:%d\n", i, size)
@@ -254,8 +254,8 @@ func Float32Slice() {
 
 //Float64Slice Example
 func Float64Slice() {
-	var buf = make([]byte, 64)
 	var i []float64 = []float64{3.1415926}
+	var buf = make([]byte, code.MaxFloat64SliceBytes(i))
 	var n uint64
 	size := code.SizeofFloat64Slice(i)
 	fmt.Printf("SizeofFloat64Slice:%v sizeof:%d\n", i, size)
@@ -268,8 +268,8 @@ func Float64Slice() {
 
 //BoolSlice Example
 func BoolSlice() {
-	var buf = make([]byte, 64)
 	var i []bool = []bool{true, false}
+	var buf = make([]byte, code.MaxBoolSliceBytes(i))
 	var n uint64
 	size := code.SizeofBoolSlice(i)
 	fmt.Printf("SizeofBoolSlice:%v sizeof:%d\n", i, size)
@@ -282,8 +282,8 @@ func BoolSlice() {
 
 //StringSlice Example
 func StringSlice() {
-	var buf = make([]byte, 64)
 	var i []string = []string{"Hello", "World"}
+	var buf = make([]byte, code.MaxStringSliceBytes(i))
 	var n uint64
 	size := code.SizeofStringSlice(i)
 	fmt.Printf("SizeofStringSlice:%v sizeof:%d\n", i, size)
@@ -296,8 +296,8 @@ func StringSlice() {
 
 //BytesSlice Example
 func BytesSlice() {
-	var buf = make([]byte, 64)
 	var i [][]byte = [][]byte{{1, 2}, {3}}
+	var buf = make([]byte, code.MaxBytesSliceBytes(i))
 	var n uint64
 	size := code.SizeofBytesSlice(i)
 	fmt.Printf("SizeofBytesSlice:%v sizeof:%d\n", i, size)
