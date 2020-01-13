@@ -53,6 +53,11 @@ func SizeofUint8(v uint8) uint64 {
 	return 1
 }
 
+// MaxUint8Bytes returns maximum length of a uint8.
+func MaxUint8Bytes(v uint8) uint64 {
+	return 1
+}
+
 // EncodeUint16 encodes a uint16 into buf and returns the number of bytes written.
 // If the buffer is too small, EncodeUint16 will panic.
 func EncodeUint16(buf []byte, v uint16) uint64 {
@@ -75,6 +80,11 @@ func DecodeUint16(buf []byte, v *uint16) uint64 {
 
 // SizeofUint16 takes a uint16 and returns the number of bytes.
 func SizeofUint16(v uint16) uint64 {
+	return 2
+}
+
+// MaxUint16Bytes returns maximum length of a uint16.
+func MaxUint16Bytes(v uint16) uint64 {
 	return 2
 }
 
@@ -104,6 +114,11 @@ func DecodeUint32(buf []byte, v *uint32) uint64 {
 
 // SizeofUint32 takes a uint32 and returns the number of bytes.
 func SizeofUint32(v uint32) uint64 {
+	return 4
+}
+
+// MaxUint32Bytes returns maximum length of a uint32.
+func MaxUint32Bytes(v uint32) uint64 {
 	return 4
 }
 
@@ -141,6 +156,11 @@ func DecodeUint64(buf []byte, v *uint64) uint64 {
 
 // SizeofUint64 takes a uint64 and returns the number of bytes.
 func SizeofUint64(v uint64) uint64 {
+	return 8
+}
+
+// MaxUint64Bytes returns maximum length of a uint64.
+func MaxUint64Bytes(v uint64) uint64 {
 	return 8
 }
 
@@ -243,6 +263,11 @@ func SizeofVarint(v uint64) uint64 {
 	}
 }
 
+// MaxVarintBytes returns maximum length of a varint.
+func MaxVarintBytes(v uint64) uint64 {
+	return 10
+}
+
 // EncodeFloat32 encodes a float32 into buf and returns the number of bytes written.
 // If the buffer is too small, EncodeFloat32 will panic.
 func EncodeFloat32(buf []byte, v float32) uint64 {
@@ -269,6 +294,11 @@ func DecodeFloat32(buf []byte, v *float32) uint64 {
 
 // SizeofFloat32 takes a float32 and returns the number of bytes.
 func SizeofFloat32(v float32) uint64 {
+	return 4
+}
+
+// MaxFloat32Bytes returns maximum length of a float32.
+func MaxFloat32Bytes(v float32) uint64 {
 	return 4
 }
 
@@ -309,6 +339,11 @@ func SizeofFloat64(v float64) uint64 {
 	return 8
 }
 
+// MaxFloat64Bytes returns maximum length of a float64.
+func MaxFloat64Bytes(v float64) uint64 {
+	return 8
+}
+
 // EncodeBool encodes a bool into buf and returns the number of bytes written.
 // If the buffer is too small, EncodeBool will panic.
 func EncodeBool(buf []byte, v bool) uint64 {
@@ -338,6 +373,11 @@ func DecodeBool(buf []byte, v *bool) uint64 {
 
 // SizeofBool takes a bool and returns the number of bytes.
 func SizeofBool(v bool) uint64 {
+	return 1
+}
+
+// MaxBoolBytes returns maximum length of a bool.
+func MaxBoolBytes(v bool) uint64 {
 	return 1
 }
 
@@ -425,6 +465,11 @@ func SizeofString(v string) uint64 {
 	return SizeofVarint(length) + length
 }
 
+// MaxStringBytes returns maximum length of a string.
+func MaxStringBytes(v string) uint64 {
+	return 10 + uint64(len(v))
+}
+
 // EncodeBytes encodes a []byte into buf and returns the number of bytes written.
 // If the buffer is too small, EncodeBytes will panic.
 func EncodeBytes(buf []byte, v []byte) uint64 {
@@ -504,6 +549,11 @@ done:
 func SizeofBytes(v []byte) uint64 {
 	length := uint64(len(v))
 	return SizeofVarint(length) + length
+}
+
+// MaxBytesBytes returns maximum length of a []byte.
+func MaxBytesBytes(v []byte) uint64 {
+	return 10 + uint64(len(v))
 }
 
 // EncodeUint8Slice encodes a []uint8 into buf and returns the number of bytes written.
@@ -608,6 +658,12 @@ func SizeofUint8Slice(v []uint8) uint64 {
 	return SizeofVarint(length) + length
 }
 
+// MaxUint8SliceBytes returns maximum length of a []uint8.
+func MaxUint8SliceBytes(v []uint8) uint64 {
+	var length uint64 = uint64(len(v))
+	return 10 + length
+}
+
 // EncodeUint16Slice encodes a []uint16 into buf and returns the number of bytes written.
 // If the buffer is too small, EncodeUint16Slice will panic.
 func EncodeUint16Slice(buf []byte, v []uint16) uint64 {
@@ -710,6 +766,12 @@ done:
 func SizeofUint16Slice(v []uint16) uint64 {
 	var length uint64 = uint64(len(v))
 	return SizeofVarint(length) + length*2
+}
+
+// MaxUint16SliceBytes returns maximum length of a []uint16.
+func MaxUint16SliceBytes(v []uint16) uint64 {
+	var length uint64 = uint64(len(v))
+	return 10 + length*2
 }
 
 // EncodeUint32Slice encodes a []uint32 into buf and returns the number of bytes written.
@@ -818,6 +880,12 @@ done:
 func SizeofUint32Slice(v []uint32) uint64 {
 	var length uint64 = uint64(len(v))
 	return SizeofVarint(length) + length*4
+}
+
+// MaxUint32SliceBytes returns maximum length of a []uint32.
+func MaxUint32SliceBytes(v []uint32) uint64 {
+	var length uint64 = uint64(len(v))
+	return 10 + length*4
 }
 
 // EncodeUint64Slice encodes a []uint64 into buf and returns the number of bytes written.
@@ -934,6 +1002,12 @@ done:
 func SizeofUint64Slice(v []uint64) uint64 {
 	var length uint64 = uint64(len(v))
 	return SizeofVarint(length) + length*8
+}
+
+// MaxUint64SliceBytes returns maximum length of a []uint64.
+func MaxUint64SliceBytes(v []uint64) uint64 {
+	var length uint64 = uint64(len(v))
+	return 10 + length*8
 }
 
 // EncodeVarintSlice encodes a buf []uint64 into buf and returns the number of bytes written.
@@ -1098,6 +1172,12 @@ func SizeofVarintSlice(v []uint64) uint64 {
 	return size
 }
 
+// MaxVarintSliceBytes returns maximum length of a []varint.
+func MaxVarintSliceBytes(v []uint64) uint64 {
+	var length uint64 = uint64(len(v))
+	return 10 + length*10
+}
+
 // EncodeFloat32Slice encodes a []float32 into buf and returns the number of bytes written.
 // If the buffer is too small, EncodeFloat32Slice will panic.
 func EncodeFloat32Slice(buf []byte, v []float32) uint64 {
@@ -1204,6 +1284,12 @@ done:
 func SizeofFloat32Slice(v []float32) uint64 {
 	var length uint64 = uint64(len(v))
 	return SizeofVarint(length) + length*4
+}
+
+// MaxFloat32SliceBytes returns maximum length of a []float32.
+func MaxFloat32SliceBytes(v []float32) uint64 {
+	var length uint64 = uint64(len(v))
+	return 10 + length*4
 }
 
 // EncodeFloat64Slice encodes a []float64 into buf and returns the number of bytes written.
@@ -1322,6 +1408,12 @@ func SizeofFloat64Slice(v []float64) uint64 {
 	return SizeofVarint(length) + length*8
 }
 
+// MaxFloat64SliceBytes returns maximum length of a []float64.
+func MaxFloat64SliceBytes(v []float64) uint64 {
+	var length uint64 = uint64(len(v))
+	return 10 + length*8
+}
+
 // EncodeBoolSlice encodes a []bool into buf and returns the number of bytes written.
 // If the buffer is too small, EncodeBoolSlice will panic.
 func EncodeBoolSlice(buf []byte, v []bool) uint64 {
@@ -1427,6 +1519,12 @@ done:
 func SizeofBoolSlice(v []bool) uint64 {
 	length := uint64(len(v))
 	return SizeofVarint(length) + length
+}
+
+// MaxBoolSliceBytes returns maximum length of a []bool.
+func MaxBoolSliceBytes(v []bool) uint64 {
+	var length uint64 = uint64(len(v))
+	return 10 + length
 }
 
 // EncodeStringSlice encodes a []string into buf and returns the number of bytes written.
@@ -1600,6 +1698,17 @@ func SizeofStringSlice(v []string) uint64 {
 	return size
 }
 
+// MaxStringSliceBytes returns maximum length of a []string.
+func MaxStringSliceBytes(v []string) uint64 {
+	var size uint64
+	size = uint64(10)
+	for _, s := range v {
+		length := uint64(len(s))
+		size += 10 + length
+	}
+	return size
+}
+
 // EncodeBytesSlice encodes a buf [][]byte into buf and returns the number of bytes written.
 // If the buffer is too small, EncodeBytesSlice will panic.
 func EncodeBytesSlice(buf []byte, v [][]byte) uint64 {
@@ -1767,6 +1876,17 @@ func SizeofBytesSlice(v [][]byte) uint64 {
 		length := uint64(len(s))
 		sizeof := SizeofVarint(length)
 		size += sizeof + length
+	}
+	return size
+}
+
+// MaxBytesSliceBytes returns maximum length of a [][]byte.
+func MaxBytesSliceBytes(v [][]byte) uint64 {
+	var size uint64
+	size = uint64(10)
+	for _, s := range v {
+		length := uint64(len(s))
+		size += 10 + length
 	}
 	return size
 }
