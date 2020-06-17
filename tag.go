@@ -23,6 +23,8 @@ const (
 	EndGroup WireType = 4
 	//Fixed32 is used for fixed32, sfixed32, float.
 	Fixed32 WireType = 5
+	//Invalid is an invalid type of wire.
+	Invalid WireType = 255
 )
 
 //GetTagFieldNumber given a tag value, returns the field number (the upper 29 bits).
@@ -59,7 +61,7 @@ func GetWireType(i interface{}) (c WireType) {
 		case reflect.Slice:
 			return LengthDelimited
 		default:
-			return 255
+			return Invalid
 		}
 	}
 }

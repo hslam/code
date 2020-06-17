@@ -33,7 +33,7 @@ func TestGetWireType(t *testing.T) {
 	type A struct{}
 	var v = A{}
 	var a = []interface{}{int32(1024), int64(1024), uint32(1024), uint64(1024), true, float64(3.1415926), "HelloWorld", v, []byte{1, 2, 3}, []A{v}, float32(3.14), int(1024)}
-	var b = []WireType{Varint, Varint, Varint, Varint, Varint, Fixed64, LengthDelimited, LengthDelimited, LengthDelimited, LengthDelimited, Fixed32, 255}
+	var b = []WireType{Varint, Varint, Varint, Varint, Varint, Fixed64, LengthDelimited, LengthDelimited, LengthDelimited, LengthDelimited, Fixed32, Invalid}
 	for i := 0; i < len(a); i++ {
 		if b[i] != GetWireType(a[i]) {
 			t.Errorf("%d!=%d", b[i], GetWireType(a[i]))
