@@ -3,6 +3,10 @@
 
 package code
 
+import (
+	"reflect"
+)
+
 //WireType defines the type of wire.
 type WireType uint8
 
@@ -34,4 +38,28 @@ func GetTagWireType(tag uint64) WireType {
 //MakeTag makes a tag value given a field number and wire type.
 func MakeTag(fieldNumber int, wireType WireType) uint64 {
 	return uint64(fieldNumber<<3) | uint64(wireType)
+}
+
+//GetWireType given an interface, return the wire type.
+func GetWireType(i interface{}) (c WireType) {
+	switch i.(type) {
+	case int32, int64, uint32, uint64, bool:
+		return Varint
+	case float64:
+		return Fixed64
+	case string, []byte:
+		return LengthDelimited
+	case float32:
+		return Fixed32
+	default:
+		v := reflect.ValueOf(i)
+		switch v.Kind() {
+		case reflect.Struct:
+			return LengthDelimited
+		case reflect.Slice:
+			return LengthDelimited
+		default:
+			return 255
+		}
+	}
 }
