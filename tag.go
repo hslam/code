@@ -42,7 +42,7 @@ func MakeTag(fieldNumber int, wireType WireType) uint64 {
 	return uint64(fieldNumber<<3) | uint64(wireType)
 }
 
-//GetWireType given an interface, return the wire type.
+//GetWireType given an interface, returns the wire type.
 func GetWireType(i interface{}) (c WireType) {
 	switch i.(type) {
 	case int32, int64, uint32, uint64, bool:
