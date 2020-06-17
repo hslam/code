@@ -559,7 +559,6 @@ func MaxBytesBytes(v []byte) uint64 {
 // EncodeUint8Slice encodes a []uint8 into buf and returns the number of bytes written.
 // If the buffer is too small, EncodeUint8Slice will panic.
 func EncodeUint8Slice(buf []byte, v []uint8) uint64 {
-	var offset uint64
 	var size uint64
 	length := uint64(len(v))
 	lengthSize := SizeofVarint(length)
@@ -570,12 +569,7 @@ func EncodeUint8Slice(buf []byte, v []uint8) uint64 {
 		t >>= 7
 	}
 	buf[lengthSize-1] = byte(t)
-	offset = lengthSize
-	for _, s := range v {
-		t := s
-		buf[offset+0] = uint8(t)
-		offset++
-	}
+	copy(buf[lengthSize:], v)
 	return size
 }
 
@@ -583,8 +577,6 @@ func EncodeUint8Slice(buf []byte, v []uint8) uint64 {
 // and returns the number of bytes read (> 0).
 // If the buffer is not from EncodeUint8Slice, DecodeUint8Slice will panic.
 func DecodeUint8Slice(buf []byte, v *[]uint8) uint64 {
-	var length uint64
-	var offset uint64
 	var n uint64
 	var t uint64
 	t = uint64(buf[n] & mask7)
@@ -636,20 +628,8 @@ func DecodeUint8Slice(buf []byte, v *[]uint8) uint64 {
 	goto done
 done:
 	n++
-	length = t
-	if uint64(cap(*v)) >= length {
-		*v = (*v)[:length]
-	} else {
-		*v = make([]uint8, length)
-	}
-	offset = n
-	for i := uint64(0); i < length; i++ {
-		var s uint8
-		s |= uint8(buf[offset+0])
-		(*v)[i] = s
-		offset++
-	}
-	return offset
+	*v = buf[n : n+t]
+	return n + t
 }
 
 // SizeofUint8Slice takes a []uint8 and returns the number of bytes.
