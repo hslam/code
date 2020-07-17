@@ -167,6 +167,10 @@ func MaxUint64Bytes(v uint64) uint64 {
 // EncodeVarint encodes a uint64 into buf and returns the number of bytes written.
 // If the buffer is too small, EncodeVarint will panic.
 func EncodeVarint(buf []byte, v uint64) uint64 {
+	if v < 128 {
+		buf[0] = byte(v)
+		return 1
+	}
 	var t = v
 	var size = SizeofVarint(v)
 	for i := uint64(0); i < size-1; i++ {
@@ -385,6 +389,11 @@ func MaxBoolBytes(v bool) uint64 {
 // If the buffer is too small, EncodeString will panic.
 func EncodeString(buf []byte, v string) uint64 {
 	length := uint64(len(v))
+	if length < 128 {
+		buf[0] = byte(length)
+		copy(buf[1:], v)
+		return 1 + length
+	}
 	var lengthSize uint64
 	var size uint64
 	lengthSize = SizeofVarint(length)
@@ -474,6 +483,11 @@ func MaxStringBytes(v string) uint64 {
 // If the buffer is too small, EncodeBytes will panic.
 func EncodeBytes(buf []byte, v []byte) uint64 {
 	length := uint64(len(v))
+	if length < 128 {
+		buf[0] = byte(length)
+		copy(buf[1:], v)
+		return 1 + length
+	}
 	lengthSize := SizeofVarint(length)
 	var size uint64 = lengthSize + length
 	t := length
@@ -560,8 +574,14 @@ func MaxBytesBytes(v []byte) uint64 {
 // If the buffer is too small, EncodeUint8Slice will panic.
 func EncodeUint8Slice(buf []byte, v []uint8) uint64 {
 	var size uint64
+	var lengthSize uint64
 	length := uint64(len(v))
-	lengthSize := SizeofVarint(length)
+	if length < 128 {
+		buf[0] = byte(length)
+		copy(buf[1:], v)
+		return 1 + length
+	}
+	lengthSize = SizeofVarint(length)
 	size = lengthSize + length
 	t := length
 	for i := uint64(0); i < lengthSize-1; i++ {
@@ -649,15 +669,21 @@ func MaxUint8SliceBytes(v []uint8) uint64 {
 func EncodeUint16Slice(buf []byte, v []uint16) uint64 {
 	var offset uint64
 	var size uint64
-	length := uint64(len(v))
-	lengthSize := SizeofVarint(length)
-	size = lengthSize + length*2
-	t := length
-	for i := uint64(0); i < lengthSize-1; i++ {
-		buf[i] = byte(t) | msb7
-		t >>= 7
+	var length = uint64(len(v))
+	var lengthSize uint64
+	if length < 128 {
+		buf[0] = byte(length)
+		lengthSize = 1
+	} else {
+		lengthSize = SizeofVarint(length)
+		t := length
+		for i := uint64(0); i < lengthSize-1; i++ {
+			buf[i] = byte(t) | msb7
+			t >>= 7
+		}
+		buf[lengthSize-1] = byte(t)
 	}
-	buf[lengthSize-1] = byte(t)
+	size = lengthSize + length*2
 	offset = lengthSize
 	for _, s := range v {
 		t := s
@@ -759,15 +785,21 @@ func MaxUint16SliceBytes(v []uint16) uint64 {
 func EncodeUint32Slice(buf []byte, v []uint32) uint64 {
 	var offset uint64
 	var size uint64
-	length := uint64(len(v))
-	lengthSize := SizeofVarint(length)
-	size = lengthSize + length*4
-	t := length
-	for i := uint64(0); i < lengthSize-1; i++ {
-		buf[i] = byte(t) | msb7
-		t >>= 7
+	var length = uint64(len(v))
+	var lengthSize uint64
+	if length < 128 {
+		buf[0] = byte(length)
+		lengthSize = 1
+	} else {
+		lengthSize = SizeofVarint(length)
+		t := length
+		for i := uint64(0); i < lengthSize-1; i++ {
+			buf[i] = byte(t) | msb7
+			t >>= 7
+		}
+		buf[lengthSize-1] = byte(t)
 	}
-	buf[lengthSize-1] = byte(t)
+	size = lengthSize + length*4
 	offset = lengthSize
 	for _, v := range v {
 		t := v
@@ -873,15 +905,21 @@ func MaxUint32SliceBytes(v []uint32) uint64 {
 func EncodeUint64Slice(buf []byte, v []uint64) uint64 {
 	var offset uint64
 	var size uint64
-	length := uint64(len(v))
-	lengthSize := SizeofVarint(length)
-	size = lengthSize + length*8
-	t := length
-	for i := uint64(0); i < lengthSize-1; i++ {
-		buf[i] = byte(t) | msb7
-		t >>= 7
+	var length = uint64(len(v))
+	var lengthSize uint64
+	if length < 128 {
+		buf[0] = byte(length)
+		lengthSize = 1
+	} else {
+		lengthSize = SizeofVarint(length)
+		t := length
+		for i := uint64(0); i < lengthSize-1; i++ {
+			buf[i] = byte(t) | msb7
+			t >>= 7
+		}
+		buf[lengthSize-1] = byte(t)
 	}
-	buf[lengthSize-1] = byte(t)
+	size = lengthSize + length*8
 	offset = lengthSize
 	for _, v := range v {
 		t := v
@@ -995,26 +1033,38 @@ func MaxUint64SliceBytes(v []uint64) uint64 {
 func EncodeVarintSlice(buf []byte, v []uint64) uint64 {
 	var offset uint64
 	var size uint64
-	length := uint64(len(v))
-	lengthSize := SizeofVarint(length)
-	size = lengthSize
-	t := length
-	for i := uint64(0); i < lengthSize-1; i++ {
-		buf[i] = byte(t) | msb7
-		t >>= 7
-	}
-	buf[lengthSize-1] = byte(t)
-	offset = lengthSize
-	for _, s := range v {
-		sizeof := SizeofVarint(s)
-		size += sizeof
-		t := s
-		for i := uint64(0); i < sizeof-1; i++ {
-			buf[offset+i] = byte(t) | msb7
+	var length = uint64(len(v))
+	var lengthSize uint64
+	if length < 128 {
+		buf[0] = byte(length)
+		lengthSize = 1
+	} else {
+		lengthSize = SizeofVarint(length)
+		t := length
+		for i := uint64(0); i < lengthSize-1; i++ {
+			buf[i] = byte(t) | msb7
 			t >>= 7
 		}
-		buf[offset+sizeof-1] = byte(t)
-		offset += sizeof
+		buf[lengthSize-1] = byte(t)
+	}
+	size = lengthSize
+	offset = lengthSize
+	for _, s := range v {
+		if s < 128 {
+			buf[offset] = byte(s)
+			size += 1
+			offset += 1
+		} else {
+			sizeof := SizeofVarint(s)
+			size += sizeof
+			t := s
+			for i := uint64(0); i < sizeof-1; i++ {
+				buf[offset+i] = byte(t) | msb7
+				t >>= 7
+			}
+			buf[offset+sizeof-1] = byte(t)
+			offset += sizeof
+		}
 	}
 	return size
 }
@@ -1163,15 +1213,21 @@ func MaxVarintSliceBytes(v []uint64) uint64 {
 func EncodeFloat32Slice(buf []byte, v []float32) uint64 {
 	var offset uint64
 	var size uint64
-	length := uint64(len(v))
-	lengthSize := SizeofVarint(length)
-	size = lengthSize + length*4
-	t := length
-	for i := uint64(0); i < lengthSize-1; i++ {
-		buf[i] = byte(t) | msb7
-		t >>= 7
+	var length = uint64(len(v))
+	var lengthSize uint64
+	if length < 128 {
+		buf[0] = byte(length)
+		lengthSize = 1
+	} else {
+		lengthSize = SizeofVarint(length)
+		t := length
+		for i := uint64(0); i < lengthSize-1; i++ {
+			buf[i] = byte(t) | msb7
+			t >>= 7
+		}
+		buf[lengthSize-1] = byte(t)
 	}
-	buf[lengthSize-1] = byte(t)
+	size = lengthSize + length*4
 	offset = lengthSize
 	for _, s := range v {
 		f := *(*uint32)(unsafe.Pointer(&s))
@@ -1277,15 +1333,21 @@ func MaxFloat32SliceBytes(v []float32) uint64 {
 func EncodeFloat64Slice(buf []byte, v []float64) uint64 {
 	var offset uint64
 	var size uint64
-	length := uint64(len(v))
-	lengthSize := SizeofVarint(length)
-	size = lengthSize + length*8
-	t := length
-	for i := uint64(0); i < lengthSize-1; i++ {
-		buf[i] = byte(t) | msb7
-		t >>= 7
+	var length = uint64(len(v))
+	var lengthSize uint64
+	if length < 128 {
+		buf[0] = byte(length)
+		lengthSize = 1
+	} else {
+		lengthSize = SizeofVarint(length)
+		t := length
+		for i := uint64(0); i < lengthSize-1; i++ {
+			buf[i] = byte(t) | msb7
+			t >>= 7
+		}
+		buf[lengthSize-1] = byte(t)
 	}
-	buf[lengthSize-1] = byte(t)
+	size = lengthSize + length*8
 	offset = lengthSize
 	for _, s := range v {
 		f := *(*uint64)(unsafe.Pointer(&s))
@@ -1399,15 +1461,21 @@ func MaxFloat64SliceBytes(v []float64) uint64 {
 func EncodeBoolSlice(buf []byte, v []bool) uint64 {
 	var offset uint64
 	var size uint64
-	length := uint64(len(v))
-	lengthSize := SizeofVarint(length)
-	size = lengthSize + length
-	t := length
-	for i := uint64(0); i < lengthSize-1; i++ {
-		buf[i] = byte(t) | msb7
-		t >>= 7
+	var length = uint64(len(v))
+	var lengthSize uint64
+	if length < 128 {
+		buf[0] = byte(length)
+		lengthSize = 1
+	} else {
+		lengthSize = SizeofVarint(length)
+		t := length
+		for i := uint64(0); i < lengthSize-1; i++ {
+			buf[i] = byte(t) | msb7
+			t >>= 7
+		}
+		buf[lengthSize-1] = byte(t)
 	}
-	buf[lengthSize-1] = byte(t)
+	size = lengthSize + length
 	offset = lengthSize
 	for _, s := range v {
 		if !s {
@@ -1512,26 +1580,38 @@ func MaxBoolSliceBytes(v []bool) uint64 {
 func EncodeStringSlice(buf []byte, v []string) uint64 {
 	var offset uint64
 	var size uint64
-	length := uint64(len(v))
-	lengthSize := SizeofVarint(length)
-	size = lengthSize
-	t := length
-	for i := uint64(0); i < lengthSize-1; i++ {
-		buf[i] = byte(t) | msb7
-		t >>= 7
+	var length = uint64(len(v))
+	var lengthSize uint64
+	if length < 128 {
+		buf[0] = byte(length)
+		lengthSize = 1
+	} else {
+		lengthSize = SizeofVarint(length)
+		t := length
+		for i := uint64(0); i < lengthSize-1; i++ {
+			buf[i] = byte(t) | msb7
+			t >>= 7
+		}
+		buf[lengthSize-1] = byte(t)
 	}
-	buf[lengthSize-1] = byte(t)
+	size = lengthSize
 	offset = lengthSize
 	for _, s := range v {
 		length := uint64(len(s))
-		lengthSize := SizeofVarint(length)
-		size += lengthSize + length
-		t := length
-		for i := uint64(0); i < lengthSize-1; i++ {
-			buf[offset+i] = byte(t) | msb7
-			t >>= 7
+		var lengthSize uint64
+		if length < 128 {
+			lengthSize = 1
+			buf[offset] = byte(length)
+		} else {
+			lengthSize = SizeofVarint(length)
+			t := length
+			for i := uint64(0); i < lengthSize-1; i++ {
+				buf[offset+i] = byte(t) | msb7
+				t >>= 7
+			}
+			buf[offset+lengthSize-1] = byte(t)
 		}
-		buf[offset+lengthSize-1] = byte(t)
+		size += lengthSize + length
 		copy(buf[offset+lengthSize:], s)
 		offset += length + lengthSize
 	}
@@ -1694,26 +1774,38 @@ func MaxStringSliceBytes(v []string) uint64 {
 func EncodeBytesSlice(buf []byte, v [][]byte) uint64 {
 	var offset uint64
 	var size uint64
-	length := uint64(len(v))
-	lengthSize := SizeofVarint(length)
-	size = lengthSize
-	t := length
-	for i := uint64(0); i < lengthSize-1; i++ {
-		buf[i] = byte(t) | msb7
-		t >>= 7
+	var length = uint64(len(v))
+	var lengthSize uint64
+	if length < 128 {
+		buf[0] = byte(length)
+		lengthSize = 1
+	} else {
+		lengthSize = SizeofVarint(length)
+		t := length
+		for i := uint64(0); i < lengthSize-1; i++ {
+			buf[i] = byte(t) | msb7
+			t >>= 7
+		}
+		buf[lengthSize-1] = byte(t)
 	}
-	buf[lengthSize-1] = byte(t)
+	size = lengthSize
 	offset = lengthSize
 	for _, s := range v {
 		length := uint64(len(s))
-		lengthSize := SizeofVarint(length)
-		size += lengthSize + length
-		t := length
-		for i := uint64(0); i < lengthSize-1; i++ {
-			buf[offset+i] = byte(t) | msb7
-			t >>= 7
+		var lengthSize uint64
+		if length < 128 {
+			lengthSize = 1
+			buf[offset] = byte(length)
+		} else {
+			lengthSize = SizeofVarint(length)
+			t := length
+			for i := uint64(0); i < lengthSize-1; i++ {
+				buf[offset+i] = byte(t) | msb7
+				t >>= 7
+			}
+			buf[offset+lengthSize-1] = byte(t)
 		}
-		buf[offset+lengthSize-1] = byte(t)
+		size += lengthSize + length
 		copy(buf[offset+lengthSize:], s)
 		offset += length + lengthSize
 	}
