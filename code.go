@@ -1052,8 +1052,8 @@ func EncodeVarintSlice(buf []byte, v []uint64) uint64 {
 	for _, s := range v {
 		if s < 128 {
 			buf[offset] = byte(s)
-			size += 1
-			offset += 1
+			size++
+			offset++
 		} else {
 			sizeof := SizeofVarint(s)
 			size += sizeof

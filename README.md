@@ -1,5 +1,5 @@
 # code
-[![GoDoc](https://godoc.org/github.com/hslam/code?status.svg)](https://godoc.org/github.com/hslam/code)
+[![PkgGoDev](https://pkg.go.dev/badge/github.com/hslam/code)](https://pkg.go.dev/github.com/hslam/code)
 [![Build Status](https://travis-ci.org/hslam/code.svg?branch=master)](https://travis-ci.org/hslam/code)
 [![Go Report Card](https://goreportcard.com/badge/github.com/hslam/code)](https://goreportcard.com/report/github.com/hslam/code)
 [![GitHub release](https://img.shields.io/github/release/hslam/code.svg)](https://github.com/hslam/code/releases/latest)
@@ -492,5 +492,5 @@ ok  	github.com/hslam/code	246.123s
 ### Licence
 This package is licensed under a MIT license (Copyright (c) 2019 Meng Huang)
 
-### Authors
+### Author
 code was written by Meng Huang.
