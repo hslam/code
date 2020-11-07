@@ -41,7 +41,7 @@ import "github.com/hslam/code"
 ```
 ### Usage
 #### Example
-```
+```go
 package main
 
 import (
@@ -489,7 +489,7 @@ PASS
 ok  	github.com/hslam/code	246.123s
 ```
 
-### Licence
+### License
 This package is licensed under a MIT license (Copyright (c) 2019 Meng Huang)
 
 ### Author
