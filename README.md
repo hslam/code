@@ -1,6 +1,6 @@
 # code
 [![PkgGoDev](https://pkg.go.dev/badge/github.com/hslam/code)](https://pkg.go.dev/github.com/hslam/code)
-[![Build Status](https://travis-ci.org/hslam/code.svg?branch=master)](https://travis-ci.org/hslam/code)
+[![Build Status](https://github.com/hslam/code/workflows/build/badge.svg)](https://github.com/hslam/code/actions)
 [![Go Report Card](https://goreportcard.com/badge/github.com/hslam/code)](https://goreportcard.com/report/github.com/hslam/code)
 [![GitHub release](https://img.shields.io/github/release/hslam/code.svg)](https://github.com/hslam/code/releases/latest)
 [![LICENSE](https://img.shields.io/github/license/hslam/code.svg?style=flat-square)](https://github.com/hslam/code/blob/master/LICENSE)
